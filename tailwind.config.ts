@@ -21,7 +21,6 @@ const config: Config = {
       },
       boxShadow: {
         glow: "0 0 30px -6px rgba(0, 240, 255, 0.45)",
-        "glow-lg": "0 0 60px -10px rgba(0, 240, 255, 0.5)",
       },
       backgroundImage: {
         "grid-faint":
@@ -35,14 +34,6 @@ const config: Config = {
         "marquee-reverse": {
           from: { transform: "translateX(-50%)" },
           to: { transform: "translateX(0)" },
-        },
-        pulseDot: {
-          "0%, 100%": { opacity: "0.35", transform: "scale(0.85)" },
-          "50%": { opacity: "1", transform: "scale(1.15)" },
-        },
-        floatOrb: {
-          "0%, 100%": { transform: "translate3d(0,0,0)" },
-          "50%": { transform: "translate3d(0,-24px,0)" },
         },
         driftA: {
           "0%, 100%": { transform: "translate(0, 0) scale(1)" },
@@ -62,8 +53,6 @@ const config: Config = {
       animation: {
         marquee: "marquee 40s linear infinite",
         "marquee-reverse": "marquee-reverse 46s linear infinite",
-        "pulse-dot": "pulseDot 2.2s ease-in-out infinite",
-        "float-orb": "floatOrb 12s ease-in-out infinite",
         "drift-a": "driftA 26s ease-in-out infinite",
         "drift-b": "driftB 32s ease-in-out infinite",
         "drift-c": "driftC 38s ease-in-out infinite",

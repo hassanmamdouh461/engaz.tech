@@ -75,10 +75,11 @@ src/app/globals.css             theme primitives: .glass-card, .gradient-text, .
 src/components/layout/          Navbar, Footer
 src/components/sections/        Hero, Pillars, Stats, ProjectsGrid, EcosystemDiagram,
                                 Services, Partners, ContactForm
-src/components/ui/              Section, SectionHeading, Marquee, CountUp, BackgroundDecor
+src/components/ui/              Section, SectionHeading, Marquee, ScrollStack,
+                                SpotlightCard, SplitText, SlidingTabs, BackgroundDecor
 src/data/content.json           every string and number rendered on the page
 src/lib/types.ts                the schema content.json must satisfy
-src/lib/locale-context.tsx      locale state, direction switching, the t() helper
+src/lib/locale-context.tsx      locale state and the t() helper
 src/lib/motion.ts               shared Framer Motion variants
 src/lib/icons.ts                string-to-icon registry
 ```
@@ -89,19 +90,18 @@ On top of the base motion model the site adds an Awwwards-style interaction laye
 
 - **Lenis smooth scroll** — global inertia scrolling via `SmoothScroll`, wired into the root layout and the anchor-navigation hook so in-page jumps keep the same easing. Disabled for reduced-motion users.
 - **SpotlightCard** — mouse-tracked radial glow on the border and background (`rgba(0,240,255,0.15)`).
-- **TiltCard** — spring-based `rotateX`/`rotateY` driven by motion values, used on the featured project cards.
-- **MagneticButton** — shifts toward the cursor within a proximity radius using a damped spring.
+- **ScrollStack** — the sticky card stack shared by the flagship projects and the services list: each card pins to the viewport top while later cards slide over it and shrink.
 - **SplitText** — hero headline words reveal from `y:100%` to `y:0%` inside an `overflow-hidden` mask.
-- **SlidingTabs** — animated `layoutId="activeTab"` highlight pill shared by the language toggle and the project sector filter.
+- **SlidingTabs** — animated `layoutId="activeTab"` highlight pill, used by the language toggle.
 - **Drifting aura** — blurred SVG gradient orbs floating on infinite loops behind the content.
 
-All of these live in `src/components/ui/` and are composable, so any card can gain a spotlight or tilt by wrapping its markup.
+All of these live in `src/components/ui/` and are composable.
 
 ## Animation model
 
 All motion is Framer Motion, and the shared vocabulary lives in `src/lib/motion.ts`:
-`fadeInUp`, `fadeInDown`, `scaleUp` (0.9 to 1), `staggerContainer`, `drawPath`, `cardHover`, and the
-direction-aware `slideInX(offset, sign)` factory.
+`fadeInUp`, `staggerContainer`, `drawPath`, `cardHover`, `viewportOnce`, and the `slideInX(offset)`
+factory.
 
 Per section:
 
@@ -109,12 +109,13 @@ Per section:
   scroll target by the fixed header height instead of hiding the heading behind it.
 - Hero splits each headline line into words and animates them with an overflow-clipped rise, then
   releases the subtitle, buttons, and ticker in sequence.
-- Pillars, Projects, and Ecosystem reveal with staggered `fadeInUp` on `whileInView`;
-  Services uses staggered `scaleUp`.
-- Stats counters run through `useMotionValue`, `useTransform`, and `animate`, triggered by
-  `useInView`.
-- Featured and secondary project cards share the `cardHover` state: scale to 1.02, cyan border, and
-  a `0 0 20px 2px rgba(0, 240, 255, 0.3)` glow.
+- Pillars and Ecosystem reveal with staggered `fadeInUp` on `whileInView`.
+- Flagship projects and services both render through `ScrollStack`, so the sticky pile behaves
+  identically in either section.
+- Stats pins a backdrop and cross-fades one oversized counter at a time, each figure interpolated
+  from that section's own scroll progress rather than a timed animation.
+- Secondary project cards use the `cardHover` state: scale to 1.02, cyan border, and a
+  `0 0 20px 2px rgba(0, 240, 255, 0.3)` glow.
 - Ecosystem connectors are inline SVG paths animating `pathLength` from 0 to 1, with a vertical
   variant for the stacked layout and a horizontal one from the four-column breakpoint up.
 - Contact slides the channel list and the form in from opposite edges at once.

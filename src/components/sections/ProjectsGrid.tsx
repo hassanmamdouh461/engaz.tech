@@ -1,101 +1,15 @@
 "use client";
 
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  type MotionValue,
-} from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
+import { ScrollStack } from "@/components/ui/ScrollStack";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { content } from "@/lib/content";
 import { resolveIcon } from "@/lib/icons";
 import { cardHover, fadeInUp, staggerContainer, viewportOnce } from "@/lib/motion";
 import { useLocale } from "@/lib/locale-context";
-import type { FeaturedProject } from "@/lib/types";
 
 const { work } = content;
-
-interface StackCardProps {
-  project: FeaturedProject;
-  index: number;
-  total: number;
-  progress: MotionValue<number>;
-}
-
-/**
- * One card in the scroll stack. Sticks below the header while later cards slide over it,
- * shrinking so the buried cards read as a receding pile with their top edge still visible.
- */
-function StackCard({ project, index, total, progress }: StackCardProps) {
-  const { t } = useLocale();
-  const reduceMotion = useReducedMotion();
-  const Icon = resolveIcon(project.icon);
-
-  // Cards deeper in the pile shrink more; the last card stays at full size.
-  const targetScale = 1 - (total - 1 - index) * 0.04;
-  const scale = useTransform(progress, [index / total, 1], [1, targetScale]);
-
-  return (
-    <div
-      className="sticky top-0 flex h-[100svh] items-start justify-center"
-      style={{ paddingTop: `calc(6.5rem + ${index * 1.5}rem)` }}
-    >
-      <motion.article
-        style={reduceMotion ? undefined : { scale }}
-        className="w-full origin-top overflow-hidden rounded-[2rem] border border-slate-700/50 bg-gradient-to-br from-slate-900/95 via-base-900/95 to-base-950/95 p-8 shadow-2xl backdrop-blur-xl sm:p-12"
-      >
-        <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500 text-white shadow-lg">
-          <Icon className="h-7 w-7" />
-        </span>
-
-        <h3 className="mt-8 max-w-3xl text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-          {t(project.title)}
-        </h3>
-
-        <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-400">
-          {t(project.description)}
-        </p>
-
-        <dl className="mt-8 grid grid-cols-2 gap-6 border-t border-slate-700/50 pt-8 sm:grid-cols-3">
-          {project.metrics.map((metric) => (
-            <div key={metric.id}>
-              <dt className="sr-only">{t(metric.label)}</dt>
-              <dd className="text-2xl font-bold text-blue-400 sm:text-3xl">
-                {t(metric.value)}
-              </dd>
-              <p className="mt-1 text-sm text-slate-500">{t(metric.label)}</p>
-            </div>
-          ))}
-        </dl>
-      </motion.article>
-    </div>
-  );
-}
-
-function FeaturedStack() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  return (
-    <div ref={containerRef} className="mt-12">
-      {work.featured.map((project, index) => (
-        <StackCard
-          key={project.id}
-          project={project}
-          index={index}
-          total={work.featured.length}
-          progress={scrollYProgress}
-        />
-      ))}
-    </div>
-  );
-}
 
 export function ProjectsGrid() {
   const { t } = useLocale();
@@ -106,10 +20,43 @@ export function ProjectsGrid() {
         eyebrow={t(work.eyebrow)}
         heading={t(work.heading)}
         body={t(work.body)}
-        align="start"
       />
 
-      <FeaturedStack />
+      <ScrollStack
+        className="mt-12"
+        items={work.featured}
+        itemKey={(project) => project.id}
+        renderItem={(project) => {
+          const Icon = resolveIcon(project.icon);
+          return (
+            <>
+              <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500 text-white shadow-lg">
+                <Icon className="h-7 w-7" />
+              </span>
+
+              <h3 className="mt-8 max-w-3xl text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+                {t(project.title)}
+              </h3>
+
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-400">
+                {t(project.description)}
+              </p>
+
+              <dl className="mt-8 grid grid-cols-2 gap-6 border-t border-slate-700/50 pt-8 sm:grid-cols-3">
+                {project.metrics.map((metric) => (
+                  <div key={metric.id}>
+                    <dt className="sr-only">{t(metric.label)}</dt>
+                    <dd className="text-2xl font-bold text-blue-400 sm:text-3xl">
+                      {t(metric.value)}
+                    </dd>
+                    <p className="mt-1 text-sm text-slate-500">{t(metric.label)}</p>
+                  </div>
+                ))}
+              </dl>
+            </>
+          );
+        }}
+      />
 
       <motion.h3
         variants={fadeInUp}

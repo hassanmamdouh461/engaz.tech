@@ -25,12 +25,6 @@ export interface StatCard {
   label: Localized;
 }
 
-export interface MiniStat {
-  id: string;
-  value: Localized;
-  label: Localized;
-}
-
 export interface ProjectMetric {
   id: string;
   value: Localized;
@@ -103,7 +97,6 @@ export interface SiteContent {
     closeMenu: Localized;
   };
   hero: {
-    badge: Localized;
     headlineLead: Localized;
     headlineAccent: Localized;
     subtitle: Localized;
@@ -122,7 +115,6 @@ export interface SiteContent {
     heading: Localized;
     body: Localized;
     cards: StatCard[];
-    miniStats: MiniStat[];
   };
   work: {
     eyebrow: Localized;

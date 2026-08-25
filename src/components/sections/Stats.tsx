@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useRef } from "react";
-import { CountryOutline } from "@/components/ui/CountryOutline";
+import { StatsBackdrop } from "@/components/ui/StatsBackdrop";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { content } from "@/lib/content";
 import { useLocale } from "@/lib/locale-context";
@@ -99,7 +99,7 @@ export function Stats() {
       {/* Track height sets how much scrolling the sequence consumes. */}
       <div ref={trackRef} style={{ height: `${cards.length * 100}vh` }}>
         <div className="sticky top-0 h-screen overflow-hidden">
-          <CountryOutline className="absolute left-1/2 top-1/2 h-[85%] max-h-[38rem] -translate-x-1/2 -translate-y-1/2 opacity-80" />
+          <StatsBackdrop className="absolute left-1/2 top-1/2 h-[85%] max-h-[38rem] w-auto -translate-x-1/2 -translate-y-1/2 opacity-70" />
 
           {cards.map((card, index) => (
             <StatPanel

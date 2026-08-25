@@ -1,672 +1,1206 @@
 {
   "brand": {
-    "name": { "en": "TECH CORP", "ar": "تِك كورب" },
+    "name": {
+      "en": "ENGAZ",
+      "ar": "إنجاز"
+    },
     "tagline": {
-      "en": "Nation-scale digital transformation",
-      "ar": "تحول رقمي بمقياس وطني"
+      "en": "Smart software solutions",
+      "ar": "حلول برمجية ذكية"
     }
   },
   "nav": {
     "links": [
-      { "id": "home", "href": "#home", "label": { "en": "Home", "ar": "الرئيسية" } },
-      { "id": "about", "href": "#about", "label": { "en": "About Us", "ar": "من نحن" } },
-      { "id": "work", "href": "#work", "label": { "en": "Our Work", "ar": "أعمالنا" } },
-      { "id": "ecosystem", "href": "#ecosystem", "label": { "en": "Ecosystem", "ar": "المنظومة" } },
-      { "id": "services", "href": "#services", "label": { "en": "Services", "ar": "الخدمات" } },
-      { "id": "partners", "href": "#partners", "label": { "en": "Partners", "ar": "الشركاء" } },
-      { "id": "contact", "href": "#contact", "label": { "en": "Contact", "ar": "اتصل بنا" } }
+      {
+        "id": "home",
+        "href": "#home",
+        "label": {
+          "en": "Home",
+          "ar": "الرئيسية"
+        }
+      },
+      {
+        "id": "about",
+        "href": "#about",
+        "label": {
+          "en": "Why Us",
+          "ar": "لماذا نحن"
+        }
+      },
+      {
+        "id": "work",
+        "href": "#work",
+        "label": {
+          "en": "Our Work",
+          "ar": "أعمالنا"
+        }
+      },
+      {
+        "id": "ecosystem",
+        "href": "#ecosystem",
+        "label": {
+          "en": "How We Work",
+          "ar": "كيف نعمل"
+        }
+      },
+      {
+        "id": "services",
+        "href": "#services",
+        "label": {
+          "en": "Services",
+          "ar": "الخدمات"
+        }
+      },
+      {
+        "id": "partners",
+        "href": "#partners",
+        "label": {
+          "en": "Stack",
+          "ar": "التقنيات"
+        }
+      },
+      {
+        "id": "contact",
+        "href": "#contact",
+        "label": {
+          "en": "Contact",
+          "ar": "اتصل بنا"
+        }
+      }
     ],
-    "languageToggle": { "en": "العربية", "ar": "English" },
-    "cta": { "en": "Get in Touch", "ar": "تواصل معنا" },
-    "openMenu": { "en": "Open navigation menu", "ar": "فتح قائمة التنقل" },
-    "closeMenu": { "en": "Close navigation menu", "ar": "إغلاق قائمة التنقل" }
+    "languageToggle": {
+      "en": "العربية",
+      "ar": "English"
+    },
+    "cta": {
+      "en": "Start a Project",
+      "ar": "ابدأ مشروعك"
+    },
+    "openMenu": {
+      "en": "Open navigation menu",
+      "ar": "فتح قائمة التنقل"
+    },
+    "closeMenu": {
+      "en": "Close navigation menu",
+      "ar": "إغلاق قائمة التنقل"
+    }
   },
   "hero": {
-    "badge": {
-      "en": "Nation-Scale Digital Transformation Partner",
-      "ar": "شريك التحول الرقمي بمقياس وطني"
+    "headlineLead": {
+      "en": "We Build Software",
+      "ar": "نبني البرمجيات"
     },
-    "headlineLead": { "en": "Where Digital Vision", "ar": "حيث تتحول الرؤية الرقمية" },
-    "headlineAccent": { "en": "Becomes Reality", "ar": "إلى واقع ملموس" },
+    "headlineAccent": {
+      "en": "That Runs Your Business",
+      "ar": "التي تُشغّل أعمالك"
+    },
     "subtitle": {
-      "en": "We architect, build, and operate mission-critical digital platforms that millions of citizens and businesses rely on every single day.",
-      "ar": "نُصمّم وننفّذ ونشغّل منصات رقمية حيوية يعتمد عليها ملايين المواطنين والشركات كل يوم."
+      "en": "Engaz is a software team building restaurant and café systems, AI-powered products, and websites that make a place look as good online as it does in person.",
+      "ar": "إنجاز فريق برمجي يبني أنظمة المطاعم والكافيهات، ومنتجات تعمل بالذكاء الاصطناعي، ومواقع تُظهر المكان على الشاشة بجمال حضوره الحقيقي."
     },
-    "primaryCta": { "en": "Start a Project", "ar": "ابدأ مشروعك" },
-    "secondaryCta": { "en": "Explore Systems", "ar": "استكشف الأنظمة" },
+    "primaryCta": {
+      "en": "Start a Project",
+      "ar": "ابدأ مشروعك"
+    },
+    "secondaryCta": {
+      "en": "See Our Work",
+      "ar": "شاهد أعمالنا"
+    },
     "ticker": [
-      { "en": "The waiting era is over", "ar": "زمن الانتظار انتهى" },
-      { "en": "Building nation-scale infrastructure", "ar": "نبني بنية تحتية بمقياس وطني" },
-      { "en": "Zero paperwork solutions", "ar": "حلول بلا أوراق" },
-      { "en": "Reaching millions daily", "ar": "نصل إلى الملايين يوميًا" },
-      { "en": "Enterprise security and high availability", "ar": "أمان مؤسسي وجهوزية عالية" }
+      {
+        "en": "Restaurant and café systems",
+        "ar": "أنظمة المطاعم والكافيهات"
+      },
+      {
+        "en": "AI agents that actually ship",
+        "ar": "وكلاء ذكاء اصطناعي تعمل فعلًا"
+      },
+      {
+        "en": "Websites for places people love",
+        "ar": "مواقع للأماكن التي يحبها الناس"
+      },
+      {
+        "en": "Mobile apps, web apps, dashboards",
+        "ar": "تطبيقات جوال وويب ولوحات تحكم"
+      },
+      {
+        "en": "Built to last, not to demo",
+        "ar": "نبني ليبقى، لا ليُعرض"
+      }
     ]
   },
   "pillars": {
-    "eyebrow": { "en": "About Us", "ar": "من نحن" },
+    "eyebrow": {
+      "en": "Why Us",
+      "ar": "لماذا نحن"
+    },
     "heading": {
-      "en": "The National Pillar for Digital Transformation",
-      "ar": "الركيزة الوطنية للتحول الرقمي"
+      "en": "Software That Survives Real Use",
+      "ar": "برمجيات تصمد أمام الاستخدام الحقيقي"
     },
     "body": {
-      "en": "Four operating principles carry every platform we deliver, from the first architecture review to years of production uptime.",
-      "ar": "أربعة مبادئ تشغيلية تحمل كل منصة نُطلقها، من أول مراجعة معمارية إلى سنوات من التشغيل المستمر."
+      "en": "A demo works once. A restaurant system works every night during the dinner rush. Four things we hold to on every project.",
+      "ar": "العرض التجريبي ينجح مرة واحدة، أما نظام المطعم فيعمل كل ليلة في ذروة الزحام. أربعة مبادئ نلتزم بها في كل مشروع."
     },
     "items": [
       {
-        "id": "scale",
-        "icon": "Globe2",
-        "title": { "en": "National Scale", "ar": "مقياس وطني" },
+        "id": "delivery",
+        "icon": "Rocket",
+        "title": {
+          "en": "We Actually Ship",
+          "ar": "نُنجز فعلًا"
+        },
         "body": {
-          "en": "Systems running across all governorates, serving millions of users daily without interruption.",
-          "ar": "أنظمة تعمل في جميع المحافظات وتخدم ملايين المستخدمين يوميًا دون انقطاع."
+          "en": "Working software in your hands early, then improved in short cycles — not a long silence followed by a surprise.",
+          "ar": "برنامج يعمل بين يديك مبكرًا، ثم يتطور في دورات قصيرة، لا صمت طويل ينتهي بمفاجأة."
         }
       },
       {
-        "id": "quality",
-        "icon": "ShieldCheck",
-        "title": { "en": "Quality Assurance", "ar": "ضمان الجودة" },
+        "id": "domain",
+        "icon": "UtensilsCrossed",
+        "title": {
+          "en": "We Know the Floor",
+          "ar": "نعرف أرض الميدان"
+        },
         "body": {
-          "en": "Rigorous testing and ISO-grade quality control ensuring systems never fail under extreme loads.",
-          "ar": "اختبارات صارمة وضبط جودة بمعايير عالمية يضمن عدم تعطل الأنظمة تحت الأحمال القصوى."
+          "en": "Orders, tables, shifts, stock, and split bills. We build for how a kitchen and a counter really behave under pressure.",
+          "ar": "الطلبات والطاولات والورديات والمخزون وتقسيم الفواتير. نبني وفق ما يحدث فعلًا في المطبخ وأمام الكاشير تحت الضغط."
         }
       },
       {
-        "id": "operations",
-        "icon": "Activity",
-        "title": { "en": "Continuous Operations", "ar": "تشغيل متواصل" },
+        "id": "ai",
+        "icon": "BrainCircuit",
+        "title": {
+          "en": "AI With a Purpose",
+          "ar": "ذكاء اصطناعي بهدف"
+        },
         "body": {
-          "en": "Dedicated platform and support engineers monitoring infrastructure around the clock, every day of the year.",
-          "ar": "مهندسو تشغيل ودعم مخصصون يراقبون البنية التحتية على مدار الساعة طوال أيام السنة."
+          "en": "Agents and automations tied to a measurable outcome — replies answered, orders taken, hours saved.",
+          "ar": "وكلاء وأتمتة مرتبطة بنتيجة قابلة للقياس: ردود تُنجَز، وطلبات تُستلَم، وساعات تُوفَّر."
         }
       },
       {
-        "id": "security",
-        "icon": "Lock",
-        "title": { "en": "Enterprise Security", "ar": "أمان مؤسسي" },
+        "id": "support",
+        "icon": "Wrench",
+        "title": {
+          "en": "We Stay After Launch",
+          "ar": "نبقى بعد الإطلاق"
+        },
         "body": {
-          "en": "Zero-trust architecture, multi-factor biometrics, and national data sovereignty compliance.",
-          "ar": "معمارية انعدام الثقة، وتحقق حيوي متعدد العوامل، والتزام بسيادة البيانات الوطنية."
+          "en": "The launch is the start of the relationship. Fixes, changes, and new features keep coming after go-live.",
+          "ar": "الإطلاق بداية العلاقة لا نهايتها. الإصلاحات والتعديلات والإضافات تتواصل بعد التشغيل."
         }
       }
     ]
   },
   "stats": {
-    "eyebrow": { "en": "Live Impact", "ar": "الأثر الفعلي" },
-    "heading": { "en": "Numbers the Size of a Nation", "ar": "أرقام بحجم وطن" },
+    "eyebrow": {
+      "en": "Track Record",
+      "ar": "سجل الأعمال"
+    },
+    "heading": {
+      "en": "Numbers From Real Projects",
+      "ar": "أرقام من مشاريع حقيقية"
+    },
     "body": {
-      "en": "These aren't promises. These are systems running right now: paying pensions, managing loans, and delivering fuel across the country.",
-      "ar": "هذه ليست وعودًا، بل أنظمة تعمل الآن: تصرف الرواتب التقاعدية، وتدير القروض، وتوزّع الوقود في عموم البلد."
+      "en": "Not projections. These are systems in daily use by restaurants, cafés, and brands we build for.",
+      "ar": "ليست توقعات، بل أنظمة تُستخدم يوميًا في مطاعم وكافيهات وعلامات نعمل معها."
     },
     "cards": [
       {
-        "id": "retirees",
-        "value": 2000000,
+        "id": "systems",
+        "value": 25,
         "suffix": "+",
-        "caption": { "en": "Paying pensions", "ar": "صرف الرواتب التقاعدية" },
+        "caption": {
+          "en": "Running systems",
+          "ar": "أنظمة تعمل"
+        },
         "label": {
-          "en": "retirees served by the Smart Retirement platform",
-          "ar": "متقاعد تخدمهم منصة التقاعد الذكي"
+          "en": "restaurant and café systems in daily operation",
+          "ar": "نظام مطعم وكافيه في التشغيل اليومي"
         }
       },
       {
-        "id": "loans",
-        "value": 700000,
+        "id": "orders",
+        "value": 100000,
         "suffix": "+",
-        "caption": { "en": "Managing loans", "ar": "إدارة القروض" },
+        "caption": {
+          "en": "Orders processed",
+          "ar": "طلبات معالَجة"
+        },
         "label": {
-          "en": "loans managed electronically, no bank visits",
-          "ar": "قرض يُدار إلكترونيًا دون زيارة أي مصرف"
+          "en": "orders handled through systems we built",
+          "ar": "طلب يُنجَز عبر أنظمة من صناعتنا"
         }
       },
       {
-        "id": "stations",
-        "value": 1500,
+        "id": "projects",
+        "value": 40,
         "suffix": "+",
-        "caption": { "en": "Delivering fuel", "ar": "توزيع الوقود" },
+        "caption": {
+          "en": "Delivered projects",
+          "ar": "مشاريع منجزة"
+        },
         "label": {
-          "en": "automated fuel stations connected in real time",
-          "ar": "محطة وقود مؤتمتة متصلة في الزمن الحقيقي"
+          "en": "web, mobile, and AI projects shipped to clients",
+          "ar": "مشروع ويب وجوال وذكاء اصطناعي سُلّم للعملاء"
         }
       },
       {
-        "id": "people",
-        "value": 3000,
+        "id": "clients",
+        "value": 30,
         "suffix": "+",
-        "caption": { "en": "Building systems", "ar": "بناء الأنظمة" },
+        "caption": {
+          "en": "Businesses served",
+          "ar": "جهات نخدمها"
+        },
         "label": {
-          "en": "specialized engineers and personnel behind the platforms",
-          "ar": "مهندس وكادر متخصص يقفون خلف هذه المنصات"
+          "en": "brands and venues that rely on our software",
+          "ar": "علامة ومكان يعتمدون على برمجياتنا"
         }
-      }
-    ],
-    "miniStats": [
-      {
-        "id": "retirees",
-        "value": { "en": "2M+", "ar": "+2 مليون" },
-        "label": { "en": "Retirees served", "ar": "متقاعد مخدوم" }
-      },
-      {
-        "id": "volume",
-        "value": { "en": "350T+ IQD", "ar": "+350 ترليون دينار" },
-        "label": { "en": "Transaction volume processed", "ar": "حجم معاملات معالَج" }
-      },
-      {
-        "id": "loans",
-        "value": { "en": "700K+", "ar": "+700 ألف" },
-        "label": { "en": "Instant loans approved", "ar": "قرض فوري مُصادق" }
       }
     ]
   },
   "work": {
-    "eyebrow": { "en": "Our Work", "ar": "أعمالنا" },
+    "eyebrow": {
+      "en": "Our Work",
+      "ar": "أعمالنا"
+    },
     "heading": {
-      "en": "Transformative Achievements and National Systems",
-      "ar": "إنجازات تحويلية وأنظمة وطنية"
+      "en": "Things We Built and Shipped",
+      "ar": "أعمال بنيناها وأطلقناها"
     },
     "body": {
-      "en": "Fifteen production systems in government, finance, health, and education. Three of them are detailed below.",
-      "ar": "خمسة عشر نظامًا في الخدمة الفعلية بقطاعات الحكومة والمال والصحة والتعليم، ثلاثة منها بالتفصيل أدناه."
+      "en": "Three flagship builds, plus a selection of smaller projects across web, mobile, and AI.",
+      "ar": "ثلاثة أعمال رئيسية، ومعها مجموعة من المشاريع الأصغر في الويب والجوال والذكاء الاصطناعي."
     },
     "featured": [
       {
-        "id": "petroleum",
-        "icon": "Fuel",
-        "sector": { "en": "Energy", "ar": "الطاقة" },
+        "id": "restaurant-system",
+        "icon": "UtensilsCrossed",
+        "sector": {
+          "en": "Restaurants & Cafés",
+          "ar": "المطاعم والكافيهات"
+        },
         "title": {
-          "en": "Petroleum and Fuel Distribution Automation",
-          "ar": "أتمتة توزيع المشتقات النفطية"
+          "en": "Complete Restaurant & Café Management System",
+          "ar": "نظام إدارة متكامل للمطاعم والكافيهات"
         },
         "description": {
-          "en": "End-to-end national fuel distribution management, from refineries and tanker dispatch to smart dispensers at the pump.",
-          "ar": "إدارة كاملة لتوزيع الوقود وطنيًا، من المصافي وحركة الصهاريج إلى المضخات الذكية في المحطات."
+          "en": "Point of sale, table and order flow, kitchen display, stock tracking, shift reports, and an owner dashboard — one system covering the floor, the kitchen, and the books.",
+          "ar": "نقطة بيع، وإدارة الطاولات والطلبات، وشاشة مطبخ، ومتابعة مخزون، وتقارير ورديات، ولوحة للمالك — نظام واحد يغطي الصالة والمطبخ والحسابات."
         },
         "metrics": [
           {
-            "id": "stations",
-            "value": { "en": "1,500", "ar": "1,500" },
-            "label": { "en": "Automated stations", "ar": "محطة مؤتمتة" }
+            "id": "venues",
+            "value": {
+              "en": "25+",
+              "ar": "+25"
+            },
+            "label": {
+              "en": "Venues running it",
+              "ar": "مكان يعمل به"
+            }
           },
           {
-            "id": "volume",
-            "value": { "en": "350T+ IQD", "ar": "+350 ترليون دينار" },
-            "label": { "en": "Settled volume", "ar": "حجم مُسوّى" }
+            "id": "orders",
+            "value": {
+              "en": "100K+",
+              "ar": "+100 ألف"
+            },
+            "label": {
+              "en": "Orders processed",
+              "ar": "طلب معالَج"
+            }
           },
           {
-            "id": "beneficiaries",
-            "value": { "en": "200,000", "ar": "200,000" },
-            "label": { "en": "Beneficiaries", "ar": "مستفيد" }
+            "id": "offline",
+            "value": {
+              "en": "Offline",
+              "ar": "بلا إنترنت"
+            },
+            "label": {
+              "en": "Keeps working",
+              "ar": "يواصل العمل"
+            }
           }
         ]
       },
       {
-        "id": "pension",
-        "icon": "Fingerprint",
-        "sector": { "en": "Social Security", "ar": "الضمان الاجتماعي" },
+        "id": "ai-agency",
+        "icon": "BrainCircuit",
+        "sector": {
+          "en": "Artificial Intelligence",
+          "ar": "الذكاء الاصطناعي"
+        },
         "title": {
-          "en": "Smart Pension and Biometric Proof of Life",
-          "ar": "التقاعد الذكي وشهادة الحياة الحيوية"
+          "en": "AI Agents & Automation for Businesses",
+          "ar": "وكلاء ذكاء اصطناعي وأتمتة للأعمال"
         },
         "description": {
-          "en": "Facial recognition and biometric verification that replaced physical queues with a monthly automated payout cycle.",
-          "ar": "تحقق بالتعرف على الوجه والسمات الحيوية استبدل الطوابير بدورة صرف شهرية مؤتمتة."
+          "en": "Agents that answer customers, take orders, qualify leads, and handle repetitive work across chat and social channels — connected to the systems a business already uses.",
+          "ar": "وكلاء يردّون على العملاء، ويستلمون الطلبات، ويفلترون الاهتمامات، ويتولون العمل المتكرر عبر المحادثة ومنصات التواصل — موصولين بالأنظمة التي تستخدمها الجهة أصلًا."
         },
         "metrics": [
           {
-            "id": "retirees",
-            "value": { "en": "2,000,000+", "ar": "+2,000,000" },
-            "label": { "en": "Registered retirees", "ar": "متقاعد مسجل" }
+            "id": "channels",
+            "value": {
+              "en": "Multi",
+              "ar": "متعدد"
+            },
+            "label": {
+              "en": "Chat channels",
+              "ar": "قنوات المحادثة"
+            }
           },
           {
-            "id": "payouts",
-            "value": { "en": "Monthly", "ar": "شهريًا" },
-            "label": { "en": "Automated payout cycle", "ar": "دورة صرف مؤتمتة" }
+            "id": "always",
+            "value": {
+              "en": "24/7",
+              "ar": "24/7"
+            },
+            "label": {
+              "en": "Never off shift",
+              "ar": "بلا ورديات"
+            }
           },
           {
-            "id": "digital",
-            "value": { "en": "100%", "ar": "100%" },
-            "label": { "en": "Fully digital journey", "ar": "رحلة رقمية كاملة" }
+            "id": "bilingual",
+            "value": {
+              "en": "AR / EN",
+              "ar": "عربي / إنجليزي"
+            },
+            "label": {
+              "en": "Handles both",
+              "ar": "يتعامل باللغتين"
+            }
           }
         ]
       },
       {
-        "id": "lending",
-        "icon": "Landmark",
-        "sector": { "en": "Financial Services", "ar": "الخدمات المالية" },
+        "id": "brand-sites",
+        "icon": "Globe2",
+        "sector": {
+          "en": "Web & Brand",
+          "ar": "الويب والعلامة"
+        },
         "title": {
-          "en": "Instant Digital Loan and Micro-Financing Engine",
-          "ar": "محرك القروض الرقمية الفورية والتمويل الأصغر"
+          "en": "Showcase Websites for Well-Known Venues",
+          "ar": "مواقع تعريفية لأماكن مشهورة"
         },
         "description": {
-          "en": "Real-time credit scoring, instant loan issuance, and automated payroll deduction with no branch visit required.",
-          "ar": "تقييم ائتماني لحظي، وإصدار قرض فوري، واستقطاع آلي من الراتب دون زيارة أي فرع."
+          "en": "Fast, bilingual sites built for places that already have a reputation — menus, galleries, booking links, and search visibility, all managed without touching code.",
+          "ar": "مواقع سريعة ثنائية اللغة لأماكن تملك سمعتها بالفعل — قوائم الطعام، ومعارض الصور، وروابط الحجز، والظهور في البحث، وكلها تُدار دون لمس أي كود."
         },
         "metrics": [
           {
-            "id": "borrowers",
-            "value": { "en": "700,000", "ar": "700,000" },
-            "label": { "en": "Borrowers served", "ar": "مقترض مخدوم" }
+            "id": "live",
+            "value": {
+              "en": "Live",
+              "ar": "منشورة"
+            },
+            "label": {
+              "en": "Already shipped",
+              "ar": "أُطلقت فعلًا"
+            }
           },
           {
-            "id": "disbursed",
-            "value": { "en": "8T IQD", "ar": "8 ترليون دينار" },
-            "label": { "en": "Disbursed financing", "ar": "تمويل مصروف" }
+            "id": "bilingual",
+            "value": {
+              "en": "AR / EN",
+              "ar": "عربي / إنجليزي"
+            },
+            "label": {
+              "en": "Both directions",
+              "ar": "الاتجاهان"
+            }
           },
           {
-            "id": "visits",
-            "value": { "en": "Zero", "ar": "صفر" },
-            "label": { "en": "Required bank visits", "ar": "زيارة مصرفية مطلوبة" }
+            "id": "speed",
+            "value": {
+              "en": "Fast",
+              "ar": "سريعة"
+            },
+            "label": {
+              "en": "Built for mobile",
+              "ar": "مبنية للجوال"
+            }
           }
         ]
       }
     ],
     "secondaryHeading": {
-      "en": "More Systems in Production",
-      "ar": "أنظمة أخرى في الخدمة"
+      "en": "More We Do",
+      "ar": "أعمال أخرى نقدّمها"
     },
     "secondary": [
       {
-        "id": "health",
-        "icon": "Stethoscope",
-        "title": { "en": "Unified Digital Health Portal", "ar": "النظام الصحي الموحد" },
+        "id": "mobile-apps",
+        "icon": "Smartphone",
+        "title": {
+          "en": "Mobile Applications",
+          "ar": "تطبيقات الجوال"
+        },
         "description": {
-          "en": "Appointment booking, electronic records, and referral routing across public hospitals.",
-          "ar": "حجز المواعيد والسجلات الإلكترونية وإحالة المرضى بين المستشفيات الحكومية."
+          "en": "Customer and staff apps for Android and iOS, sharing one backend with the web dashboard.",
+          "ar": "تطبيقات للعملاء والعاملين على أندرويد وآيفون، تتشارك خادمًا واحدًا مع لوحة الويب."
         },
         "tags": [
-          { "en": "2,000 doctors", "ar": "2,000 طبيب" },
-          { "en": "20K bookings", "ar": "20 ألف حجز" }
+          {
+            "en": "Android & iOS",
+            "ar": "أندرويد وآيفون"
+          },
+          {
+            "en": "One backend",
+            "ar": "خادم واحد"
+          }
         ]
       },
       {
-        "id": "payments",
-        "icon": "Receipt",
-        "title": { "en": "Unified Bill Payment Hub", "ar": "منصة تسديد الفواتير الموحدة" },
+        "id": "online-ordering",
+        "icon": "ShoppingCart",
+        "title": {
+          "en": "Online Ordering & Delivery",
+          "ar": "الطلب والتوصيل عبر الإنترنت"
+        },
         "description": {
-          "en": "One settlement layer for utilities, fines, and government fees with instant reconciliation.",
-          "ar": "طبقة تسوية واحدة للخدمات والغرامات والرسوم الحكومية مع مطابقة لحظية."
+          "en": "Branded ordering pages that push straight into the kitchen — no commission, no middleman.",
+          "ar": "صفحات طلب بعلامتك تصل مباشرة إلى المطبخ، بلا عمولة ولا وسيط."
         },
         "tags": [
-          { "en": "Instant settlement", "ar": "تسوية لحظية" },
-          { "en": "Multi-channel", "ar": "قنوات متعددة" }
+          {
+            "en": "No commission",
+            "ar": "بلا عمولة"
+          },
+          {
+            "en": "Direct to kitchen",
+            "ar": "مباشر للمطبخ"
+          }
         ]
       },
       {
-        "id": "education",
-        "icon": "GraduationCap",
-        "title": { "en": "Ministry Academic Portal", "ar": "منصة وزارة التربية الأكاديمية" },
+        "id": "dashboards",
+        "icon": "LayoutDashboard",
+        "title": {
+          "en": "Admin Dashboards",
+          "ar": "لوحات التحكم"
+        },
         "description": {
-          "en": "Student records, exam results, and school administration for the national education network.",
-          "ar": "سجلات الطلبة ونتائج الامتحانات وإدارة المدارس لشبكة التعليم الوطنية."
+          "en": "Reports and controls that answer the owner's questions without exporting a spreadsheet.",
+          "ar": "تقارير وأدوات تجيب أسئلة المالك دون تصدير أي جدول."
         },
         "tags": [
-          { "en": "Nationwide", "ar": "تغطية وطنية" },
-          { "en": "Mobile first", "ar": "الجوال أولًا" }
+          {
+            "en": "Live reports",
+            "ar": "تقارير لحظية"
+          },
+          {
+            "en": "Role-based",
+            "ar": "صلاحيات محددة"
+          }
         ]
       },
       {
-        "id": "welfare",
-        "icon": "HeartHandshake",
-        "title": { "en": "Social Protection Verification", "ar": "تحقق الرعاية الاجتماعية" },
+        "id": "chatbots",
+        "icon": "MessageSquare",
+        "title": {
+          "en": "Chatbots & Social Replies",
+          "ar": "روبوتات المحادثة والردود"
+        },
         "description": {
-          "en": "Eligibility verification and disbursement tracking for social welfare beneficiaries.",
-          "ar": "التحقق من الاستحقاق ومتابعة الصرف لمستفيدي الرعاية الاجتماعية."
+          "en": "Automated replies on WhatsApp, Instagram, and Messenger that hand off to a human when needed.",
+          "ar": "ردود آلية على واتساب وإنستغرام وماسنجر، تُحوِّل للإنسان عند الحاجة."
         },
         "tags": [
-          { "en": "Mini-app", "ar": "تطبيق مصغّر" },
-          { "en": "Field agents", "ar": "وكلاء ميدانيون" }
+          {
+            "en": "WhatsApp",
+            "ar": "واتساب"
+          },
+          {
+            "en": "Human handoff",
+            "ar": "تحويل للإنسان"
+          }
         ]
       },
       {
-        "id": "donations",
+        "id": "ecommerce",
+        "icon": "Store",
+        "title": {
+          "en": "Online Stores",
+          "ar": "المتاجر الإلكترونية"
+        },
+        "description": {
+          "en": "Product catalogues, carts, and local payment gateways wired into your inventory.",
+          "ar": "كتالوجات المنتجات والسلة وبوابات الدفع المحلية موصولة بمخزونك."
+        },
+        "tags": [
+          {
+            "en": "Local payments",
+            "ar": "دفع محلي"
+          },
+          {
+            "en": "Stock synced",
+            "ar": "مخزون متزامن"
+          }
+        ]
+      },
+      {
+        "id": "loyalty",
         "icon": "Gift",
-        "title": { "en": "Humanitarian Donation Platform", "ar": "منصة التبرعات الإنسانية" },
+        "title": {
+          "en": "Loyalty & Offers",
+          "ar": "الولاء والعروض"
+        },
         "description": {
-          "en": "Transparent campaign funding with per-donation traceability and impact reporting.",
-          "ar": "تمويل شفاف للحملات مع تتبع كل تبرع وتقارير عن الأثر."
+          "en": "Points, tiers, and targeted offers that bring customers back without printing a card.",
+          "ar": "نقاط ومستويات وعروض موجّهة تُعيد العميل دون طبع أي بطاقة."
         },
         "tags": [
-          { "en": "Audit trail", "ar": "أثر تدقيقي" },
-          { "en": "Impact reports", "ar": "تقارير أثر" }
+          {
+            "en": "Points & tiers",
+            "ar": "نقاط ومستويات"
+          },
+          {
+            "en": "Repeat visits",
+            "ar": "زيارات متكررة"
+          }
         ]
       },
       {
-        "id": "tradex",
-        "icon": "Ship",
-        "title": { "en": "Cross-Border Smart Trade Platform", "ar": "منصة التجارة الذكية العابرة للحدود" },
+        "id": "integrations",
+        "icon": "Plug",
+        "title": {
+          "en": "Integrations & APIs",
+          "ar": "التكامل وواجهات البرمجة"
+        },
         "description": {
-          "en": "Customs documentation, logistics tracking, and trade finance in a single workspace.",
-          "ar": "مستندات كمركية وتتبع لوجستي وتمويل تجاري في مساحة عمل واحدة."
+          "en": "Connecting your system to accounting, delivery apps, payment providers, and printers.",
+          "ar": "ربط نظامك بالمحاسبة وتطبيقات التوصيل ومزودي الدفع والطابعات."
         },
         "tags": [
-          { "en": "Customs ready", "ar": "جاهز كمركيًا" },
-          { "en": "Trade finance", "ar": "تمويل تجاري" }
+          {
+            "en": "Third-party APIs",
+            "ar": "واجهات خارجية"
+          },
+          {
+            "en": "Hardware",
+            "ar": "أجهزة"
+          }
         ]
       },
       {
-        "id": "identity",
-        "icon": "IdCard",
-        "title": { "en": "National Digital Identity", "ar": "الهوية الرقمية الوطنية" },
+        "id": "hosting",
+        "icon": "Server",
+        "title": {
+          "en": "Hosting & Maintenance",
+          "ar": "الاستضافة والصيانة"
+        },
         "description": {
-          "en": "Single sign-on identity wallet backing every citizen-facing service in the ecosystem.",
-          "ar": "محفظة هوية بدخول موحد تدعم كل خدمة موجهة للمواطن في المنظومة."
+          "en": "Deployment, backups, monitoring, and updates so the system stays healthy after launch.",
+          "ar": "النشر والنسخ الاحتياطي والمراقبة والتحديثات ليبقى النظام سليمًا بعد الإطلاق."
         },
         "tags": [
-          { "en": "Single sign-on", "ar": "دخول موحد" },
-          { "en": "eSignature", "ar": "توقيع إلكتروني" }
+          {
+            "en": "Backups",
+            "ar": "نسخ احتياطي"
+          },
+          {
+            "en": "Monitoring",
+            "ar": "مراقبة"
+          }
         ]
       },
       {
-        "id": "municipal",
-        "icon": "Building2",
-        "title": { "en": "Municipal Services Suite", "ar": "منظومة خدمات الأمانة" },
+        "id": "branding",
+        "icon": "Palette",
+        "title": {
+          "en": "UI/UX & Brand Design",
+          "ar": "تصميم الواجهات والعلامة"
+        },
         "description": {
-          "en": "Permits, property records, and municipal fee collection for the capital administration.",
-          "ar": "الإجازات وسجلات العقارات وتحصيل الرسوم البلدية لإدارة العاصمة."
+          "en": "Interface design and visual identity so the product looks like it belongs to your brand.",
+          "ar": "تصميم الواجهات والهوية البصرية ليبدو المنتج جزءًا من علامتك."
         },
         "tags": [
-          { "en": "Permits", "ar": "إجازات" },
-          { "en": "GIS linked", "ar": "مرتبط بالخرائط" }
-        ]
-      },
-      {
-        "id": "syndicates",
-        "icon": "Users",
-        "title": { "en": "Professional Syndicate Systems", "ar": "أنظمة النقابات المهنية" },
-        "description": {
-          "en": "Membership, dues, and benefit management for teacher and engineer syndicates.",
-          "ar": "إدارة العضوية والاشتراكات والمنافع لنقابات المعلمين والمهندسين."
-        },
-        "tags": [
-          { "en": "Membership", "ar": "عضوية" },
-          { "en": "Benefits", "ar": "منافع" }
+          {
+            "en": "Design system",
+            "ar": "نظام تصميم"
+          },
+          {
+            "en": "Arabic-first",
+            "ar": "العربية أولًا"
+          }
         ]
       }
     ]
   },
   "ecosystem": {
-    "eyebrow": { "en": "Ecosystem", "ar": "المنظومة" },
-    "heading": { "en": "How Data Reaches the Citizen", "ar": "كيف تصل البيانات إلى المواطن" },
+    "eyebrow": {
+      "en": "How We Work",
+      "ar": "كيف نعمل"
+    },
+    "heading": {
+      "en": "From First Call to Live System",
+      "ar": "من أول اتصال إلى نظام يعمل"
+    },
     "body": {
-      "en": "Every service follows the same path: authoritative government data enters the core engine, gets exposed through channels, and lands as a completed transaction for the citizen.",
-      "ar": "كل خدمة تسلك المسار ذاته: بيانات حكومية موثوقة تدخل المحرك المركزي، ثم تُنشر عبر القنوات، وتنتهي كمعاملة مكتملة للمواطن."
+      "en": "Four stages, no mystery. You see working software early and stay involved until it runs your business.",
+      "ar": "أربع مراحل بلا غموض. ترى برنامجًا يعمل مبكرًا، وتبقى مشاركًا حتى يُشغّل عملك."
     },
     "stages": [
       {
-        "id": "entities",
-        "icon": "Landmark",
-        "title": { "en": "Government Entities", "ar": "الجهات الحكومية" },
+        "id": "discover",
+        "icon": "Search",
+        "title": {
+          "en": "Understand the Business",
+          "ar": "فهم العمل"
+        },
         "body": {
-          "en": "Ministries and authorities own the source data and the legal mandate for each service.",
-          "ar": "الوزارات والهيئات تملك البيانات المصدرية والصلاحية القانونية لكل خدمة."
+          "en": "We sit with you and map how the work actually happens today before writing any code.",
+          "ar": "نجلس معك ونرسم كيف يسير العمل فعلًا اليوم، قبل كتابة أي سطر برمجي."
         },
         "nodes": [
-          { "en": "Ministries", "ar": "وزارات" },
-          { "en": "Central banks", "ar": "مصارف مركزية" },
-          { "en": "Syndicates", "ar": "نقابات" }
+          {
+            "en": "Requirements",
+            "ar": "المتطلبات"
+          },
+          {
+            "en": "Current workflow",
+            "ar": "سير العمل الحالي"
+          },
+          {
+            "en": "Priorities",
+            "ar": "الأولويات"
+          }
         ]
       },
       {
-        "id": "core",
-        "icon": "Cpu",
-        "title": { "en": "Central Enterprise Engine", "ar": "المحرك المؤسسي المركزي" },
+        "id": "design",
+        "icon": "Palette",
+        "title": {
+          "en": "Design & Plan",
+          "ar": "التصميم والتخطيط"
+        },
         "body": {
-          "en": "Integration bus, identity, workflow orchestration, and settlement run in one governed core.",
-          "ar": "ناقل التكامل والهوية وتنسيق سير العمل والتسوية تعمل جميعها في نواة واحدة محكومة."
+          "en": "Screens, data model, and a delivery plan you approve before development starts.",
+          "ar": "الشاشات ونموذج البيانات وخطة التسليم، تعتمدها قبل بدء التطوير."
         },
         "nodes": [
-          { "en": "Integration bus", "ar": "ناقل تكامل" },
-          { "en": "Identity", "ar": "هوية" },
-          { "en": "Settlement", "ar": "تسوية" }
+          {
+            "en": "UI screens",
+            "ar": "شاشات الواجهة"
+          },
+          {
+            "en": "Data model",
+            "ar": "نموذج البيانات"
+          },
+          {
+            "en": "Timeline",
+            "ar": "الجدول الزمني"
+          }
         ]
       },
       {
-        "id": "channels",
-        "icon": "Smartphone",
-        "title": { "en": "Super-App and Portals", "ar": "التطبيق الشامل والبوابات" },
+        "id": "build",
+        "icon": "Code2",
+        "title": {
+          "en": "Build & Review",
+          "ar": "البناء والمراجعة"
+        },
         "body": {
-          "en": "Mini-apps, web portals, and agent terminals surface the same core through the right channel.",
-          "ar": "تطبيقات مصغّرة وبوابات وطرفيات وكلاء تعرض النواة ذاتها عبر القناة المناسبة."
+          "en": "Development in short cycles, with a working version to try at the end of each one.",
+          "ar": "تطوير في دورات قصيرة، ومع كل دورة نسخة تعمل تُجرّبها بنفسك."
         },
         "nodes": [
-          { "en": "Mini-apps", "ar": "تطبيقات مصغّرة" },
-          { "en": "Web portals", "ar": "بوابات ويب" },
-          { "en": "Agent terminals", "ar": "طرفيات وكلاء" }
+          {
+            "en": "Short cycles",
+            "ar": "دورات قصيرة"
+          },
+          {
+            "en": "Your feedback",
+            "ar": "ملاحظاتك"
+          },
+          {
+            "en": "Testing",
+            "ar": "الاختبار"
+          }
         ]
       },
       {
-        "id": "citizen",
-        "icon": "UserCheck",
-        "title": { "en": "The End Citizen", "ar": "المواطن النهائي" },
+        "id": "launch",
+        "icon": "Rocket",
+        "title": {
+          "en": "Launch & Support",
+          "ar": "الإطلاق والدعم"
+        },
         "body": {
-          "en": "A transaction that used to take days at a counter now closes in minutes on a phone.",
-          "ar": "معاملة كانت تستغرق أيامًا في الدوائر تُنجز الآن في دقائق على الهاتف."
+          "en": "We deploy, train your team, then stay on for fixes, changes, and new features.",
+          "ar": "ننشر النظام وندرّب فريقك، ثم نبقى للإصلاحات والتعديلات والإضافات."
         },
         "nodes": [
-          { "en": "Instant service", "ar": "خدمة فورية" },
-          { "en": "No paperwork", "ar": "بلا أوراق" },
-          { "en": "Full traceability", "ar": "تتبع كامل" }
+          {
+            "en": "Deployment",
+            "ar": "النشر"
+          },
+          {
+            "en": "Team training",
+            "ar": "تدريب الفريق"
+          },
+          {
+            "en": "Ongoing support",
+            "ar": "دعم مستمر"
+          }
         ]
       }
     ]
   },
   "services": {
-    "eyebrow": { "en": "Services", "ar": "الخدمات" },
-    "heading": { "en": "End-to-End Delivery Capability", "ar": "قدرة تنفيذ من الطرف إلى الطرف" },
+    "eyebrow": {
+      "en": "Services",
+      "ar": "الخدمات"
+    },
+    "heading": {
+      "en": "What We Can Build for You",
+      "ar": "ما يمكننا بناؤه لك"
+    },
     "body": {
-      "en": "Six practices that cover a platform from the first requirements workshop to long-term production support.",
-      "ar": "ست ممارسات تغطي المنصة من أول ورشة متطلبات إلى الدعم التشغيلي طويل الأمد."
+      "en": "Six areas we work in. Most projects combine two or three of them.",
+      "ar": "ستة مجالات نعمل فيها، ومعظم المشاريع تجمع بين اثنين أو ثلاثة منها."
     },
     "items": [
       {
-        "id": "digitization",
-        "icon": "FileCheck2",
-        "title": { "en": "Government Service Digitization", "ar": "رقمنة الخدمات الحكومية" },
+        "id": "restaurant-systems",
+        "icon": "UtensilsCrossed",
+        "title": {
+          "en": "Restaurant & Café Systems",
+          "ar": "أنظمة المطاعم والكافيهات"
+        },
         "body": {
-          "en": "Paperless workflow re-engineering, from legal review to a live citizen journey.",
-          "ar": "إعادة هندسة سير العمل بلا أوراق، من المراجعة القانونية إلى رحلة مواطن فعلية."
+          "en": "Point of sale, kitchen display, tables, stock, shifts, and owner reporting in one system.",
+          "ar": "نقطة بيع وشاشة مطبخ وطاولات ومخزون وورديات وتقارير للمالك في نظام واحد."
         }
       },
       {
-        "id": "fintech",
-        "icon": "CreditCard",
-        "title": { "en": "Financial Systems and Core Banking", "ar": "الأنظمة المالية والأنوية المصرفية" },
+        "id": "ai-solutions",
+        "icon": "BrainCircuit",
+        "title": {
+          "en": "AI Agents & Automation",
+          "ar": "وكلاء الذكاء الاصطناعي والأتمتة"
+        },
         "body": {
-          "en": "Payment gateways, payroll engines, and micro-credit products with full audit trails.",
-          "ar": "بوابات دفع ومحركات رواتب ومنتجات تمويل أصغر مع أثر تدقيقي كامل."
+          "en": "Agents that reply to customers, take orders, and remove repetitive work from your day.",
+          "ar": "وكلاء يردّون على العملاء ويستلمون الطلبات ويحذفون العمل المتكرر من يومك."
         }
       },
       {
-        "id": "cloud",
-        "icon": "Server",
-        "title": { "en": "High-Concurrency Cloud Platforms", "ar": "منصات سحابية عالية التزامن" },
+        "id": "web",
+        "icon": "Globe2",
+        "title": {
+          "en": "Websites & Web Apps",
+          "ar": "المواقع وتطبيقات الويب"
+        },
         "body": {
-          "en": "Resilient architectures that absorb payday and deadline traffic spikes without degradation.",
-          "ar": "معماريات مرنة تستوعب ذُرى الأحمال في مواعيد الرواتب والمواعيد النهائية دون تدهور."
+          "en": "Bilingual showcase sites, booking pages, and full web applications built to load fast.",
+          "ar": "مواقع تعريفية ثنائية اللغة وصفحات حجز وتطبيقات ويب كاملة مبنية لتُحمَّل سريعًا."
         }
       },
       {
         "id": "mobile",
-        "icon": "AppWindow",
-        "title": { "en": "Mobile and Super-App Engineering", "ar": "هندسة الجوال والتطبيقات الشاملة" },
+        "icon": "Smartphone",
+        "title": {
+          "en": "Mobile Applications",
+          "ar": "تطبيقات الجوال"
+        },
         "body": {
-          "en": "Native applications and modular mini-app frameworks with shared identity and payments.",
-          "ar": "تطبيقات أصلية وأطر تطبيقات مصغّرة معيارية بهوية ومدفوعات مشتركة."
+          "en": "Customer-facing and staff apps for Android and iOS, sharing one backend with your dashboard.",
+          "ar": "تطبيقات للعملاء وللعاملين على أندرويد وآيفون، تتشارك خادمًا واحدًا مع لوحتك."
         }
       },
       {
-        "id": "identity",
-        "icon": "ScanFace",
-        "title": { "en": "Digital Identity and Biometrics", "ar": "الهوية الرقمية والسمات الحيوية" },
+        "id": "custom",
+        "icon": "Code2",
+        "title": {
+          "en": "Custom Software",
+          "ar": "برمجيات مخصصة"
+        },
         "body": {
-          "en": "Automated customer verification, electronic signatures, and civil registry integration.",
-          "ar": "تحقق آلي من الهوية، وتوقيع إلكتروني، وتكامل مع سجلات الأحوال المدنية."
+          "en": "When nothing off the shelf fits, we build the tool your operation actually needs.",
+          "ar": "عندما لا يناسبك أي حل جاهز، نبني الأداة التي يحتاجها عملك فعلًا."
         }
       },
       {
-        "id": "sre",
-        "icon": "GaugeCircle",
-        "title": { "en": "Managed Infrastructure and Reliability", "ar": "إدارة البنية التحتية والموثوقية" },
+        "id": "maintenance",
+        "icon": "Wrench",
+        "title": {
+          "en": "Hosting & Maintenance",
+          "ar": "الاستضافة والصيانة"
+        },
         "body": {
-          "en": "Continuous observability, tested backups, and ongoing security hardening.",
-          "ar": "مراقبة مستمرة، ونسخ احتياطي مُختبر، وتحصين أمني متواصل."
+          "en": "Deployment, monitoring, backups, and updates so nothing breaks quietly after launch.",
+          "ar": "النشر والمراقبة والنسخ الاحتياطي والتحديثات، فلا يتعطل شيء بصمت بعد الإطلاق."
         }
       }
     ]
   },
   "partners": {
-    "eyebrow": { "en": "Partners", "ar": "الشركاء" },
-    "heading": { "en": "Government Mandates, Global Technology", "ar": "تكليف حكومي وتقنية عالمية" },
+    "eyebrow": {
+      "en": "Stack",
+      "ar": "التقنيات"
+    },
+    "heading": {
+      "en": "What We Build With",
+      "ar": "ما نبني به"
+    },
     "tracks": [
       {
-        "id": "government",
-        "title": { "en": "Government Entities", "ar": "الجهات الحكومية" },
+        "id": "core",
+        "title": {
+          "en": "Languages & Frameworks",
+          "ar": "اللغات والأُطُر"
+        },
         "direction": "forward",
         "items": [
-          { "en": "Ministry of Finance", "ar": "وزارة المالية" },
-          { "en": "Ministry of Oil", "ar": "وزارة النفط" },
-          { "en": "Ministry of Communications", "ar": "وزارة الاتصالات" },
-          { "en": "Ministry of Labor", "ar": "وزارة العمل" },
-          { "en": "Ministry of Education", "ar": "وزارة التربية" },
-          { "en": "Ministry of Health", "ar": "وزارة الصحة" },
-          { "en": "Central Bank", "ar": "البنك المركزي" },
-          { "en": "Capital Municipality", "ar": "أمانة العاصمة" },
-          { "en": "Teachers Syndicate", "ar": "نقابة المعلمين" },
-          { "en": "Engineers Syndicate", "ar": "نقابة المهندسين" }
+          {
+            "en": "TypeScript",
+            "ar": "TypeScript"
+          },
+          {
+            "en": "React",
+            "ar": "React"
+          },
+          {
+            "en": "Next.js",
+            "ar": "Next.js"
+          },
+          {
+            "en": "Node.js",
+            "ar": "Node.js"
+          },
+          {
+            "en": "Python",
+            "ar": "Python"
+          },
+          {
+            "en": "Laravel",
+            "ar": "Laravel"
+          },
+          {
+            "en": "Flutter",
+            "ar": "Flutter"
+          },
+          {
+            "en": "React Native",
+            "ar": "React Native"
+          },
+          {
+            "en": "Tailwind CSS",
+            "ar": "Tailwind CSS"
+          },
+          {
+            "en": "PostgreSQL",
+            "ar": "PostgreSQL"
+          }
         ]
       },
       {
-        "id": "technology",
-        "title": { "en": "Technology Alliances", "ar": "التحالفات التقنية" },
+        "id": "platforms",
+        "title": {
+          "en": "Platforms & Services",
+          "ar": "المنصات والخدمات"
+        },
         "direction": "reverse",
         "items": [
-          { "en": "AWS", "ar": "AWS" },
-          { "en": "Oracle", "ar": "Oracle" },
-          { "en": "SAP", "ar": "SAP" },
-          { "en": "Microsoft Azure", "ar": "Microsoft Azure" },
-          { "en": "Red Hat", "ar": "Red Hat" },
-          { "en": "Kubernetes", "ar": "Kubernetes" },
-          { "en": "Elastic", "ar": "Elastic" },
-          { "en": "Mastercard", "ar": "Mastercard" },
-          { "en": "Visa", "ar": "Visa" },
-          { "en": "Qi Card", "ar": "Qi Card" },
-          { "en": "DP World", "ar": "DP World" },
-          { "en": "Dubai Chambers", "ar": "Dubai Chambers" }
+          {
+            "en": "Cloudflare",
+            "ar": "Cloudflare"
+          },
+          {
+            "en": "AWS",
+            "ar": "AWS"
+          },
+          {
+            "en": "Vercel",
+            "ar": "Vercel"
+          },
+          {
+            "en": "Supabase",
+            "ar": "Supabase"
+          },
+          {
+            "en": "Firebase",
+            "ar": "Firebase"
+          },
+          {
+            "en": "OpenAI",
+            "ar": "OpenAI"
+          },
+          {
+            "en": "Anthropic",
+            "ar": "Anthropic"
+          },
+          {
+            "en": "Docker",
+            "ar": "Docker"
+          },
+          {
+            "en": "Redis",
+            "ar": "Redis"
+          },
+          {
+            "en": "Stripe",
+            "ar": "Stripe"
+          },
+          {
+            "en": "WhatsApp API",
+            "ar": "WhatsApp API"
+          },
+          {
+            "en": "GitHub",
+            "ar": "GitHub"
+          }
         ]
       }
     ]
   },
   "contact": {
-    "eyebrow": { "en": "Contact", "ar": "اتصل بنا" },
-    "heading": { "en": "Start an Enterprise Engagement", "ar": "ابدأ تعاونًا مؤسسيًا" },
+    "eyebrow": {
+      "en": "Contact",
+      "ar": "اتصل بنا"
+    },
+    "heading": {
+      "en": "Tell Us What You Need Built",
+      "ar": "أخبرنا بما تريد بناءه"
+    },
     "body": {
-      "en": "Send a scope summary and our solution architects respond with a technical assessment and an indicative timeline.",
-      "ar": "أرسل ملخص النطاق ليعود مهندسو الحلول بتقييم تقني وجدول زمني تقديري."
+      "en": "Describe your project in a few lines and we'll come back with an approach, a timeline, and an honest estimate.",
+      "ar": "اوصف مشروعك في أسطر قليلة، ونعود إليك بمقاربة وجدول زمني وتقدير صادق."
     },
     "channels": [
       {
-        "id": "hq",
-        "icon": "MapPin",
-        "label": { "en": "Headquarters", "ar": "المقر الرئيسي" },
-        "value": "Baghdad Business District, Tower 4"
+        "id": "whatsapp",
+        "icon": "MessageSquare",
+        "label": {
+          "en": "WhatsApp",
+          "ar": "واتساب"
+        },
+        "value": "+20 112 537 7606",
+        "href": "https://wa.me/201125377606"
       },
       {
-        "id": "hotline",
+        "id": "phone",
         "icon": "Phone",
-        "label": { "en": "Enterprise hotline", "ar": "الخط المؤسسي" },
-        "value": "+964 780 000 0000",
-        "href": "tel:+9647800000000"
+        "label": {
+          "en": "Phone",
+          "ar": "الهاتف"
+        },
+        "value": "+20 112 537 7606",
+        "href": "tel:+201125377606"
       },
       {
         "id": "email",
         "icon": "Mail",
-        "label": { "en": "Enterprise email", "ar": "البريد المؤسسي" },
-        "value": "enterprise@techcorp.example",
-        "href": "mailto:enterprise@techcorp.example"
+        "label": {
+          "en": "Email",
+          "ar": "البريد الإلكتروني"
+        },
+        "value": "hello@engaz.tech",
+        "href": "mailto:hello@engaz.tech"
       },
       {
-        "id": "pgp",
-        "icon": "KeyRound",
-        "label": { "en": "PGP fingerprint", "ar": "بصمة المفتاح العام" },
-        "value": "9F2A 4C71 88D3 0BE5 1147"
+        "id": "site",
+        "icon": "Globe2",
+        "label": {
+          "en": "Website",
+          "ar": "الموقع"
+        },
+        "value": "engaz.tech",
+        "href": "https://engaz.tech"
       }
     ],
     "form": {
-      "organization": { "en": "Organization name", "ar": "اسم الجهة" },
-      "sector": { "en": "Sector", "ar": "القطاع" },
-      "sectorPlaceholder": { "en": "Select a sector", "ar": "اختر القطاع" },
-      "sectorOptions": [
-        { "en": "Government", "ar": "حكومي" },
-        { "en": "Banking and finance", "ar": "مصرفي ومالي" },
-        { "en": "Energy", "ar": "طاقة" },
-        { "en": "Health", "ar": "صحة" },
-        { "en": "Education", "ar": "تعليم" },
-        { "en": "Logistics and trade", "ar": "لوجستيات وتجارة" }
-      ],
-      "scope": { "en": "Scope of project", "ar": "نطاق المشروع" },
-      "scopePlaceholder": { "en": "Platform modernization, payments, identity", "ar": "تحديث منصة، مدفوعات، هوية" },
-      "message": { "en": "Message", "ar": "الرسالة" },
-      "messagePlaceholder": {
-        "en": "Describe the current system, expected load, and target timeline.",
-        "ar": "اوصف النظام الحالي والحمل المتوقع والجدول الزمني المستهدف."
+      "organization": {
+        "en": "Your name or business",
+        "ar": "اسمك أو اسم عملك"
       },
-      "submit": { "en": "Submit request", "ar": "إرسال الطلب" },
-      "submitting": { "en": "Sending", "ar": "جارٍ الإرسال" },
+      "sector": {
+        "en": "Project type",
+        "ar": "نوع المشروع"
+      },
+      "sectorPlaceholder": {
+        "en": "Select a type",
+        "ar": "اختر النوع"
+      },
+      "sectorOptions": [
+        {
+          "en": "Restaurant or café system",
+          "ar": "نظام مطعم أو كافيه"
+        },
+        {
+          "en": "AI agent or automation",
+          "ar": "وكيل ذكاء اصطناعي أو أتمتة"
+        },
+        {
+          "en": "Website",
+          "ar": "موقع إلكتروني"
+        },
+        {
+          "en": "Mobile application",
+          "ar": "تطبيق جوال"
+        },
+        {
+          "en": "Online store",
+          "ar": "متجر إلكتروني"
+        },
+        {
+          "en": "Something else",
+          "ar": "شيء آخر"
+        }
+      ],
+      "scope": {
+        "en": "Budget range (optional)",
+        "ar": "الميزانية التقديرية (اختياري)"
+      },
+      "scopePlaceholder": {
+        "en": "Helps us suggest the right scope",
+        "ar": "يساعدنا في اقتراح النطاق المناسب"
+      },
+      "message": {
+        "en": "Tell us about the project",
+        "ar": "حدّثنا عن المشروع"
+      },
+      "messagePlaceholder": {
+        "en": "What should it do, who will use it, and when do you need it?",
+        "ar": "ما الذي يجب أن يفعله، ومن سيستخدمه، ومتى تحتاجه؟"
+      },
+      "submit": {
+        "en": "Send message",
+        "ar": "إرسال الرسالة"
+      },
+      "submitting": {
+        "en": "Sending",
+        "ar": "جارٍ الإرسال"
+      },
       "success": {
-        "en": "Request received. An architect will reply within two business days.",
-        "ar": "تم استلام الطلب، وسيرد أحد المهندسين خلال يومي عمل."
+        "en": "Message received. We'll reply within one business day.",
+        "ar": "تم استلام رسالتك، وسنرد خلال يوم عمل واحد."
       },
       "error": {
-        "en": "Please fill in the organization name and message.",
-        "ar": "يرجى إكمال اسم الجهة ونص الرسالة."
+        "en": "Please fill in your name and the project description.",
+        "ar": "يرجى إكمال اسمك ووصف المشروع."
       }
     }
   },
   "footer": {
     "summary": {
-      "en": "We build and operate the digital infrastructure that public institutions depend on, with the reliability standards those institutions require.",
-      "ar": "نبني ونشغّل البنية الرقمية التي تعتمد عليها المؤسسات العامة، وفق معايير الموثوقية التي تتطلبها."
+      "en": "Engaz builds software that businesses run on — restaurant and café systems, AI agents, websites, and mobile apps, delivered and then supported.",
+      "ar": "إنجاز تبني برمجيات تُشغّل الأعمال: أنظمة المطاعم والكافيهات، ووكلاء الذكاء الاصطناعي، والمواقع، وتطبيقات الجوال — نُسلّمها ثم ندعمها."
     },
     "columns": [
       {
-        "id": "platforms",
-        "title": { "en": "Platforms", "ar": "المنصات" },
+        "id": "services",
+        "title": {
+          "en": "Services",
+          "ar": "الخدمات"
+        },
         "links": [
-          { "en": "Fuel automation", "ar": "أتمتة الوقود" },
-          { "en": "Smart pension", "ar": "التقاعد الذكي" },
-          { "en": "Instant lending", "ar": "الإقراض الفوري" },
-          { "en": "Digital health", "ar": "الصحة الرقمية" },
-          { "en": "Digital identity", "ar": "الهوية الرقمية" }
+          {
+            "en": "Restaurant systems",
+            "ar": "أنظمة المطاعم"
+          },
+          {
+            "en": "AI agents",
+            "ar": "وكلاء الذكاء الاصطناعي"
+          },
+          {
+            "en": "Websites",
+            "ar": "المواقع الإلكترونية"
+          },
+          {
+            "en": "Mobile apps",
+            "ar": "تطبيقات الجوال"
+          },
+          {
+            "en": "Custom software",
+            "ar": "برمجيات مخصصة"
+          }
         ]
       },
       {
-        "id": "capabilities",
-        "title": { "en": "Capabilities", "ar": "القدرات" },
+        "id": "solutions",
+        "title": {
+          "en": "Solutions",
+          "ar": "الحلول"
+        },
         "links": [
-          { "en": "Cloud engineering", "ar": "هندسة السحابة" },
-          { "en": "Core banking", "ar": "الأنوية المصرفية" },
-          { "en": "Biometrics", "ar": "السمات الحيوية" },
-          { "en": "Reliability engineering", "ar": "هندسة الموثوقية" },
-          { "en": "Data governance", "ar": "حكامة البيانات" }
+          {
+            "en": "Point of sale",
+            "ar": "نقطة البيع"
+          },
+          {
+            "en": "Online ordering",
+            "ar": "الطلب الإلكتروني"
+          },
+          {
+            "en": "Loyalty programs",
+            "ar": "برامج الولاء"
+          },
+          {
+            "en": "Admin dashboards",
+            "ar": "لوحات التحكم"
+          },
+          {
+            "en": "Integrations",
+            "ar": "التكامل"
+          }
         ]
       },
       {
         "id": "company",
-        "title": { "en": "Company", "ar": "الشركة" },
+        "title": {
+          "en": "Company",
+          "ar": "الشركة"
+        },
         "links": [
-          { "en": "About us", "ar": "من نحن" },
-          { "en": "Careers", "ar": "الوظائف" },
-          { "en": "Newsroom", "ar": "الأخبار" },
-          { "en": "Partner program", "ar": "برنامج الشركاء" },
-          { "en": "Contact", "ar": "اتصل بنا" }
+          {
+            "en": "Why us",
+            "ar": "لماذا نحن"
+          },
+          {
+            "en": "Our work",
+            "ar": "أعمالنا"
+          },
+          {
+            "en": "How we work",
+            "ar": "كيف نعمل"
+          },
+          {
+            "en": "Get a quote",
+            "ar": "احصل على عرض"
+          },
+          {
+            "en": "Contact",
+            "ar": "اتصل بنا"
+          }
         ]
       }
     ],
     "compliance": [
-      { "en": "ISO 27001 aligned", "ar": "متوافق مع أيزو 27001" },
-      { "en": "Data sovereignty", "ar": "سيادة البيانات" },
-      { "en": "PCI DSS scope", "ar": "نطاق معايير الدفع" },
-      { "en": "WCAG 2.1 AA", "ar": "معايير الوصول 2.1 AA" }
+      {
+        "en": "Arabic & English",
+        "ar": "عربي وإنجليزي"
+      },
+      {
+        "en": "You own the code",
+        "ar": "الكود ملكك"
+      },
+      {
+        "en": "Post-launch support",
+        "ar": "دعم بعد الإطلاق"
+      },
+      {
+        "en": "Fixed-scope pricing",
+        "ar": "تسعير بنطاق محدد"
+      }
     ],
     "copyright": {
       "en": "All rights reserved.",

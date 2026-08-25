@@ -16,17 +16,16 @@ const { form } = contact;
 type Status = "idle" | "submitting" | "success" | "error";
 
 export function ContactForm() {
-  const { t, isRtl } = useLocale();
+  const { t } = useLocale();
   const [status, setStatus] = useState<Status>("idle");
   const [organization, setOrganization] = useState("");
   const [sector, setSector] = useState("");
   const [scope, setScope] = useState("");
   const [message, setMessage] = useState("");
 
-  // Info enters from the outer edge, form from the inner edge; both mirror under RTL.
-  const sign = isRtl ? -1 : 1;
-  const slideFromStart = useMemo(() => slideInX(-60, sign), [sign]);
-  const slideFromEnd = useMemo(() => slideInX(60, sign), [sign]);
+  // Info enters from the left, form from the right. Layout is always left-to-right.
+  const slideFromStart = useMemo(() => slideInX(-60), []);
+  const slideFromEnd = useMemo(() => slideInX(60), []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -67,7 +66,7 @@ export function ContactForm() {
             return (
               <motion.li
                 key={channel.id}
-                whileHover={{ x: 6 * sign }}
+                whileHover={{ x: 6 }}
                 transition={{ type: "spring", stiffness: 300, damping: 22 }}
                 className="glass-card p-5"
               >

@@ -8,12 +8,11 @@ import { content } from "@/lib/content";
 import { fadeInUp, staggerContainer } from "@/lib/motion";
 import { useLocale } from "@/lib/locale-context";
 import { useAnchorScroll } from "@/lib/use-anchor-scroll";
-import { cn } from "@/lib/cn";
 
 const { hero } = content;
 
 export function Hero() {
-  const { t, isRtl, locale } = useLocale();
+  const { t, locale } = useLocale();
   const scrollToAnchor = useAnchorScroll();
 
   return (
@@ -60,14 +59,7 @@ export function Hero() {
                 className="btn-primary group"
               >
                 {t(hero.primaryCta)}
-                <ArrowRight
-                  className={cn(
-                    "h-4 w-4 transition-transform duration-300",
-                    isRtl
-                      ? "rotate-180 group-hover:-translate-x-1"
-                      : "group-hover:translate-x-1",
-                  )}
-                />
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </motion.a>
             </span>
 

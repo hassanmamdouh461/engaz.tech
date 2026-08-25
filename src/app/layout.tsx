@@ -21,9 +21,9 @@ const arabic = Cairo({
 });
 
 export const metadata: Metadata = {
-  title: "TECH CORP — Nation-Scale Digital Transformation",
+  title: "Engaz — Smart Software Solutions",
   description:
-    "We architect, build, and operate mission-critical digital platforms for governments and financial institutions.",
+    "Engaz builds restaurant and café systems, AI agents, websites, and mobile apps — delivered fast and supported after launch.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -35,7 +35,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <BackgroundDecor />
             <a
               href="#home"
-              className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-cyan-500 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-base-950"
+              className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-cyan-500 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-base-950"
             >
               Skip to content
             </a>

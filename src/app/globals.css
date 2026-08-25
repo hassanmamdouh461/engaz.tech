@@ -21,7 +21,8 @@
     @apply bg-base-950 text-slate-300 antialiased;
   }
 
-  [dir="rtl"] body {
+  /* Arabic copy needs its own face; the layout direction stays left-to-right. */
+  html[lang="ar"] body {
     @apply font-arabic;
   }
 
@@ -42,10 +43,6 @@
 
   .gradient-text {
     @apply bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-600 bg-clip-text text-transparent;
-  }
-
-  .glow-pill {
-    @apply inline-flex items-center gap-2 rounded-full border border-accent-neon/30 bg-accent-neon/5 px-4 py-1.5 text-xs font-medium tracking-wide text-cyan-200 shadow-glow;
   }
 
   .btn-primary {

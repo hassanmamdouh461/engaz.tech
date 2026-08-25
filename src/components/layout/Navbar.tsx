@@ -1,9 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useEffect, useState, type MouseEvent } from "react";
-import { MagneticButton } from "@/components/ui/MagneticButton";
+import { BrandMark } from "@/components/ui/BrandMark";
 import { SlidingTabs } from "@/components/ui/SlidingTabs";
 import { content } from "@/lib/content";
 import { useLocale } from "@/lib/locale-context";
@@ -72,9 +72,9 @@ export function Navbar() {
             <motion.span
               whileHover={{ scale: 1.08, rotate: -6 }}
               transition={{ type: "spring", stiffness: 320, damping: 18 }}
-              className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 shadow-glow"
+              className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500 text-white shadow-lg"
             >
-              <Zap className="h-5 w-5 text-base-950" strokeWidth={2.5} />
+              <BrandMark className="h-6 w-6" />
             </motion.span>
             <span className="flex flex-col leading-tight">
               <span className="text-sm font-bold tracking-wide text-white sm:text-base">

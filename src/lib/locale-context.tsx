@@ -15,8 +15,6 @@ const STORAGE_KEY = "techcorp.locale";
 
 interface LocaleContextValue {
   locale: Locale;
-  dir: "ltr" | "rtl";
-  isRtl: boolean;
   setLocale: (next: Locale) => void;
   toggleLocale: () => void;
   t: (value: Localized) => string;
@@ -35,9 +33,10 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const dir = locale === "ar" ? "rtl" : "ltr";
+    // Language changes the text and the font, never the layout direction:
+    // the document stays left-to-right so switching locales only translates.
     document.documentElement.lang = locale;
-    document.documentElement.dir = dir;
+    document.documentElement.dir = "ltr";
     window.localStorage.setItem(STORAGE_KEY, locale);
   }, [locale]);
 
@@ -48,8 +47,6 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   const value = useMemo<LocaleContextValue>(
     () => ({
       locale,
-      dir: locale === "ar" ? "rtl" : "ltr",
-      isRtl: locale === "ar",
       setLocale,
       toggleLocale,
       t: (localized: Localized) => localized[locale],

@@ -21,7 +21,7 @@ function StageConnector({ delay }: { delay: number }) {
     <span aria-hidden className="pointer-events-none">
       <svg
         viewBox="0 0 2 34"
-        className="absolute -bottom-[2.1rem] start-1/2 h-[34px] w-[2px] -translate-x-1/2 overflow-visible lg:hidden"
+        className="absolute -bottom-[2.1rem] left-1/2 h-[34px] w-[2px] -translate-x-1/2 overflow-visible lg:hidden"
       >
         <motion.path
           d="M1 0 V34"
@@ -36,7 +36,7 @@ function StageConnector({ delay }: { delay: number }) {
 
       <svg
         viewBox="0 0 34 2"
-        className="absolute top-1/2 hidden h-[2px] w-[34px] -translate-y-1/2 overflow-visible lg:block ltr:-right-[34px] rtl:-left-[34px]"
+        className="absolute -right-[34px] top-1/2 hidden h-[2px] w-[34px] -translate-y-1/2 overflow-visible lg:block"
       >
         <motion.path
           d="M0 1 H34"

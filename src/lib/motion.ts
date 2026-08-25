@@ -19,36 +19,10 @@ export const fadeInUp: Variants = {
   },
 };
 
-export const fadeIn: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.6, ease: "easeOut" } },
-};
-
-export const scaleUp: Variants = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-export const fadeInDown: Variants = {
-  hidden: { opacity: 0, y: -24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-/**
- * Direction-aware horizontal entrance. `sign` flips with the reading direction so
- * "info slides from the outer edge" holds in both left-to-right and right-to-left.
- */
-export function slideInX(offset: number, sign: 1 | -1): Variants {
+/** Horizontal entrance: negative offsets enter from the left, positive from the right. */
+export function slideInX(offset: number): Variants {
   return {
-    hidden: { opacity: 0, x: offset * sign },
+    hidden: { opacity: 0, x: offset },
     visible: {
       opacity: 1,
       x: 0,
