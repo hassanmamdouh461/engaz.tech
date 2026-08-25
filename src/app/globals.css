@@ -11,6 +11,12 @@
     scroll-behavior: smooth;
   }
 
+  /* Decorative overhangs (aura, diagram connectors) must not create a horizontal scrollbar. */
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   body {
     @apply bg-base-950 text-slate-300 antialiased;
   }

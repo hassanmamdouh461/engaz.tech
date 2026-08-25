@@ -17,8 +17,10 @@ export function Hero() {
   const scrollToAnchor = useAnchorScroll();
 
   return (
-    <section id="home" className="relative overflow-hidden px-5 pb-16 pt-32 sm:px-8 lg:pt-40">
-      <div className="mx-auto w-full max-w-7xl">
+    <section id="home" className="relative">
+      {/* Fills the viewport so the ticker below starts off-screen on first paint. */}
+      <div className="flex min-h-svh flex-col justify-center px-5 pb-20 pt-28 sm:px-8">
+        <div className="mx-auto w-full max-w-7xl">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -86,13 +88,14 @@ export function Hero() {
             </span>
           </motion.div>
         </motion.div>
+        </div>
       </div>
 
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7, duration: 0.6 }}
-        className="mt-20 py-10"
+        className="pb-16"
       >
         <Marquee
           itemClassName="px-6"

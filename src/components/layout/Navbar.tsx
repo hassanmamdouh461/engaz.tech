@@ -112,19 +112,13 @@ export function Navbar() {
               ariaLabel={t(nav.languageToggle)}
               className="!p-0.5"
             />
-            <MagneticButton
-              radius={110}
-              strength={0.22}
-              className="hidden sm:inline-block"
+            <a
+              href="#contact"
+              onClick={(event) => handleAnchorClick(event, "#contact")}
+              className="btn-primary hidden !px-5 !py-2.5 sm:inline-flex"
             >
-              <a
-                href="#contact"
-                onClick={(event) => handleAnchorClick(event, "#contact")}
-                className="btn-primary !px-5 !py-2.5"
-              >
-                {t(nav.cta)}
-              </a>
-            </MagneticButton>
+              {t(nav.cta)}
+            </a>
             <button
               type="button"
               onClick={() => setOpen((value) => !value)}
