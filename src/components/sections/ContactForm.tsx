@@ -6,6 +6,7 @@ import { useMemo, useState, type FormEvent } from "react";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { content } from "@/lib/content";
+import { sendContactMessage } from "@/lib/contact";
 import { resolveIcon } from "@/lib/icons";
 import { slideInX, staggerContainer, viewportOnce } from "@/lib/motion";
 import { useLocale } from "@/lib/locale-context";
@@ -13,12 +14,20 @@ import { useLocale } from "@/lib/locale-context";
 const { contact } = content;
 const { form } = contact;
 
-type Status = "idle" | "submitting" | "success" | "error";
+type Status =
+  | "idle"
+  | "submitting"
+  | "success"
+  | "error"
+  | "errorEmail"
+  | "errorSend";
 
 export function ContactForm() {
   const { t } = useLocale();
   const [status, setStatus] = useState<Status>("idle");
   const [organization, setOrganization] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [sector, setSector] = useState("");
   const [scope, setScope] = useState("");
   const [message, setMessage] = useState("");
@@ -35,11 +44,32 @@ export function ContactForm() {
       return;
     }
 
+    // A reply is impossible without a reachable address, so this one is required.
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) {
+      setStatus("errorEmail");
+      return;
+    }
+
     setStatus("submitting");
-    // Replace this delay with a POST to your own intake endpoint.
-    await new Promise((resolve) => setTimeout(resolve, 900));
+
+    try {
+      await sendContactMessage({
+        name: organization.trim(),
+        email: email.trim(),
+        phone: phone.trim(),
+        projectType: sector,
+        budget: scope.trim(),
+        message: message.trim(),
+      });
+    } catch {
+      setStatus("errorSend");
+      return;
+    }
+
     setStatus("success");
     setOrganization("");
+    setEmail("");
+    setPhone("");
     setSector("");
     setScope("");
     setMessage("");
@@ -118,6 +148,42 @@ export function ContactForm() {
                 className="field-input"
               />
             </div>
+            <div>
+              <label htmlFor="email" className="field-label">
+                {t(form.email)}
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                inputMode="email"
+                autoComplete="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder={t(form.emailPlaceholder)}
+                required
+                className="field-input"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="phone" className="field-label">
+                {t(form.phone)}
+              </label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                inputMode="tel"
+                autoComplete="tel"
+                dir="ltr"
+                value={phone}
+                onChange={(event) => setPhone(event.target.value)}
+                placeholder={t(form.phonePlaceholder)}
+                className="field-input"
+              />
+            </div>
+
             <div>
               <label htmlFor="sector" className="field-label">
                 {t(form.sector)}
@@ -200,13 +266,17 @@ export function ContactForm() {
                   {t(form.success)}
                 </motion.span>
               ) : null}
-              {status === "error" ? (
+              {status === "error" || status === "errorEmail" || status === "errorSend" ? (
                 <motion.span
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
                   className="text-rose-300"
                 >
-                  {t(form.error)}
+                  {status === "errorEmail"
+                    ? t(form.errorEmail)
+                    : status === "errorSend"
+                      ? t(form.errorSend)
+                      : t(form.error)}
                 </motion.span>
               ) : null}
             </p>

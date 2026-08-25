@@ -148,6 +148,10 @@ export interface SiteContent {
     channels: ContactChannel[];
     form: {
       organization: Localized;
+      email: Localized;
+      emailPlaceholder: Localized;
+      phone: Localized;
+      phonePlaceholder: Localized;
       sector: Localized;
       sectorPlaceholder: Localized;
       sectorOptions: Localized[];
@@ -159,6 +163,8 @@ export interface SiteContent {
       submitting: Localized;
       success: Localized;
       error: Localized;
+      errorEmail: Localized;
+      errorSend: Localized;
     };
   };
   footer: {

@@ -1022,6 +1022,22 @@
         "en": "Your name or business",
         "ar": "اسمك أو اسم عملك"
       },
+      "email": {
+        "en": "Your email",
+        "ar": "بريدك الإلكتروني"
+      },
+      "emailPlaceholder": {
+        "en": "So we can reply to you",
+        "ar": "لنستطيع الرد عليك"
+      },
+      "phone": {
+        "en": "Phone or WhatsApp (optional)",
+        "ar": "الهاتف أو واتساب (اختياري)"
+      },
+      "phonePlaceholder": {
+        "en": "Faster than email for quick questions",
+        "ar": "أسرع من البريد للأسئلة السريعة"
+      },
       "sector": {
         "en": "Project type",
         "ar": "نوع المشروع"
@@ -1087,6 +1103,14 @@
       "error": {
         "en": "Please fill in your name and the project description.",
         "ar": "يرجى إكمال اسمك ووصف المشروع."
+      },
+      "errorEmail": {
+        "en": "Please enter a valid email address so we can reply.",
+        "ar": "يرجى إدخال بريد إلكتروني صحيح لنستطيع الرد."
+      },
+      "errorSend": {
+        "en": "Sending failed. Please email us directly instead.",
+        "ar": "فشل الإرسال، يرجى مراسلتنا بالبريد مباشرة."
       }
     }
   },
