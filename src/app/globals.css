@@ -64,12 +64,24 @@
 
 @layer utilities {
   .marquee-mask {
+    /* Multi-stop falloff so items dissolve at the edges instead of being sliced. */
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.35) 4%,
+      black 14%,
+      black 86%,
+      rgba(0, 0, 0, 0.35) 96%,
+      transparent 100%
+    );
     mask-image: linear-gradient(
       to right,
-      transparent,
-      black 12%,
-      black 88%,
-      transparent
+      transparent 0%,
+      rgba(0, 0, 0, 0.35) 4%,
+      black 14%,
+      black 86%,
+      rgba(0, 0, 0, 0.35) 96%,
+      transparent 100%
     );
   }
 
