@@ -25,10 +25,6 @@ export const metadata: Metadata = {
   title: "Engaz — Smart Software Solutions",
   description:
     "Engaz builds restaurant and café systems, AI agents, websites, and mobile apps — delivered fast and supported after launch.",
-  icons: {
-    icon: "/icon.png",
-    apple: "/apple-icon.png",
-  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

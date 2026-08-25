@@ -1,8 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import { BrandMark } from "@/components/ui/BrandMark";
 import { content } from "@/lib/content";
 import { useLocale } from "@/lib/locale-context";
 
@@ -66,16 +66,9 @@ export function IntroScreen() {
             initial={{ opacity: 0, scale: 0.82, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="relative"
+            className="relative flex h-24 w-24 items-center justify-center rounded-3xl bg-blue-500 text-white shadow-[0_0_45px_rgba(59,130,246,0.5)] sm:h-28 sm:w-28"
           >
-            <Image
-              src="/logo-mark.png"
-              alt=""
-              width={143}
-              height={148}
-              priority
-              className="h-28 w-auto drop-shadow-[0_0_35px_rgba(59,130,246,0.45)] sm:h-36"
-            />
+            <BrandMark className="h-14 w-14 sm:h-16 sm:w-16" />
           </motion.div>
 
           <motion.p
