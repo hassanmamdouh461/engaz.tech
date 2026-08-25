@@ -100,16 +100,18 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7, duration: 0.6 }}
-        className="mt-16 border-y border-slate-800/70 bg-slate-900/30 py-4 backdrop-blur-sm"
+        className="mt-20 py-10"
       >
         <Marquee
+          itemClassName="px-6"
           items={hero.ticker.map((item) => (
             <span
               key={item.en}
-              className="flex items-center gap-4 whitespace-nowrap px-2 text-sm font-medium text-slate-400"
+              className="flex items-center gap-12 whitespace-nowrap text-3xl font-bold tracking-tight text-slate-500/50 sm:text-4xl"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-accent-neon animate-pulse-dot" />
               {t(item)}
+              {/* Rotated square reads as the small diamond separator between phrases. */}
+              <span className="h-1.5 w-1.5 rotate-45 bg-blue-500" />
             </span>
           ))}
         />

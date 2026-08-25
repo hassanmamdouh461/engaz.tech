@@ -43,11 +43,11 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-glow transition-transform duration-200 hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-neon disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100;
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-blue-500 px-7 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 disabled:cursor-not-allowed disabled:opacity-60;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-700/80 bg-slate-900/40 px-6 py-3 text-sm font-semibold text-slate-200 backdrop-blur-md transition-colors duration-200 hover:border-accent-neon/50 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-neon;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/70 px-7 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white;
   }
 
   .field-label {
