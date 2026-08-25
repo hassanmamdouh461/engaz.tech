@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cairo, Plus_Jakarta_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 import { BackgroundDecor } from "@/components/ui/BackgroundDecor";
+import { IntroScreen } from "@/components/ui/IntroScreen";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
@@ -24,6 +25,10 @@ export const metadata: Metadata = {
   title: "Engaz — Smart Software Solutions",
   description:
     "Engaz builds restaurant and café systems, AI agents, websites, and mobile apps — delivered fast and supported after launch.",
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -31,6 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" dir="ltr" className={`${latin.variable} ${arabic.variable}`}>
       <body className="font-sans">
         <LocaleProvider>
+          <IntroScreen />
           <SmoothScroll>
             <BackgroundDecor />
             <a

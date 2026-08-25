@@ -1,6 +1,6 @@
 "use client";
 
-import { BrandMark } from "@/components/ui/BrandMark";
+import Image from "next/image";
 import { content } from "@/lib/content";
 import { useLocale } from "@/lib/locale-context";
 
@@ -16,8 +16,8 @@ export function Footer() {
         <div className="grid gap-10 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-500 text-white">
-                <BrandMark className="h-5 w-5" />
+              <span className="flex h-9 w-9 items-center justify-center">
+                <Image src="/logo-mark.png" alt="" width={143} height={148} className="h-8 w-auto" />
               </span>
               <span className="text-sm font-bold tracking-wide text-white">
                 {t(brand.name)}

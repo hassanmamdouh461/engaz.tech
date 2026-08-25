@@ -2,8 +2,8 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState, type MouseEvent } from "react";
-import { BrandMark } from "@/components/ui/BrandMark";
 import { SlidingTabs } from "@/components/ui/SlidingTabs";
 import { content } from "@/lib/content";
 import { useLocale } from "@/lib/locale-context";
@@ -72,9 +72,16 @@ export function Navbar() {
             <motion.span
               whileHover={{ scale: 1.08, rotate: -6 }}
               transition={{ type: "spring", stiffness: 320, damping: 18 }}
-              className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500 text-white shadow-lg"
+              className="relative flex h-10 w-10 items-center justify-center"
             >
-              <BrandMark className="h-6 w-6" />
+              <Image
+                src="/logo-mark.png"
+                alt=""
+                width={143}
+                height={148}
+                priority
+                className="h-9 w-auto"
+              />
             </motion.span>
             <span className="flex flex-col leading-tight">
               <span className="text-sm font-bold tracking-wide text-white sm:text-base">
