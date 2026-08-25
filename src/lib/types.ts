@@ -20,6 +20,8 @@ export interface StatCard {
   value: number;
   prefix?: string;
   suffix: string;
+  /** Short label above the number, e.g. the activity the figure measures. */
+  caption: Localized;
   label: Localized;
 }
 
@@ -118,6 +120,7 @@ export interface SiteContent {
   stats: {
     eyebrow: Localized;
     heading: Localized;
+    body: Localized;
     cards: StatCard[];
     miniStats: MiniStat[];
   };

@@ -93,31 +93,51 @@
   },
   "stats": {
     "eyebrow": { "en": "Live Impact", "ar": "الأثر الفعلي" },
-    "heading": { "en": "Measured in Millions", "ar": "أثر يُقاس بالملايين" },
+    "heading": { "en": "Numbers the Size of a Nation", "ar": "أرقام بحجم وطن" },
+    "body": {
+      "en": "These aren't promises. These are systems running right now: paying pensions, managing loans, and delivering fuel across the country.",
+      "ar": "هذه ليست وعودًا، بل أنظمة تعمل الآن: تصرف الرواتب التقاعدية، وتدير القروض، وتوزّع الوقود في عموم البلد."
+    },
     "cards": [
+      {
+        "id": "retirees",
+        "value": 2000000,
+        "suffix": "+",
+        "caption": { "en": "Paying pensions", "ar": "صرف الرواتب التقاعدية" },
+        "label": {
+          "en": "retirees served by the Smart Retirement platform",
+          "ar": "متقاعد تخدمهم منصة التقاعد الذكي"
+        }
+      },
+      {
+        "id": "loans",
+        "value": 700000,
+        "suffix": "+",
+        "caption": { "en": "Managing loans", "ar": "إدارة القروض" },
+        "label": {
+          "en": "loans managed electronically, no bank visits",
+          "ar": "قرض يُدار إلكترونيًا دون زيارة أي مصرف"
+        }
+      },
+      {
+        "id": "stations",
+        "value": 1500,
+        "suffix": "+",
+        "caption": { "en": "Delivering fuel", "ar": "توزيع الوقود" },
+        "label": {
+          "en": "automated fuel stations connected in real time",
+          "ar": "محطة وقود مؤتمتة متصلة في الزمن الحقيقي"
+        }
+      },
       {
         "id": "people",
         "value": 3000,
         "suffix": "+",
-        "label": { "en": "Specialized engineers and personnel", "ar": "مهندس وكادر متخصص" }
-      },
-      {
-        "id": "platforms",
-        "value": 100,
-        "suffix": "+",
-        "label": { "en": "Delivered enterprise platforms", "ar": "منصة مؤسسية منجزة" }
-      },
-      {
-        "id": "terminals",
-        "value": 1500,
-        "suffix": "+",
-        "label": { "en": "Connected real-time terminals", "ar": "طرفية متصلة في الزمن الحقيقي" }
-      },
-      {
-        "id": "years",
-        "value": 10,
-        "suffix": "+",
-        "label": { "en": "Years of mission-critical operations", "ar": "سنة من تشغيل الأنظمة الحيوية" }
+        "caption": { "en": "Building systems", "ar": "بناء الأنظمة" },
+        "label": {
+          "en": "specialized engineers and personnel behind the platforms",
+          "ar": "مهندس وكادر متخصص يقفون خلف هذه المنصات"
+        }
       }
     ],
     "miniStats": [

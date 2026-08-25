@@ -1,49 +1,104 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
+import { useRef } from "react";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { SlidingTabs } from "@/components/ui/SlidingTabs";
-import { SpotlightCard } from "@/components/ui/SpotlightCard";
-import { TiltCard } from "@/components/ui/TiltCard";
 import { content } from "@/lib/content";
 import { resolveIcon } from "@/lib/icons";
 import { cardHover, fadeInUp, staggerContainer, viewportOnce } from "@/lib/motion";
 import { useLocale } from "@/lib/locale-context";
+import type { FeaturedProject } from "@/lib/types";
 
 const { work } = content;
 
+interface StackCardProps {
+  project: FeaturedProject;
+  index: number;
+  total: number;
+  progress: MotionValue<number>;
+}
+
+/**
+ * One card in the scroll stack. Sticks below the header while later cards slide over it,
+ * shrinking so the buried cards read as a receding pile with their top edge still visible.
+ */
+function StackCard({ project, index, total, progress }: StackCardProps) {
+  const { t } = useLocale();
+  const reduceMotion = useReducedMotion();
+  const Icon = resolveIcon(project.icon);
+
+  // Cards deeper in the pile shrink more; the last card stays at full size.
+  const targetScale = 1 - (total - 1 - index) * 0.04;
+  const scale = useTransform(progress, [index / total, 1], [1, targetScale]);
+
+  return (
+    <div
+      className="sticky top-0 flex h-[100svh] items-start justify-center"
+      style={{ paddingTop: `calc(6.5rem + ${index * 1.5}rem)` }}
+    >
+      <motion.article
+        style={reduceMotion ? undefined : { scale }}
+        className="w-full origin-top overflow-hidden rounded-[2rem] border border-slate-700/50 bg-gradient-to-br from-slate-900/95 via-base-900/95 to-base-950/95 p-8 shadow-2xl backdrop-blur-xl sm:p-12"
+      >
+        <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500 text-white shadow-lg">
+          <Icon className="h-7 w-7" />
+        </span>
+
+        <h3 className="mt-8 max-w-3xl text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+          {t(project.title)}
+        </h3>
+
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-400">
+          {t(project.description)}
+        </p>
+
+        <dl className="mt-8 grid grid-cols-2 gap-6 border-t border-slate-700/50 pt-8 sm:grid-cols-3">
+          {project.metrics.map((metric) => (
+            <div key={metric.id}>
+              <dt className="sr-only">{t(metric.label)}</dt>
+              <dd className="text-2xl font-bold text-blue-400 sm:text-3xl">
+                {t(metric.value)}
+              </dd>
+              <p className="mt-1 text-sm text-slate-500">{t(metric.label)}</p>
+            </div>
+          ))}
+        </dl>
+      </motion.article>
+    </div>
+  );
+}
+
+function FeaturedStack() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  return (
+    <div ref={containerRef} className="mt-12">
+      {work.featured.map((project, index) => (
+        <StackCard
+          key={project.id}
+          project={project}
+          index={index}
+          total={work.featured.length}
+          progress={scrollYProgress}
+        />
+      ))}
+    </div>
+  );
+}
+
 export function ProjectsGrid() {
-  const { t, locale } = useLocale();
-  const [activeSector, setActiveSector] = useState<string>("all");
-
-  const sectors = useMemo(() => {
-    const seen = new Set<string>();
-    for (const project of work.featured) {
-      seen.add(project.sector.en);
-    }
-    return Array.from(seen);
-  }, []);
-
-  const sectorTabs = useMemo(
-    () => [
-      { id: "all", label: t({ en: "All Systems", ar: "كل الأنظمة" }) },
-      ...sectors.map((sector) => {
-        const source = work.featured.find((p) => p.sector.en === sector)!;
-        return { id: sector, label: t(source.sector) };
-      }),
-    ],
-    [sectors, t, locale],
-  );
-
-  const visibleProjects = useMemo(
-    () =>
-      activeSector === "all"
-        ? work.featured
-        : work.featured.filter((p) => p.sector.en === activeSector),
-    [activeSector],
-  );
+  const { t } = useLocale();
 
   return (
     <Section id="work">
@@ -51,65 +106,10 @@ export function ProjectsGrid() {
         eyebrow={t(work.eyebrow)}
         heading={t(work.heading)}
         body={t(work.body)}
+        align="start"
       />
 
-      <div className="mt-10 flex justify-center">
-        <SlidingTabs
-          options={sectorTabs}
-          activeId={activeSector}
-          onChange={setActiveSector}
-          layoutId="activeTab"
-          ariaLabel={t({ en: "Filter showcase by sector", ar: "تصفية الأعمال حسب القطاع" })}
-        />
-      </div>
-
-      <motion.ul
-        key={activeSector}
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewportOnce}
-        className="mt-10 grid gap-5 lg:grid-cols-3"
-      >
-        {visibleProjects.map((project) => {
-          const Icon = resolveIcon(project.icon);
-          return (
-            <motion.li key={project.id} variants={fadeInUp}>
-              <TiltCard className="h-full">
-                <SpotlightCard className="group flex h-full flex-col p-7">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-cyan-500/20 bg-gradient-to-br from-cyan-500/15 to-blue-600/10 text-cyan-300 transition-colors group-hover:text-cyan-200">
-                      <Icon className="h-5 w-5" />
-                    </span>
-                    <span className="rounded-full border border-slate-800 bg-slate-900/60 px-3 py-1 text-[0.7rem] text-slate-400">
-                      {t(project.sector)}
-                    </span>
-                  </div>
-
-                  <h3 className="mt-5 text-xl font-semibold leading-snug text-white">
-                    {t(project.title)}
-                  </h3>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-400">
-                    {t(project.description)}
-                  </p>
-
-                  <dl className="mt-6 grid grid-cols-3 gap-3 border-t border-slate-800/80 pt-5">
-                    {project.metrics.map((metric) => (
-                      <div key={metric.id}>
-                        <dt className="sr-only">{t(metric.label)}</dt>
-                        <dd className="text-sm font-bold text-cyan-300">{t(metric.value)}</dd>
-                        <p className="mt-1 text-[0.7rem] leading-tight text-slate-500">
-                          {t(metric.label)}
-                        </p>
-                      </div>
-                    ))}
-                  </dl>
-                </SpotlightCard>
-              </TiltCard>
-            </motion.li>
-          );
-        })}
-      </motion.ul>
+      <FeaturedStack />
 
       <motion.h3
         variants={fadeInUp}
@@ -138,7 +138,7 @@ export function ProjectsGrid() {
               className="glass-surface p-6"
             >
               <div className="flex items-start gap-4">
-                <span className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-800 bg-slate-900/60 text-cyan-300">
+                <span className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-500/15 text-blue-400">
                   <Icon className="h-4 w-4" />
                 </span>
                 <div>
@@ -150,7 +150,7 @@ export function ProjectsGrid() {
                     {project.tags.map((tag) => (
                       <li
                         key={tag.en}
-                        className="rounded-full bg-cyan-500/10 px-2.5 py-1 text-[0.7rem] text-cyan-200"
+                        className="rounded-full bg-blue-500/10 px-2.5 py-1 text-[0.7rem] text-blue-200"
                       >
                         {t(tag)}
                       </li>

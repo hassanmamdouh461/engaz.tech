@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, Terminal } from "lucide-react";
-import { MagneticButton } from "@/components/ui/MagneticButton";
+import { ArrowRight, Terminal } from "lucide-react";
 import { Marquee } from "@/components/ui/Marquee";
 import { SplitText } from "@/components/ui/SplitText";
 import { content } from "@/lib/content";
@@ -26,11 +25,6 @@ export function Hero() {
           animate="visible"
           className="flex flex-col items-center gap-7 text-center"
         >
-          <motion.span variants={fadeInUp} className="glow-pill">
-            <Sparkles className="h-3.5 w-3.5" />
-            {t(hero.badge)}
-          </motion.span>
-
           {/* Keyed on locale so the reveal replays with the new text instead of swapping mid-flight. */}
           <motion.h1
             key={locale}
@@ -52,7 +46,7 @@ export function Hero() {
             variants={fadeInUp}
             className="flex flex-wrap items-center justify-center gap-3"
           >
-            <MagneticButton>
+            <span>
               <motion.a
                 href="#contact"
                 onClick={(event) => {
@@ -60,7 +54,6 @@ export function Hero() {
                     event.preventDefault();
                   }
                 }}
-                whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 className="btn-primary group"
               >
@@ -74,9 +67,9 @@ export function Hero() {
                   )}
                 />
               </motion.a>
-            </MagneticButton>
+            </span>
 
-            <MagneticButton>
+            <span>
               <motion.a
                 href="#work"
                 onClick={(event) => {
@@ -84,14 +77,13 @@ export function Hero() {
                     event.preventDefault();
                   }
                 }}
-                whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 className="btn-ghost"
               >
                 <Terminal className="h-4 w-4" />
                 {t(hero.secondaryCta)}
               </motion.a>
-            </MagneticButton>
+            </span>
           </motion.div>
         </motion.div>
       </div>
