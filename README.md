@@ -46,6 +46,24 @@ https://www.engaz.tech
 To move to a different domain, change the two `[[routes]]` patterns in `wrangler.toml` and redeploy.
 The zone must already be on Cloudflare nameservers for `custom_domain` to work.
 
+### Automatic deployment
+
+`.github/workflows/deploy.yml` runs on every push to `main`: it installs dependencies, typechecks,
+builds, and deploys through `wrangler deploy`. It needs two repository secrets:
+
+```text
+CLOUDFLARE_API_TOKEN
+CLOUDFLARE_ACCOUNT_ID
+```
+
+Create the token at **My Profile → API Tokens → Create Token** using the *Edit Cloudflare Workers*
+template, and scope it to the `engaz.tech` zone. Add both values under
+**Settings → Secrets and variables → Actions** in the GitHub repository.
+
+Until those secrets exist the workflow will fail at the deploy step; the build and typecheck steps
+still run and will catch regressions. Local `npm run deploy` keeps working regardless.
+
+
 
 
 ## Project layout
