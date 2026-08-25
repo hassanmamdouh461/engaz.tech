@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { useLenis } from "lenis/react";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState, type MouseEvent } from "react";
 import { BrandMark } from "@/components/ui/BrandMark";
@@ -20,6 +21,7 @@ const localeTabs = [
 export function Navbar() {
   const { t, locale, setLocale } = useLocale();
   const scrollToAnchor = useAnchorScroll();
+  const lenis = useLenis();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -30,12 +32,22 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Lenis drives scrolling from its own wheel/touch handlers, so hiding body overflow
+  // alone does not stop the page moving behind the open menu on touch devices.
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    if (open) {
+      lenis?.stop();
+      document.body.style.overflow = "hidden";
+    } else {
+      lenis?.start();
+      document.body.style.overflow = "";
+    }
+
     return () => {
+      lenis?.start();
       document.body.style.overflow = "";
     };
-  }, [open]);
+  }, [open, lenis]);
 
   function handleAnchorClick(
     event: MouseEvent<HTMLAnchorElement>,
@@ -52,7 +64,7 @@ export function Navbar() {
       initial={{ opacity: 0, y: -28 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4"
+      className="fixed inset-x-0 top-0 z-50 px-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-5 sm:pt-4"
     >
       {/* Transparent while at the top; condenses into a floating pill once scrolled. */}
       <div
@@ -115,7 +127,7 @@ export function Navbar() {
             <a
               href="#contact"
               onClick={(event) => handleAnchorClick(event, "#contact")}
-              className="btn-primary hidden !px-5 !py-2.5 sm:inline-flex"
+              className="btn-primary hidden !px-5 sm:inline-flex"
             >
               {t(nav.cta)}
             </a>
@@ -124,7 +136,7 @@ export function Navbar() {
               onClick={() => setOpen((value) => !value)}
               aria-expanded={open}
               aria-label={open ? t(nav.closeMenu) : t(nav.openMenu)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-800 text-slate-200 transition-colors hover:border-accent-neon/50 lg:hidden"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-800 text-slate-200 transition-colors hover:border-accent-neon/50 lg:hidden"
             >
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -141,9 +153,10 @@ export function Navbar() {
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             className="mx-auto mt-2 max-w-7xl overflow-hidden rounded-3xl border border-slate-700/60 bg-base-950/95 backdrop-blur-xl lg:hidden"
           >
+            {/* Caps at the viewport minus the header so the CTA stays reachable in landscape. */}
             <nav
               aria-label="Mobile"
-              className="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-4"
+              className="mx-auto flex max-h-[calc(100svh-6rem)] max-w-7xl flex-col gap-1 overflow-y-auto px-5 py-4"
             >
               {nav.links.map((link, index) => (
                 <motion.a

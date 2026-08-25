@@ -27,13 +27,13 @@ export function Services() {
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        className="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3"
       >
         {services.items.map((service, index) => {
           const Icon = resolveIcon(service.icon);
           return (
             <motion.li key={service.id} variants={fadeInUp} whileHover={cardHover}>
-              <SpotlightCard className="glass-surface h-full p-7">
+              <SpotlightCard className="glass-surface h-full p-6 sm:p-7">
                 <div className="flex items-center gap-3">
                   <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-500 text-white shadow-lg">
                     <Icon className="h-6 w-6" />

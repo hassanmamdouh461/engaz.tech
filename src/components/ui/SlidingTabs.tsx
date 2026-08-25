@@ -38,7 +38,7 @@ export function SlidingTabs({
       role="tablist"
       aria-label={ariaLabel}
       className={cn(
-        "inline-flex flex-wrap items-center gap-1 rounded-full border border-slate-800/80 bg-slate-900/50 p-1 backdrop-blur-md",
+        "inline-flex items-center gap-1 rounded-full border border-slate-800/80 bg-slate-900/50 p-1 backdrop-blur-md",
         className,
       )}
     >
@@ -52,7 +52,7 @@ export function SlidingTabs({
             aria-selected={active}
             onClick={() => onChange(option.id)}
             className={cn(
-              "relative rounded-full px-4 py-2 text-xs font-semibold transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-neon",
+              "relative inline-flex min-h-[2.25rem] min-w-[2.5rem] items-center justify-center rounded-full px-3 text-xs font-semibold transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-neon sm:px-4",
               active ? "text-base-950" : "text-slate-400 hover:text-white",
             )}
           >

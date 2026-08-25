@@ -30,7 +30,7 @@ export function SectionHeading({
       whileInView="visible"
       viewport={viewportOnce}
       className={cn(
-        "flex flex-col gap-6",
+        "flex flex-col gap-4 sm:gap-6",
         align === "center" ? "items-center text-center" : "items-start text-start",
         className,
       )}
@@ -38,7 +38,7 @@ export function SectionHeading({
       {eyebrow ? (
         <motion.span
           variants={fadeInUp}
-          className="text-xs font-semibold uppercase tracking-[0.28em] text-blue-400"
+          className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-400 sm:tracking-[0.28em]"
         >
           {eyebrow}
         </motion.span>
@@ -46,7 +46,7 @@ export function SectionHeading({
 
       <motion.h2
         variants={fadeInUp}
-        className="max-w-3xl text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl"
+        className="max-w-3xl text-[1.75rem] font-extrabold leading-[1.15] tracking-tight text-white sm:text-5xl sm:leading-[1.08] lg:text-6xl"
       >
         {heading}
       </motion.h2>

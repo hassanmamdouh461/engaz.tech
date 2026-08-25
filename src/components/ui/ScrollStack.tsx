@@ -32,11 +32,11 @@ function StackItem({ index, total, progress, children }: StackItemProps) {
   return (
     <div
       className="sticky top-0 flex h-[100svh] items-start justify-center"
-      style={{ paddingTop: `calc(6.5rem + ${index * 1.5}rem)` }}
+      style={{ paddingTop: `calc(5rem + ${index * 1}rem)` }}
     >
       <motion.article
         style={reduceMotion ? undefined : { scale }}
-        className="w-full origin-top overflow-hidden rounded-[2rem] border border-slate-700/50 bg-gradient-to-br from-slate-900 via-base-900 to-base-950 p-8 shadow-2xl sm:p-12"
+        className="max-h-[calc(100svh-6.5rem)] w-full origin-top overflow-y-auto rounded-3xl border border-slate-700/50 bg-gradient-to-br from-slate-900 via-base-900 to-base-950 p-6 shadow-2xl sm:rounded-[2rem] sm:p-10 lg:p-12"
       >
         {children}
       </motion.article>

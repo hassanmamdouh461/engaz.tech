@@ -11,8 +11,9 @@ import { useLocale } from "@/lib/locale-context";
 const { ecosystem } = content;
 
 /**
- * Connector between two stages. Vertical while the grid is stacked, horizontal once it
- * becomes four columns. Positioned with logical offsets so it follows the reading direction.
+ * Connector between two stages. Vertical while the grid is a single column, horizontal
+ * once it becomes four columns. At the two-column tablet step the next card can be either
+ * right or below, so no connector is drawn rather than pointing the wrong way.
  */
 function StageConnector({ delay }: { delay: number }) {
   const transition = { delay, duration: 0.9, ease: "easeInOut" } as const;
@@ -21,7 +22,7 @@ function StageConnector({ delay }: { delay: number }) {
     <span aria-hidden className="pointer-events-none">
       <svg
         viewBox="0 0 2 34"
-        className="absolute -bottom-[2.1rem] left-1/2 h-[34px] w-[2px] -translate-x-1/2 overflow-visible lg:hidden"
+        className="absolute -bottom-[2.1rem] left-1/2 h-[34px] w-[2px] -translate-x-1/2 overflow-visible md:hidden"
       >
         <motion.path
           d="M1 0 V34"
@@ -87,7 +88,7 @@ export function EcosystemDiagram() {
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="mt-14 grid gap-12 lg:grid-cols-4 lg:gap-x-[34px] lg:gap-y-4"
+        className="mt-10 grid gap-10 sm:mt-14 sm:gap-12 md:grid-cols-2 md:gap-6 lg:grid-cols-4 lg:gap-x-[34px] lg:gap-y-4"
       >
         {ecosystem.stages.map((stage, index) => {
           const Icon = resolveIcon(stage.icon);

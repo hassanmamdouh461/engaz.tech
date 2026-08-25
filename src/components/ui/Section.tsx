@@ -11,9 +11,9 @@ export function Section({ id, children, className }: SectionProps) {
   return (
     <section
       id={id}
-      className={cn("relative scroll-mt-24 px-5 py-20 sm:px-8 md:py-28", className)}
+      className={cn("relative scroll-mt-24 px-5 py-14 sm:px-8 sm:py-20 md:py-28", className)}
     >
-      <div className="mx-auto w-full max-w-7xl">{children}</div>
+      <div className="mx-auto w-full min-w-0 max-w-7xl">{children}</div>
     </section>
   );
 }

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cairo, Plus_Jakarta_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 import { BackgroundDecor } from "@/components/ui/BackgroundDecor";
@@ -27,13 +27,20 @@ export const metadata: Metadata = {
     "Engaz builds restaurant and café systems, AI agents, websites, and mobile apps — delivered fast and supported after launch.",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  // Lets the fixed header sit under the notch and read env(safe-area-inset-*).
+  viewportFit: "cover",
+};
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" dir="ltr" className={`${latin.variable} ${arabic.variable}`}>
       <body className="font-sans">
         <LocaleProvider>
-          <IntroScreen />
           <SmoothScroll>
+            <IntroScreen />
             <BackgroundDecor />
             <a
               href="#home"

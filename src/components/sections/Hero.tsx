@@ -18,19 +18,19 @@ export function Hero() {
   return (
     <section id="home" className="relative">
       {/* Fills the viewport so the ticker below starts off-screen on first paint. */}
-      <div className="flex min-h-svh flex-col justify-center px-5 pb-20 pt-28 sm:px-8">
+      <div className="flex min-h-svh flex-col justify-center px-5 pb-16 pt-24 sm:px-8 sm:pb-20 sm:pt-28">
         <div className="mx-auto w-full max-w-7xl">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="flex flex-col items-center gap-7 text-center"
+          className="flex flex-col items-center gap-6 text-center sm:gap-7"
         >
           {/* Keyed on locale so the reveal replays with the new text instead of swapping mid-flight. */}
           <motion.h1
             key={locale}
             variants={staggerContainer}
-            className="max-w-4xl text-balance text-4xl font-extrabold leading-[1.15] text-white sm:text-5xl lg:text-6xl"
+            className="max-w-4xl text-balance text-[2rem] font-extrabold leading-[1.15] text-white sm:text-5xl lg:text-6xl"
           >
             <SplitText text={t(hero.headlineLead)} />
             <SplitText text={t(hero.headlineAccent)} className="gradient-text" delay={0.12} />
@@ -90,11 +90,11 @@ export function Hero() {
         className="pb-16"
       >
         <Marquee
-          itemClassName="px-6"
+          itemClassName="px-4 sm:px-6"
           items={hero.ticker.map((item) => (
             <span
               key={item.en}
-              className="flex items-center gap-12 whitespace-nowrap text-3xl font-bold tracking-tight text-slate-500/50 sm:text-4xl"
+              className="flex items-center gap-6 whitespace-nowrap text-xl font-bold tracking-tight text-slate-400/70 sm:gap-12 sm:text-4xl"
             >
               {t(item)}
               {/* Rotated square reads as the small diamond separator between phrases. */}

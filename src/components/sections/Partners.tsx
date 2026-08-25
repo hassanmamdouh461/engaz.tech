@@ -17,7 +17,7 @@ export function Partners() {
     <Section id="partners">
       <SectionHeading eyebrow={t(partners.eyebrow)} heading={t(partners.heading)} />
 
-      <div className="mt-14 flex flex-col gap-14">
+      <div className="mt-10 flex flex-col gap-10 sm:mt-14 sm:gap-14">
         {partners.tracks.map((track) => (
           <motion.div
             key={track.id}
@@ -43,7 +43,7 @@ export function Partners() {
               items={track.items.map((item) => (
                 <span
                   key={item.en}
-                  className="flex items-center gap-8 whitespace-nowrap text-2xl font-bold tracking-tight text-slate-500/60 transition-colors duration-200 hover:text-slate-300 sm:text-3xl"
+                  className="flex items-center gap-8 whitespace-nowrap text-2xl font-bold tracking-tight text-slate-400/70 transition-colors duration-200 hover:text-slate-200 sm:text-3xl"
                 >
                   {t(item)}
                   <span className="h-1.5 w-1.5 rotate-45 bg-blue-500" />
