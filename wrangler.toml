@@ -1,0 +1,16 @@
+name = "engaz-tech"
+compatibility_date = "2025-01-01"
+
+[assets]
+directory = "./out"
+not_found_handling = "404-page"
+
+# custom_domain = true makes Cloudflare create and manage the DNS record for the
+# hostname itself, so the zone needs no manual CNAME.
+[[routes]]
+pattern = "engaz.tech"
+custom_domain = true
+
+[[routes]]
+pattern = "www.engaz.tech"
+custom_domain = true

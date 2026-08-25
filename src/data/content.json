@@ -1,0 +1,656 @@
+{
+  "brand": {
+    "name": { "en": "TECH CORP", "ar": "تِك كورب" },
+    "tagline": {
+      "en": "Nation-scale digital transformation",
+      "ar": "تحول رقمي بمقياس وطني"
+    }
+  },
+  "nav": {
+    "links": [
+      { "id": "home", "href": "#home", "label": { "en": "Home", "ar": "الرئيسية" } },
+      { "id": "about", "href": "#about", "label": { "en": "About Us", "ar": "من نحن" } },
+      { "id": "work", "href": "#work", "label": { "en": "Our Work", "ar": "أعمالنا" } },
+      { "id": "ecosystem", "href": "#ecosystem", "label": { "en": "Ecosystem", "ar": "المنظومة" } },
+      { "id": "services", "href": "#services", "label": { "en": "Services", "ar": "الخدمات" } },
+      { "id": "partners", "href": "#partners", "label": { "en": "Partners", "ar": "الشركاء" } },
+      { "id": "contact", "href": "#contact", "label": { "en": "Contact", "ar": "اتصل بنا" } }
+    ],
+    "languageToggle": { "en": "العربية", "ar": "English" },
+    "cta": { "en": "Get in Touch", "ar": "تواصل معنا" },
+    "openMenu": { "en": "Open navigation menu", "ar": "فتح قائمة التنقل" },
+    "closeMenu": { "en": "Close navigation menu", "ar": "إغلاق قائمة التنقل" }
+  },
+  "hero": {
+    "badge": {
+      "en": "Nation-Scale Digital Transformation Partner",
+      "ar": "شريك التحول الرقمي بمقياس وطني"
+    },
+    "headlineLead": { "en": "Where Digital Vision", "ar": "حيث تتحول الرؤية الرقمية" },
+    "headlineAccent": { "en": "Becomes Reality", "ar": "إلى واقع ملموس" },
+    "subtitle": {
+      "en": "We architect, build, and operate mission-critical digital platforms that millions of citizens and businesses rely on every single day.",
+      "ar": "نُصمّم وننفّذ ونشغّل منصات رقمية حيوية يعتمد عليها ملايين المواطنين والشركات كل يوم."
+    },
+    "primaryCta": { "en": "Start a Project", "ar": "ابدأ مشروعك" },
+    "secondaryCta": { "en": "Explore Systems", "ar": "استكشف الأنظمة" },
+    "ticker": [
+      { "en": "The waiting era is over", "ar": "زمن الانتظار انتهى" },
+      { "en": "Building nation-scale infrastructure", "ar": "نبني بنية تحتية بمقياس وطني" },
+      { "en": "Zero paperwork solutions", "ar": "حلول بلا أوراق" },
+      { "en": "Reaching millions daily", "ar": "نصل إلى الملايين يوميًا" },
+      { "en": "Enterprise security and high availability", "ar": "أمان مؤسسي وجهوزية عالية" }
+    ]
+  },
+  "pillars": {
+    "eyebrow": { "en": "About Us", "ar": "من نحن" },
+    "heading": {
+      "en": "The National Pillar for Digital Transformation",
+      "ar": "الركيزة الوطنية للتحول الرقمي"
+    },
+    "body": {
+      "en": "Four operating principles carry every platform we deliver, from the first architecture review to years of production uptime.",
+      "ar": "أربعة مبادئ تشغيلية تحمل كل منصة نُطلقها، من أول مراجعة معمارية إلى سنوات من التشغيل المستمر."
+    },
+    "items": [
+      {
+        "id": "scale",
+        "icon": "Globe2",
+        "title": { "en": "National Scale", "ar": "مقياس وطني" },
+        "body": {
+          "en": "Systems running across all governorates, serving millions of users daily without interruption.",
+          "ar": "أنظمة تعمل في جميع المحافظات وتخدم ملايين المستخدمين يوميًا دون انقطاع."
+        }
+      },
+      {
+        "id": "quality",
+        "icon": "ShieldCheck",
+        "title": { "en": "Quality Assurance", "ar": "ضمان الجودة" },
+        "body": {
+          "en": "Rigorous testing and ISO-grade quality control ensuring systems never fail under extreme loads.",
+          "ar": "اختبارات صارمة وضبط جودة بمعايير عالمية يضمن عدم تعطل الأنظمة تحت الأحمال القصوى."
+        }
+      },
+      {
+        "id": "operations",
+        "icon": "Activity",
+        "title": { "en": "Continuous Operations", "ar": "تشغيل متواصل" },
+        "body": {
+          "en": "Dedicated platform and support engineers monitoring infrastructure around the clock, every day of the year.",
+          "ar": "مهندسو تشغيل ودعم مخصصون يراقبون البنية التحتية على مدار الساعة طوال أيام السنة."
+        }
+      },
+      {
+        "id": "security",
+        "icon": "Lock",
+        "title": { "en": "Enterprise Security", "ar": "أمان مؤسسي" },
+        "body": {
+          "en": "Zero-trust architecture, multi-factor biometrics, and national data sovereignty compliance.",
+          "ar": "معمارية انعدام الثقة، وتحقق حيوي متعدد العوامل، والتزام بسيادة البيانات الوطنية."
+        }
+      }
+    ]
+  },
+  "stats": {
+    "eyebrow": { "en": "Live Impact", "ar": "الأثر الفعلي" },
+    "heading": { "en": "Measured in Millions", "ar": "أثر يُقاس بالملايين" },
+    "cards": [
+      {
+        "id": "people",
+        "value": 3000,
+        "suffix": "+",
+        "label": { "en": "Specialized engineers and personnel", "ar": "مهندس وكادر متخصص" }
+      },
+      {
+        "id": "platforms",
+        "value": 100,
+        "suffix": "+",
+        "label": { "en": "Delivered enterprise platforms", "ar": "منصة مؤسسية منجزة" }
+      },
+      {
+        "id": "terminals",
+        "value": 1500,
+        "suffix": "+",
+        "label": { "en": "Connected real-time terminals", "ar": "طرفية متصلة في الزمن الحقيقي" }
+      },
+      {
+        "id": "years",
+        "value": 10,
+        "suffix": "+",
+        "label": { "en": "Years of mission-critical operations", "ar": "سنة من تشغيل الأنظمة الحيوية" }
+      }
+    ],
+    "miniStats": [
+      {
+        "id": "retirees",
+        "value": { "en": "2M+", "ar": "+2 مليون" },
+        "label": { "en": "Retirees served", "ar": "متقاعد مخدوم" }
+      },
+      {
+        "id": "volume",
+        "value": { "en": "350T+ IQD", "ar": "+350 ترليون دينار" },
+        "label": { "en": "Transaction volume processed", "ar": "حجم معاملات معالَج" }
+      },
+      {
+        "id": "loans",
+        "value": { "en": "700K+", "ar": "+700 ألف" },
+        "label": { "en": "Instant loans approved", "ar": "قرض فوري مُصادق" }
+      }
+    ]
+  },
+  "work": {
+    "eyebrow": { "en": "Our Work", "ar": "أعمالنا" },
+    "heading": {
+      "en": "Transformative Achievements and National Systems",
+      "ar": "إنجازات تحويلية وأنظمة وطنية"
+    },
+    "body": {
+      "en": "Fifteen production systems in government, finance, health, and education. Three of them are detailed below.",
+      "ar": "خمسة عشر نظامًا في الخدمة الفعلية بقطاعات الحكومة والمال والصحة والتعليم، ثلاثة منها بالتفصيل أدناه."
+    },
+    "featured": [
+      {
+        "id": "petroleum",
+        "icon": "Fuel",
+        "sector": { "en": "Energy", "ar": "الطاقة" },
+        "title": {
+          "en": "Petroleum and Fuel Distribution Automation",
+          "ar": "أتمتة توزيع المشتقات النفطية"
+        },
+        "description": {
+          "en": "End-to-end national fuel distribution management, from refineries and tanker dispatch to smart dispensers at the pump.",
+          "ar": "إدارة كاملة لتوزيع الوقود وطنيًا، من المصافي وحركة الصهاريج إلى المضخات الذكية في المحطات."
+        },
+        "metrics": [
+          {
+            "id": "stations",
+            "value": { "en": "1,500", "ar": "1,500" },
+            "label": { "en": "Automated stations", "ar": "محطة مؤتمتة" }
+          },
+          {
+            "id": "volume",
+            "value": { "en": "350T+ IQD", "ar": "+350 ترليون دينار" },
+            "label": { "en": "Settled volume", "ar": "حجم مُسوّى" }
+          },
+          {
+            "id": "beneficiaries",
+            "value": { "en": "200,000", "ar": "200,000" },
+            "label": { "en": "Beneficiaries", "ar": "مستفيد" }
+          }
+        ]
+      },
+      {
+        "id": "pension",
+        "icon": "Fingerprint",
+        "sector": { "en": "Social Security", "ar": "الضمان الاجتماعي" },
+        "title": {
+          "en": "Smart Pension and Biometric Proof of Life",
+          "ar": "التقاعد الذكي وشهادة الحياة الحيوية"
+        },
+        "description": {
+          "en": "Facial recognition and biometric verification that replaced physical queues with a monthly automated payout cycle.",
+          "ar": "تحقق بالتعرف على الوجه والسمات الحيوية استبدل الطوابير بدورة صرف شهرية مؤتمتة."
+        },
+        "metrics": [
+          {
+            "id": "retirees",
+            "value": { "en": "2,000,000+", "ar": "+2,000,000" },
+            "label": { "en": "Registered retirees", "ar": "متقاعد مسجل" }
+          },
+          {
+            "id": "payouts",
+            "value": { "en": "Monthly", "ar": "شهريًا" },
+            "label": { "en": "Automated payout cycle", "ar": "دورة صرف مؤتمتة" }
+          },
+          {
+            "id": "digital",
+            "value": { "en": "100%", "ar": "100%" },
+            "label": { "en": "Fully digital journey", "ar": "رحلة رقمية كاملة" }
+          }
+        ]
+      },
+      {
+        "id": "lending",
+        "icon": "Landmark",
+        "sector": { "en": "Financial Services", "ar": "الخدمات المالية" },
+        "title": {
+          "en": "Instant Digital Loan and Micro-Financing Engine",
+          "ar": "محرك القروض الرقمية الفورية والتمويل الأصغر"
+        },
+        "description": {
+          "en": "Real-time credit scoring, instant loan issuance, and automated payroll deduction with no branch visit required.",
+          "ar": "تقييم ائتماني لحظي، وإصدار قرض فوري، واستقطاع آلي من الراتب دون زيارة أي فرع."
+        },
+        "metrics": [
+          {
+            "id": "borrowers",
+            "value": { "en": "700,000", "ar": "700,000" },
+            "label": { "en": "Borrowers served", "ar": "مقترض مخدوم" }
+          },
+          {
+            "id": "disbursed",
+            "value": { "en": "8T IQD", "ar": "8 ترليون دينار" },
+            "label": { "en": "Disbursed financing", "ar": "تمويل مصروف" }
+          },
+          {
+            "id": "visits",
+            "value": { "en": "Zero", "ar": "صفر" },
+            "label": { "en": "Required bank visits", "ar": "زيارة مصرفية مطلوبة" }
+          }
+        ]
+      }
+    ],
+    "secondaryHeading": {
+      "en": "More Systems in Production",
+      "ar": "أنظمة أخرى في الخدمة"
+    },
+    "secondary": [
+      {
+        "id": "health",
+        "icon": "Stethoscope",
+        "title": { "en": "Unified Digital Health Portal", "ar": "النظام الصحي الموحد" },
+        "description": {
+          "en": "Appointment booking, electronic records, and referral routing across public hospitals.",
+          "ar": "حجز المواعيد والسجلات الإلكترونية وإحالة المرضى بين المستشفيات الحكومية."
+        },
+        "tags": [
+          { "en": "2,000 doctors", "ar": "2,000 طبيب" },
+          { "en": "20K bookings", "ar": "20 ألف حجز" }
+        ]
+      },
+      {
+        "id": "payments",
+        "icon": "Receipt",
+        "title": { "en": "Unified Bill Payment Hub", "ar": "منصة تسديد الفواتير الموحدة" },
+        "description": {
+          "en": "One settlement layer for utilities, fines, and government fees with instant reconciliation.",
+          "ar": "طبقة تسوية واحدة للخدمات والغرامات والرسوم الحكومية مع مطابقة لحظية."
+        },
+        "tags": [
+          { "en": "Instant settlement", "ar": "تسوية لحظية" },
+          { "en": "Multi-channel", "ar": "قنوات متعددة" }
+        ]
+      },
+      {
+        "id": "education",
+        "icon": "GraduationCap",
+        "title": { "en": "Ministry Academic Portal", "ar": "منصة وزارة التربية الأكاديمية" },
+        "description": {
+          "en": "Student records, exam results, and school administration for the national education network.",
+          "ar": "سجلات الطلبة ونتائج الامتحانات وإدارة المدارس لشبكة التعليم الوطنية."
+        },
+        "tags": [
+          { "en": "Nationwide", "ar": "تغطية وطنية" },
+          { "en": "Mobile first", "ar": "الجوال أولًا" }
+        ]
+      },
+      {
+        "id": "welfare",
+        "icon": "HeartHandshake",
+        "title": { "en": "Social Protection Verification", "ar": "تحقق الرعاية الاجتماعية" },
+        "description": {
+          "en": "Eligibility verification and disbursement tracking for social welfare beneficiaries.",
+          "ar": "التحقق من الاستحقاق ومتابعة الصرف لمستفيدي الرعاية الاجتماعية."
+        },
+        "tags": [
+          { "en": "Mini-app", "ar": "تطبيق مصغّر" },
+          { "en": "Field agents", "ar": "وكلاء ميدانيون" }
+        ]
+      },
+      {
+        "id": "donations",
+        "icon": "Gift",
+        "title": { "en": "Humanitarian Donation Platform", "ar": "منصة التبرعات الإنسانية" },
+        "description": {
+          "en": "Transparent campaign funding with per-donation traceability and impact reporting.",
+          "ar": "تمويل شفاف للحملات مع تتبع كل تبرع وتقارير عن الأثر."
+        },
+        "tags": [
+          { "en": "Audit trail", "ar": "أثر تدقيقي" },
+          { "en": "Impact reports", "ar": "تقارير أثر" }
+        ]
+      },
+      {
+        "id": "tradex",
+        "icon": "Ship",
+        "title": { "en": "Cross-Border Smart Trade Platform", "ar": "منصة التجارة الذكية العابرة للحدود" },
+        "description": {
+          "en": "Customs documentation, logistics tracking, and trade finance in a single workspace.",
+          "ar": "مستندات كمركية وتتبع لوجستي وتمويل تجاري في مساحة عمل واحدة."
+        },
+        "tags": [
+          { "en": "Customs ready", "ar": "جاهز كمركيًا" },
+          { "en": "Trade finance", "ar": "تمويل تجاري" }
+        ]
+      },
+      {
+        "id": "identity",
+        "icon": "IdCard",
+        "title": { "en": "National Digital Identity", "ar": "الهوية الرقمية الوطنية" },
+        "description": {
+          "en": "Single sign-on identity wallet backing every citizen-facing service in the ecosystem.",
+          "ar": "محفظة هوية بدخول موحد تدعم كل خدمة موجهة للمواطن في المنظومة."
+        },
+        "tags": [
+          { "en": "Single sign-on", "ar": "دخول موحد" },
+          { "en": "eSignature", "ar": "توقيع إلكتروني" }
+        ]
+      },
+      {
+        "id": "municipal",
+        "icon": "Building2",
+        "title": { "en": "Municipal Services Suite", "ar": "منظومة خدمات الأمانة" },
+        "description": {
+          "en": "Permits, property records, and municipal fee collection for the capital administration.",
+          "ar": "الإجازات وسجلات العقارات وتحصيل الرسوم البلدية لإدارة العاصمة."
+        },
+        "tags": [
+          { "en": "Permits", "ar": "إجازات" },
+          { "en": "GIS linked", "ar": "مرتبط بالخرائط" }
+        ]
+      },
+      {
+        "id": "syndicates",
+        "icon": "Users",
+        "title": { "en": "Professional Syndicate Systems", "ar": "أنظمة النقابات المهنية" },
+        "description": {
+          "en": "Membership, dues, and benefit management for teacher and engineer syndicates.",
+          "ar": "إدارة العضوية والاشتراكات والمنافع لنقابات المعلمين والمهندسين."
+        },
+        "tags": [
+          { "en": "Membership", "ar": "عضوية" },
+          { "en": "Benefits", "ar": "منافع" }
+        ]
+      }
+    ]
+  },
+  "ecosystem": {
+    "eyebrow": { "en": "Ecosystem", "ar": "المنظومة" },
+    "heading": { "en": "How Data Reaches the Citizen", "ar": "كيف تصل البيانات إلى المواطن" },
+    "body": {
+      "en": "Every service follows the same path: authoritative government data enters the core engine, gets exposed through channels, and lands as a completed transaction for the citizen.",
+      "ar": "كل خدمة تسلك المسار ذاته: بيانات حكومية موثوقة تدخل المحرك المركزي، ثم تُنشر عبر القنوات، وتنتهي كمعاملة مكتملة للمواطن."
+    },
+    "stages": [
+      {
+        "id": "entities",
+        "icon": "Landmark",
+        "title": { "en": "Government Entities", "ar": "الجهات الحكومية" },
+        "body": {
+          "en": "Ministries and authorities own the source data and the legal mandate for each service.",
+          "ar": "الوزارات والهيئات تملك البيانات المصدرية والصلاحية القانونية لكل خدمة."
+        },
+        "nodes": [
+          { "en": "Ministries", "ar": "وزارات" },
+          { "en": "Central banks", "ar": "مصارف مركزية" },
+          { "en": "Syndicates", "ar": "نقابات" }
+        ]
+      },
+      {
+        "id": "core",
+        "icon": "Cpu",
+        "title": { "en": "Central Enterprise Engine", "ar": "المحرك المؤسسي المركزي" },
+        "body": {
+          "en": "Integration bus, identity, workflow orchestration, and settlement run in one governed core.",
+          "ar": "ناقل التكامل والهوية وتنسيق سير العمل والتسوية تعمل جميعها في نواة واحدة محكومة."
+        },
+        "nodes": [
+          { "en": "Integration bus", "ar": "ناقل تكامل" },
+          { "en": "Identity", "ar": "هوية" },
+          { "en": "Settlement", "ar": "تسوية" }
+        ]
+      },
+      {
+        "id": "channels",
+        "icon": "Smartphone",
+        "title": { "en": "Super-App and Portals", "ar": "التطبيق الشامل والبوابات" },
+        "body": {
+          "en": "Mini-apps, web portals, and agent terminals surface the same core through the right channel.",
+          "ar": "تطبيقات مصغّرة وبوابات وطرفيات وكلاء تعرض النواة ذاتها عبر القناة المناسبة."
+        },
+        "nodes": [
+          { "en": "Mini-apps", "ar": "تطبيقات مصغّرة" },
+          { "en": "Web portals", "ar": "بوابات ويب" },
+          { "en": "Agent terminals", "ar": "طرفيات وكلاء" }
+        ]
+      },
+      {
+        "id": "citizen",
+        "icon": "UserCheck",
+        "title": { "en": "The End Citizen", "ar": "المواطن النهائي" },
+        "body": {
+          "en": "A transaction that used to take days at a counter now closes in minutes on a phone.",
+          "ar": "معاملة كانت تستغرق أيامًا في الدوائر تُنجز الآن في دقائق على الهاتف."
+        },
+        "nodes": [
+          { "en": "Instant service", "ar": "خدمة فورية" },
+          { "en": "No paperwork", "ar": "بلا أوراق" },
+          { "en": "Full traceability", "ar": "تتبع كامل" }
+        ]
+      }
+    ]
+  },
+  "services": {
+    "eyebrow": { "en": "Services", "ar": "الخدمات" },
+    "heading": { "en": "End-to-End Delivery Capability", "ar": "قدرة تنفيذ من الطرف إلى الطرف" },
+    "body": {
+      "en": "Six practices that cover a platform from the first requirements workshop to long-term production support.",
+      "ar": "ست ممارسات تغطي المنصة من أول ورشة متطلبات إلى الدعم التشغيلي طويل الأمد."
+    },
+    "items": [
+      {
+        "id": "digitization",
+        "icon": "FileCheck2",
+        "title": { "en": "Government Service Digitization", "ar": "رقمنة الخدمات الحكومية" },
+        "body": {
+          "en": "Paperless workflow re-engineering, from legal review to a live citizen journey.",
+          "ar": "إعادة هندسة سير العمل بلا أوراق، من المراجعة القانونية إلى رحلة مواطن فعلية."
+        }
+      },
+      {
+        "id": "fintech",
+        "icon": "CreditCard",
+        "title": { "en": "Financial Systems and Core Banking", "ar": "الأنظمة المالية والأنوية المصرفية" },
+        "body": {
+          "en": "Payment gateways, payroll engines, and micro-credit products with full audit trails.",
+          "ar": "بوابات دفع ومحركات رواتب ومنتجات تمويل أصغر مع أثر تدقيقي كامل."
+        }
+      },
+      {
+        "id": "cloud",
+        "icon": "Server",
+        "title": { "en": "High-Concurrency Cloud Platforms", "ar": "منصات سحابية عالية التزامن" },
+        "body": {
+          "en": "Resilient architectures that absorb payday and deadline traffic spikes without degradation.",
+          "ar": "معماريات مرنة تستوعب ذُرى الأحمال في مواعيد الرواتب والمواعيد النهائية دون تدهور."
+        }
+      },
+      {
+        "id": "mobile",
+        "icon": "AppWindow",
+        "title": { "en": "Mobile and Super-App Engineering", "ar": "هندسة الجوال والتطبيقات الشاملة" },
+        "body": {
+          "en": "Native applications and modular mini-app frameworks with shared identity and payments.",
+          "ar": "تطبيقات أصلية وأطر تطبيقات مصغّرة معيارية بهوية ومدفوعات مشتركة."
+        }
+      },
+      {
+        "id": "identity",
+        "icon": "ScanFace",
+        "title": { "en": "Digital Identity and Biometrics", "ar": "الهوية الرقمية والسمات الحيوية" },
+        "body": {
+          "en": "Automated customer verification, electronic signatures, and civil registry integration.",
+          "ar": "تحقق آلي من الهوية، وتوقيع إلكتروني، وتكامل مع سجلات الأحوال المدنية."
+        }
+      },
+      {
+        "id": "sre",
+        "icon": "GaugeCircle",
+        "title": { "en": "Managed Infrastructure and Reliability", "ar": "إدارة البنية التحتية والموثوقية" },
+        "body": {
+          "en": "Continuous observability, tested backups, and ongoing security hardening.",
+          "ar": "مراقبة مستمرة، ونسخ احتياطي مُختبر، وتحصين أمني متواصل."
+        }
+      }
+    ]
+  },
+  "partners": {
+    "eyebrow": { "en": "Partners", "ar": "الشركاء" },
+    "heading": { "en": "Government Mandates, Global Technology", "ar": "تكليف حكومي وتقنية عالمية" },
+    "tracks": [
+      {
+        "id": "government",
+        "title": { "en": "Government Entities", "ar": "الجهات الحكومية" },
+        "direction": "forward",
+        "items": [
+          { "en": "Ministry of Finance", "ar": "وزارة المالية" },
+          { "en": "Ministry of Oil", "ar": "وزارة النفط" },
+          { "en": "Ministry of Communications", "ar": "وزارة الاتصالات" },
+          { "en": "Ministry of Labor", "ar": "وزارة العمل" },
+          { "en": "Ministry of Education", "ar": "وزارة التربية" },
+          { "en": "Ministry of Health", "ar": "وزارة الصحة" },
+          { "en": "Central Bank", "ar": "البنك المركزي" },
+          { "en": "Capital Municipality", "ar": "أمانة العاصمة" },
+          { "en": "Teachers Syndicate", "ar": "نقابة المعلمين" },
+          { "en": "Engineers Syndicate", "ar": "نقابة المهندسين" }
+        ]
+      },
+      {
+        "id": "technology",
+        "title": { "en": "Technology Alliances", "ar": "التحالفات التقنية" },
+        "direction": "reverse",
+        "items": [
+          { "en": "AWS", "ar": "AWS" },
+          { "en": "Oracle", "ar": "Oracle" },
+          { "en": "SAP", "ar": "SAP" },
+          { "en": "Microsoft Azure", "ar": "Microsoft Azure" },
+          { "en": "Red Hat", "ar": "Red Hat" },
+          { "en": "Kubernetes", "ar": "Kubernetes" },
+          { "en": "Elastic", "ar": "Elastic" },
+          { "en": "Mastercard", "ar": "Mastercard" },
+          { "en": "Visa", "ar": "Visa" },
+          { "en": "Qi Card", "ar": "Qi Card" },
+          { "en": "DP World", "ar": "DP World" },
+          { "en": "Dubai Chambers", "ar": "Dubai Chambers" }
+        ]
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": { "en": "Contact", "ar": "اتصل بنا" },
+    "heading": { "en": "Start an Enterprise Engagement", "ar": "ابدأ تعاونًا مؤسسيًا" },
+    "body": {
+      "en": "Send a scope summary and our solution architects respond with a technical assessment and an indicative timeline.",
+      "ar": "أرسل ملخص النطاق ليعود مهندسو الحلول بتقييم تقني وجدول زمني تقديري."
+    },
+    "channels": [
+      {
+        "id": "hq",
+        "icon": "MapPin",
+        "label": { "en": "Headquarters", "ar": "المقر الرئيسي" },
+        "value": "Baghdad Business District, Tower 4"
+      },
+      {
+        "id": "hotline",
+        "icon": "Phone",
+        "label": { "en": "Enterprise hotline", "ar": "الخط المؤسسي" },
+        "value": "+964 780 000 0000",
+        "href": "tel:+9647800000000"
+      },
+      {
+        "id": "email",
+        "icon": "Mail",
+        "label": { "en": "Enterprise email", "ar": "البريد المؤسسي" },
+        "value": "enterprise@techcorp.example",
+        "href": "mailto:enterprise@techcorp.example"
+      },
+      {
+        "id": "pgp",
+        "icon": "KeyRound",
+        "label": { "en": "PGP fingerprint", "ar": "بصمة المفتاح العام" },
+        "value": "9F2A 4C71 88D3 0BE5 1147"
+      }
+    ],
+    "form": {
+      "organization": { "en": "Organization name", "ar": "اسم الجهة" },
+      "sector": { "en": "Sector", "ar": "القطاع" },
+      "sectorPlaceholder": { "en": "Select a sector", "ar": "اختر القطاع" },
+      "sectorOptions": [
+        { "en": "Government", "ar": "حكومي" },
+        { "en": "Banking and finance", "ar": "مصرفي ومالي" },
+        { "en": "Energy", "ar": "طاقة" },
+        { "en": "Health", "ar": "صحة" },
+        { "en": "Education", "ar": "تعليم" },
+        { "en": "Logistics and trade", "ar": "لوجستيات وتجارة" }
+      ],
+      "scope": { "en": "Scope of project", "ar": "نطاق المشروع" },
+      "scopePlaceholder": { "en": "Platform modernization, payments, identity", "ar": "تحديث منصة، مدفوعات، هوية" },
+      "message": { "en": "Message", "ar": "الرسالة" },
+      "messagePlaceholder": {
+        "en": "Describe the current system, expected load, and target timeline.",
+        "ar": "اوصف النظام الحالي والحمل المتوقع والجدول الزمني المستهدف."
+      },
+      "submit": { "en": "Submit request", "ar": "إرسال الطلب" },
+      "submitting": { "en": "Sending", "ar": "جارٍ الإرسال" },
+      "success": {
+        "en": "Request received. An architect will reply within two business days.",
+        "ar": "تم استلام الطلب، وسيرد أحد المهندسين خلال يومي عمل."
+      },
+      "error": {
+        "en": "Please fill in the organization name and message.",
+        "ar": "يرجى إكمال اسم الجهة ونص الرسالة."
+      }
+    }
+  },
+  "footer": {
+    "summary": {
+      "en": "We build and operate the digital infrastructure that public institutions depend on, with the reliability standards those institutions require.",
+      "ar": "نبني ونشغّل البنية الرقمية التي تعتمد عليها المؤسسات العامة، وفق معايير الموثوقية التي تتطلبها."
+    },
+    "columns": [
+      {
+        "id": "platforms",
+        "title": { "en": "Platforms", "ar": "المنصات" },
+        "links": [
+          { "en": "Fuel automation", "ar": "أتمتة الوقود" },
+          { "en": "Smart pension", "ar": "التقاعد الذكي" },
+          { "en": "Instant lending", "ar": "الإقراض الفوري" },
+          { "en": "Digital health", "ar": "الصحة الرقمية" },
+          { "en": "Digital identity", "ar": "الهوية الرقمية" }
+        ]
+      },
+      {
+        "id": "capabilities",
+        "title": { "en": "Capabilities", "ar": "القدرات" },
+        "links": [
+          { "en": "Cloud engineering", "ar": "هندسة السحابة" },
+          { "en": "Core banking", "ar": "الأنوية المصرفية" },
+          { "en": "Biometrics", "ar": "السمات الحيوية" },
+          { "en": "Reliability engineering", "ar": "هندسة الموثوقية" },
+          { "en": "Data governance", "ar": "حكامة البيانات" }
+        ]
+      },
+      {
+        "id": "company",
+        "title": { "en": "Company", "ar": "الشركة" },
+        "links": [
+          { "en": "About us", "ar": "من نحن" },
+          { "en": "Careers", "ar": "الوظائف" },
+          { "en": "Newsroom", "ar": "الأخبار" },
+          { "en": "Partner program", "ar": "برنامج الشركاء" },
+          { "en": "Contact", "ar": "اتصل بنا" }
+        ]
+      }
+    ],
+    "compliance": [
+      { "en": "ISO 27001 aligned", "ar": "متوافق مع أيزو 27001" },
+      { "en": "Data sovereignty", "ar": "سيادة البيانات" },
+      { "en": "PCI DSS scope", "ar": "نطاق معايير الدفع" },
+      { "en": "WCAG 2.1 AA", "ar": "معايير الوصول 2.1 AA" }
+    ],
+    "copyright": {
+      "en": "All rights reserved.",
+      "ar": "جميع الحقوق محفوظة."
+    }
+  }
+}

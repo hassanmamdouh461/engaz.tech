@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-base-950 text-slate-300 antialiased;
+  }
+
+  [dir="rtl"] body {
+    @apply font-arabic;
+  }
+
+  ::selection {
+    @apply bg-accent-neon/30 text-white;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply rounded-2xl border border-slate-800/80 bg-slate-900/40 shadow-xl backdrop-blur-md transition-all duration-300 hover:border-accent-neon/40;
+  }
+
+  /* Same surface without a CSS hover rule, for cards whose hover state Framer Motion drives. */
+  .glass-surface {
+    @apply rounded-2xl border border-slate-800/80 bg-slate-900/40 shadow-xl backdrop-blur-md;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-600 bg-clip-text text-transparent;
+  }
+
+  .glow-pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-accent-neon/30 bg-accent-neon/5 px-4 py-1.5 text-xs font-medium tracking-wide text-cyan-200 shadow-glow;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-glow transition-transform duration-200 hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-neon disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-700/80 bg-slate-900/40 px-6 py-3 text-sm font-semibold text-slate-200 backdrop-blur-md transition-colors duration-200 hover:border-accent-neon/50 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-neon;
+  }
+
+  .field-label {
+    @apply mb-2 block text-xs font-medium uppercase tracking-wider text-slate-400;
+  }
+
+  .field-input {
+    @apply w-full rounded-xl border border-slate-800 bg-base-900/70 px-4 py-3 text-sm text-slate-100 outline-none transition-colors placeholder:text-slate-600 focus:border-accent-neon/60 focus:ring-1 focus:ring-accent-neon/40;
+  }
+}
+
+@layer utilities {
+  .marquee-mask {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 12%,
+      black 88%,
+      transparent
+    );
+  }
+
+  .noise-overlay {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
