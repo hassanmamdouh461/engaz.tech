@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { content } from "@/lib/content";
@@ -20,7 +20,11 @@ type Status =
   | "success"
   | "error"
   | "errorEmail"
-  | "errorSend";
+  | "errorSend"
+  | "errorCooldown";
+
+/** Minimum gap between submissions, to stop accidental double-sends and rapid spam. */
+const COOLDOWN_SECONDS = 30;
 
 export function ContactForm() {
   const { t } = useLocale();
@@ -31,6 +35,22 @@ export function ContactForm() {
   const [sector, setSector] = useState("");
   const [scope, setScope] = useState("");
   const [message, setMessage] = useState("");
+  const [cooldownLeft, setCooldownLeft] = useState(0);
+  // Kept in a ref so the countdown effect does not need to re-run on every tick.
+  const sentAtRef = useRef(0);
+
+  useEffect(() => {
+    if (cooldownLeft <= 0) {
+      return;
+    }
+
+    const timer = window.setInterval(() => {
+      const elapsed = (Date.now() - sentAtRef.current) / 1000;
+      setCooldownLeft(Math.max(0, Math.ceil(COOLDOWN_SECONDS - elapsed)));
+    }, 1000);
+
+    return () => window.clearInterval(timer);
+  }, [cooldownLeft]);
 
   // Info enters from the left, form from the right. Layout is always left-to-right.
   const slideFromStart = useMemo(() => slideInX(-60), []);
@@ -38,6 +58,13 @@ export function ContactForm() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    const elapsed = (Date.now() - sentAtRef.current) / 1000;
+    if (sentAtRef.current > 0 && elapsed < COOLDOWN_SECONDS) {
+      setCooldownLeft(Math.ceil(COOLDOWN_SECONDS - elapsed));
+      setStatus("errorCooldown");
+      return;
+    }
 
     if (!organization.trim() || !message.trim()) {
       setStatus("error");
@@ -66,6 +93,8 @@ export function ContactForm() {
       return;
     }
 
+    sentAtRef.current = Date.now();
+    setCooldownLeft(COOLDOWN_SECONDS);
     setStatus("success");
     setOrganization("");
     setEmail("");
@@ -74,6 +103,8 @@ export function ContactForm() {
     setScope("");
     setMessage("");
   }
+
+  const locked = status === "submitting" || cooldownLeft > 0;
 
   return (
     <Section id="contact">
@@ -238,9 +269,9 @@ export function ContactForm() {
           <div className="flex flex-wrap items-center gap-4">
             <motion.button
               type="submit"
-              disabled={status === "submitting"}
-              whileHover={status === "submitting" ? undefined : { scale: 1.04 }}
-              whileTap={status === "submitting" ? undefined : { scale: 0.97 }}
+              disabled={locked}
+              whileHover={locked ? undefined : { scale: 1.04 }}
+              whileTap={locked ? undefined : { scale: 0.97 }}
               className="btn-primary"
             >
               {status === "submitting" ? (
@@ -248,7 +279,11 @@ export function ContactForm() {
               ) : (
                 <Send className="h-4 w-4" />
               )}
-              {status === "submitting" ? t(form.submitting) : t(form.submit)}
+              {status === "submitting"
+                ? t(form.submitting)
+                : cooldownLeft > 0
+                  ? `${t(form.submit)} (${cooldownLeft}s)`
+                  : t(form.submit)}
             </motion.button>
 
             <p
@@ -264,6 +299,15 @@ export function ContactForm() {
                 >
                   <CheckCircle2 className="h-4 w-4" />
                   {t(form.success)}
+                </motion.span>
+              ) : null}
+              {status === "errorCooldown" ? (
+                <motion.span
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="text-amber-300"
+                >
+                  {t(form.errorCooldown).replace("{seconds}", String(cooldownLeft))}
                 </motion.span>
               ) : null}
               {status === "error" || status === "errorEmail" || status === "errorSend" ? (

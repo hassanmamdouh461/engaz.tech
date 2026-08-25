@@ -165,6 +165,8 @@ export interface SiteContent {
       error: Localized;
       errorEmail: Localized;
       errorSend: Localized;
+      /** Uses a {seconds} placeholder for the remaining wait. */
+      errorCooldown: Localized;
     };
   };
   footer: {

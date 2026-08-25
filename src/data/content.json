@@ -1111,6 +1111,10 @@
       "errorSend": {
         "en": "Sending failed. Please email us directly instead.",
         "ar": "فشل الإرسال، يرجى مراسلتنا بالبريد مباشرة."
+      },
+      "errorCooldown": {
+        "en": "Please wait {seconds}s before sending another message.",
+        "ar": "يرجى الانتظار {seconds} ثانية قبل إرسال رسالة أخرى."
       }
     }
   },
