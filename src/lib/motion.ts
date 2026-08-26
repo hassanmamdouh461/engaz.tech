@@ -31,17 +31,6 @@ export function slideInX(offset: number): Variants {
   };
 }
 
-export const drawPath: Variants = {
-  hidden: { pathLength: 0, opacity: 0 },
-  visible: {
-    pathLength: 1,
-    opacity: 1,
-    transition: {
-      pathLength: { duration: 0.9, ease: "easeInOut" },
-      opacity: { duration: 0.2 },
-    },
-  },
-};
 
 /** Overshoot easing: the signature snap on anything that pops into place. */
 export const backOut = [0.68, -0.55, 0.265, 1.55] as const;
