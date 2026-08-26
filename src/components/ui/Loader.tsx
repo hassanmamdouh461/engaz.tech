@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { content } from "@/lib/content";
+import { markIntroDone } from "@/lib/intro-state";
 import { useLocale } from "@/lib/locale-context";
 import { backOut } from "@/lib/motion";
 
@@ -26,10 +27,14 @@ export function Loader() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setVisible(false);
+      markIntroDone();
       return;
     }
 
-    const timer = window.setTimeout(() => setVisible(false), 1500);
+    const timer = window.setTimeout(() => {
+      setVisible(false);
+      markIntroDone();
+    }, 1500);
     return () => window.clearTimeout(timer);
   }, []);
 

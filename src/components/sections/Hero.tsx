@@ -8,6 +8,7 @@ import { ScrambleText } from "@/components/ui/ScrambleText";
 import { Tape } from "@/components/ui/Tape";
 import { BrandMark } from "@/components/ui/BrandMark";
 import { content } from "@/lib/content";
+import { useIntroDone } from "@/lib/intro-state";
 import { useLocale } from "@/lib/locale-context";
 import { backOut, fadeInUp, staggerContainer } from "@/lib/motion";
 import { useAnchorScroll } from "@/lib/use-anchor-scroll";
@@ -36,38 +37,43 @@ const DECO = [
 export function Hero() {
   const { t, locale } = useLocale();
   const scrollToAnchor = useAnchorScroll();
+  // The entry curtain covers the screen for the first moment, so the decorative
+  // reveals wait for it to clear rather than playing behind it. The copy itself is
+  // never gated: hiding it at first paint leaves nothing contentful to measure.
+  const ready = useIntroDone();
 
   return (
     <section id="home" className="relative px-4 pb-10 pt-8 sm:px-8 sm:pb-14 lg:px-12">
       <div className="mx-auto w-full max-w-7xl">
         <motion.div
           variants={staggerContainer}
-          initial="hidden"
+          initial={false}
           animate="visible"
           className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16"
         >
           <div className="flex flex-col gap-5 sm:gap-6">
-            <motion.p
-              variants={fadeInUp}
-              className="font-mono text-xl font-bold text-ink sm:text-2xl"
-            >
+            <p className="font-mono text-xl font-bold text-ink sm:text-2xl">
               {/* Keyed on locale so the resolve replays in the new language. */}
-              <ScrambleText key={locale} text={t(hero.greeting)} />
-            </motion.p>
+              {ready ? (
+                <ScrambleText key={locale} text={t(hero.greeting)} delay={120} />
+              ) : (
+                t(hero.greeting)
+              )}
+            </p>
 
-            <motion.h1 variants={fadeInUp} className="neo-h1 max-w-2xl">
+            <h1 className="neo-h1 max-w-2xl">
               {t(hero.headlineLead)}{" "}
               <span className="relative inline-block">
                 <span className="relative z-10">{t(hero.headlineAccent)}</span>
                 <motion.span
                   aria-hidden
                   initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
+                  animate={{ scaleX: ready ? 1 : 0 }}
                   transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
                   className="absolute -inset-x-1 bottom-1 top-[55%] -z-0 origin-left bg-brand-yellow"
                 />
               </span>
-            </motion.h1>
+            </h1>
 
             <motion.p
               variants={fadeInUp}
