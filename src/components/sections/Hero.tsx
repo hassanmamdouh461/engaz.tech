@@ -45,39 +45,35 @@ export function Hero() {
 
           <motion.div
             variants={fadeInUp}
-            className="flex flex-wrap items-center justify-center gap-3"
+            className="flex w-full max-w-xs flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center"
           >
-            <span>
-              <motion.a
-                href="#contact"
-                onClick={(event) => {
-                  if (scrollToAnchor("#contact")) {
-                    event.preventDefault();
-                  }
-                }}
-                whileTap={{ scale: 0.97 }}
-                className="btn-primary group"
-              >
-                {t(hero.primaryCta)}
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </motion.a>
-            </span>
+            <motion.a
+              href="#contact"
+              onClick={(event) => {
+                if (scrollToAnchor("#contact")) {
+                  event.preventDefault();
+                }
+              }}
+              whileTap={{ scale: 0.97 }}
+              className="btn-primary group"
+            >
+              {t(hero.primaryCta)}
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </motion.a>
 
-            <span>
-              <motion.a
-                href="#work"
-                onClick={(event) => {
-                  if (scrollToAnchor("#work")) {
-                    event.preventDefault();
-                  }
-                }}
-                whileTap={{ scale: 0.97 }}
-                className="btn-ghost"
-              >
-                <Terminal className="h-4 w-4" />
-                {t(hero.secondaryCta)}
-              </motion.a>
-            </span>
+            <motion.a
+              href="#work"
+              onClick={(event) => {
+                if (scrollToAnchor("#work")) {
+                  event.preventDefault();
+                }
+              }}
+              whileTap={{ scale: 0.97 }}
+              className="btn-ghost"
+            >
+              <Terminal className="h-4 w-4" />
+              {t(hero.secondaryCta)}
+            </motion.a>
           </motion.div>
         </motion.div>
         </div>

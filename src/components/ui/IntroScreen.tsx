@@ -130,12 +130,14 @@ export function IntroScreen() {
             {t(brand.tagline)}
           </motion.p>
 
+          {/* scaleX rather than width: width animation runs on the main thread and
+              forces layout every frame, which Lighthouse flags as non-composited. */}
           <motion.span
             aria-hidden
-            initial={{ width: 0 }}
-            animate={{ width: "7rem" }}
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
             transition={{ delay: 1.4, duration: 1.5, ease: "easeInOut" }}
-            className="relative mt-10 h-0.5 rounded-full bg-gradient-to-r from-transparent via-blue-500 to-transparent"
+            className="relative mt-10 h-0.5 w-28 origin-center rounded-full bg-gradient-to-r from-transparent via-blue-500 to-transparent"
           />
         </motion.div>
       ) : null}

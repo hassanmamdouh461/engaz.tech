@@ -105,7 +105,7 @@ export function EcosystemDiagram() {
                   >
                     <Icon className="h-5 w-5" />
                   </motion.span>
-                  <span className="text-xs font-semibold text-slate-500" dir="ltr">
+                  <span className="text-xs font-semibold text-slate-400" dir="ltr">
                     {`0${index + 1}`}
                   </span>
                 </div>

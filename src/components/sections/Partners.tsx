@@ -25,10 +25,10 @@ export function Partners() {
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
-            className="flex flex-col gap-6"
+            className="flex flex-col gap-4 sm:gap-6"
           >
-            <div className="flex items-center gap-4">
-              <h3 className="whitespace-nowrap text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-slate-500">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <h3 className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-slate-400 sm:whitespace-nowrap sm:tracking-[0.2em]">
                 {t(track.title)}
               </h3>
               {/* Rule fills the remaining width so the label reads as a section marker. */}
@@ -43,13 +43,13 @@ export function Partners() {
               items={track.items.map((item) => (
                 <span
                   key={item.en}
-                  className="flex items-center gap-8 whitespace-nowrap text-2xl font-bold tracking-tight text-slate-400/70 transition-colors duration-200 hover:text-slate-200 sm:text-3xl"
+                  className="flex items-center gap-6 whitespace-nowrap text-xl font-bold tracking-tight text-slate-400/70 transition-colors duration-200 hover:text-slate-200 sm:gap-8 sm:text-3xl"
                 >
                   {t(item)}
                   <span className="h-1.5 w-1.5 rotate-45 bg-blue-500" />
                 </span>
               ))}
-              itemClassName="px-4"
+              itemClassName="px-3 sm:px-4"
             />
           </motion.div>
         ))}

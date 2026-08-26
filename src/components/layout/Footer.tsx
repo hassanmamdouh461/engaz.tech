@@ -6,6 +6,16 @@ import { useLocale } from "@/lib/locale-context";
 
 const { brand, footer } = content;
 
+/**
+ * Footer columns point at the section that answers them. Without this every link
+ * shared one href, which reads to assistive tech as many links with one purpose.
+ */
+const COLUMN_ANCHORS: Record<string, string> = {
+  services: "#services",
+  solutions: "#work",
+  company: "#contact",
+};
+
 export function Footer() {
   const { t } = useLocale();
   const year = new Date().getFullYear();
@@ -46,7 +56,7 @@ export function Footer() {
                   <li key={link.en}>
                     {/* block + py-2 gives each link a ~40px row, tappable on a phone. */}
                     <a
-                      href="#work"
+                      href={COLUMN_ANCHORS[column.id] ?? "#work"}
                       className="block py-2 text-sm text-slate-400 transition-colors hover:text-cyan-300"
                     >
                       {t(link)}
@@ -58,7 +68,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t border-slate-800/80 pt-6 text-xs text-slate-500 sm:mt-12 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-2 border-t border-slate-800/80 pt-6 text-xs text-slate-400 sm:mt-12 sm:flex-row sm:items-center sm:justify-between">
           <p>
             <span dir="ltr">{`© ${year} ${brand.name.en}`}</span> — {t(footer.copyright)}
           </p>

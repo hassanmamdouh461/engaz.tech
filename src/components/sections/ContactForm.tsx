@@ -139,7 +139,7 @@ export function ContactForm() {
                     <Icon className="h-4 w-4" />
                   </span>
                   <div className="min-w-0">
-                    <p className="text-xs uppercase tracking-wider text-slate-500">
+                    <p className="text-xs uppercase tracking-wider text-slate-400">
                       {t(channel.label)}
                     </p>
                     {channel.href ? (
