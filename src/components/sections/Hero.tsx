@@ -26,10 +26,13 @@ export function Hero() {
           animate="visible"
           className="flex flex-col items-center gap-6 text-center sm:gap-7"
         >
-          {/* Keyed on locale so the reveal replays with the new text instead of swapping mid-flight. */}
+          {/* Keyed on locale so the reveal replays with the new text instead of swapping mid-flight.
+              The split words are aria-hidden, so the label carries the whole headline as one
+              sentence for assistive tech and for anything reading the accessible name. */}
           <motion.h1
             key={locale}
             variants={staggerContainer}
+            aria-label={`${t(hero.headlineLead)} ${t(hero.headlineAccent)}`}
             className="max-w-4xl text-balance text-[2rem] font-extrabold leading-[1.15] text-white sm:text-5xl lg:text-6xl"
           >
             <SplitText text={t(hero.headlineLead)} />

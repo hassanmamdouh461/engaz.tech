@@ -5,7 +5,7 @@ import { useLenis } from "lenis/react";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState, type MouseEvent } from "react";
 import { BrandMark } from "@/components/ui/BrandMark";
-import { SlidingTabs } from "@/components/ui/SlidingTabs";
+import { LocaleSwitch } from "@/components/layout/LocaleSwitch";
 import { content } from "@/lib/content";
 import { useLocale } from "@/lib/locale-context";
 import { useAnchorScroll } from "@/lib/use-anchor-scroll";
@@ -13,13 +13,8 @@ import { cn } from "@/lib/cn";
 
 const { brand, nav } = content;
 
-const localeTabs = [
-  { id: "en", label: "EN" },
-  { id: "ar", label: "ع" },
-];
-
 export function Navbar() {
-  const { t, locale, setLocale } = useLocale();
+  const { t, locale } = useLocale();
   const scrollToAnchor = useAnchorScroll();
   const lenis = useLenis();
   const [open, setOpen] = useState(false);
@@ -116,14 +111,7 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <SlidingTabs
-              options={localeTabs}
-              activeId={locale}
-              onChange={(id) => setLocale(id === "ar" ? "ar" : "en")}
-              layoutId="activeTab"
-              ariaLabel={t(nav.languageToggle)}
-              className="!p-0.5"
-            />
+            <LocaleSwitch locale={locale} ariaLabel={t(nav.languageToggle)} />
             <a
               href="#contact"
               onClick={(event) => handleAnchorClick(event, "#contact")}

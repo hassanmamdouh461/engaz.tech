@@ -1,58 +1,45 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useContext, useEffect, useMemo, type ReactNode } from "react";
+import { HREFLANG, LOCALE_PATH } from "./seo";
 import type { Locale, Localized } from "./types";
-
-const STORAGE_KEY = "techcorp.locale";
 
 interface LocaleContextValue {
   locale: Locale;
-  setLocale: (next: Locale) => void;
-  toggleLocale: () => void;
+  /** The other locale, and the route that serves it. */
+  alternate: { locale: Locale; href: string };
   t: (value: Localized) => string;
 }
 
 const LocaleContext = createContext<LocaleContextValue | null>(null);
 
-export function LocaleProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocale] = useState<Locale>("en");
-
-  useEffect(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored === "en" || stored === "ar") {
-      setLocale(stored);
-    }
-  }, []);
-
+/**
+ * The locale is decided by the route, not by client state: `/` serves English and
+ * `/ar` serves Arabic. Crawlers then get real translated markup at each URL instead
+ * of one page that rewrites itself after hydration.
+ */
+export function LocaleProvider({
+  locale,
+  children,
+}: {
+  locale: Locale;
+  children: ReactNode;
+}) {
   useEffect(() => {
     // Language changes the text and the font, never the layout direction:
     // the document stays left-to-right so switching locales only translates.
-    document.documentElement.lang = locale;
+    document.documentElement.lang = HREFLANG[locale];
     document.documentElement.dir = "ltr";
-    window.localStorage.setItem(STORAGE_KEY, locale);
   }, [locale]);
 
-  const toggleLocale = useCallback(() => {
-    setLocale((current) => (current === "en" ? "ar" : "en"));
-  }, []);
-
-  const value = useMemo<LocaleContextValue>(
-    () => ({
+  const value = useMemo<LocaleContextValue>(() => {
+    const other: Locale = locale === "en" ? "ar" : "en";
+    return {
       locale,
-      setLocale,
-      toggleLocale,
+      alternate: { locale: other, href: LOCALE_PATH[other] },
       t: (localized: Localized) => localized[locale],
-    }),
-    [locale, toggleLocale],
-  );
+    };
+  }, [locale]);
 
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;
 }
