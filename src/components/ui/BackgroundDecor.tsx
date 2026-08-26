@@ -4,57 +4,21 @@ export function BackgroundDecor() {
       <div className="absolute inset-0 bg-base-950" />
       <div className="absolute inset-0 bg-grid-faint [background-size:64px_64px] opacity-60" />
 
-      {/* Blurred SVG auras drifting on long, offset loops so the background never looks static. */}
-      <svg
-        className="absolute left-1/2 top-1/2 h-[160vmax] w-[160vmax] -translate-x-1/2 -translate-y-1/2"
-        viewBox="0 0 1000 1000"
-        preserveAspectRatio="xMidYMid slice"
-      >
-        <defs>
-          <radialGradient id="auraCyan" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#00f0ff" stopOpacity="0.30" />
-            <stop offset="100%" stopColor="#00f0ff" stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id="auraBlue" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#0284c7" stopOpacity="0.32" />
-            <stop offset="100%" stopColor="#0284c7" stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id="auraSky" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.24" />
-            <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
-          </radialGradient>
-          <filter id="auraBlur" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="55" />
-          </filter>
-        </defs>
-
-        <g filter="url(#auraBlur)">
-          <ellipse
-            cx="230"
-            cy="220"
-            rx="290"
-            ry="240"
-            fill="url(#auraCyan)"
-            className="animate-drift-a"
-          />
-          <ellipse
-            cx="790"
-            cy="380"
-            rx="320"
-            ry="270"
-            fill="url(#auraBlue)"
-            className="animate-drift-b"
-          />
-          <ellipse
-            cx="480"
-            cy="800"
-            rx="300"
-            ry="230"
-            fill="url(#auraSky)"
-            className="animate-drift-c"
-          />
-        </g>
-      </svg>
+      {/*
+        Drifting auras as plain divs rather than filtered SVG ellipses. A transform
+        animation inside an SVG that carries a filter cannot be handed to the
+        compositor, so it ran on the main thread every frame; CSS blur on a div can.
+        will-change keeps each orb on its own layer for the whole loop.
+      */}
+      <div
+        className="animate-drift-a absolute left-[-10%] top-[-10%] h-[60vmax] w-[60vmax] rounded-full bg-[radial-gradient(circle,rgba(0,240,255,0.18),transparent_70%)] blur-[80px] will-change-transform"
+      />
+      <div
+        className="animate-drift-b absolute right-[-15%] top-[20%] h-[65vmax] w-[65vmax] rounded-full bg-[radial-gradient(circle,rgba(2,132,199,0.20),transparent_70%)] blur-[90px] will-change-transform"
+      />
+      <div
+        className="animate-drift-c absolute bottom-[-15%] left-[20%] h-[55vmax] w-[55vmax] rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.14),transparent_70%)] blur-[85px] will-change-transform"
+      />
 
       <div className="absolute inset-0 noise-overlay opacity-[0.035] mix-blend-soft-light" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-base-950/40 to-base-950" />

@@ -16,6 +16,19 @@ const COLUMN_ANCHORS: Record<string, string> = {
   company: "#contact",
 };
 
+/**
+ * Some footer entries repeat a nav label verbatim. Two links with the same text
+ * must resolve to the same place, or assistive tech reports conflicting purposes,
+ * so these take the nav target instead of the column default.
+ */
+const LINK_ANCHORS = new Map(
+  content.nav.links.map((link) => [link.label.en.toLowerCase(), link.href]),
+);
+
+function resolveHref(columnId: string, label: string): string {
+  return LINK_ANCHORS.get(label.toLowerCase()) ?? COLUMN_ANCHORS[columnId] ?? "#work";
+}
+
 export function Footer() {
   const { t } = useLocale();
   const year = new Date().getFullYear();
@@ -56,7 +69,7 @@ export function Footer() {
                   <li key={link.en}>
                     {/* block + py-2 gives each link a ~40px row, tappable on a phone. */}
                     <a
-                      href={COLUMN_ANCHORS[column.id] ?? "#work"}
+                      href={resolveHref(column.id, link.en)}
                       className="block py-2 text-sm text-slate-400 transition-colors hover:text-cyan-300"
                     >
                       {t(link)}
