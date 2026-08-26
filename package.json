@@ -27,5 +27,11 @@
     "tailwindcss": "3.4.15",
     "typescript": "5.6.3",
     "wrangler": "^4.125.0"
-  }
+  },
+  "browserslist": [
+    "chrome >= 111",
+    "safari >= 16.4",
+    "firefox >= 128",
+    "edge >= 111"
+  ]
 }

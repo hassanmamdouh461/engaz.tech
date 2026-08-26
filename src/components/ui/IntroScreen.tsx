@@ -20,7 +20,7 @@ const piece = (fromX: number, fromY: number, rotate: number): Variants => ({
     y: 0,
     rotate: 0,
     scale: 1,
-    transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
   },
 });
 
@@ -41,7 +41,7 @@ export function IntroScreen() {
 
     setVisible(true);
 
-    const timer = window.setTimeout(() => setVisible(false), 3100);
+    const timer = window.setTimeout(() => setVisible(false), 1500);
     return () => window.clearTimeout(timer);
   }, []);
 
@@ -67,21 +67,21 @@ export function IntroScreen() {
         <motion.div
           role="presentation"
           // Scales up and clears as it fades, so the site appears to emerge from behind it.
-          exit={{ opacity: 0, scale: 1.08, transition: { duration: 0.75, ease: [0.7, 0, 0.84, 0] } }}
+          exit={{ opacity: 0, scale: 1.05, transition: { duration: 0.45, ease: [0.7, 0, 0.84, 0] } }}
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-base-950 px-6"
         >
           <motion.div
             aria-hidden
             initial={{ opacity: 0, scale: 0.6 }}
             animate={{ opacity: [0, 0.5, 0.3], scale: [0.6, 1.2, 1] }}
-            transition={{ duration: 2.4, ease: "easeOut" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
             className="absolute h-64 w-64 rounded-full bg-blue-500/25 blur-[90px] sm:h-80 sm:w-80"
           />
 
           <motion.div
             initial="hidden"
             animate="visible"
-            transition={{ staggerChildren: 0.16, delayChildren: 0.1 }}
+            transition={{ staggerChildren: 0.08, delayChildren: 0.05 }}
             className="relative"
           >
             <svg
@@ -104,24 +104,19 @@ export function IntroScreen() {
               aria-hidden
               initial={{ opacity: 0, scale: 0.4 }}
               animate={{ opacity: [0, 0.7, 0], scale: [0.4, 1.5, 1.9] }}
-              transition={{ delay: 1.15, duration: 0.9, ease: "easeOut" }}
+              transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
               className="pointer-events-none absolute inset-0 rounded-full bg-blue-400/30 blur-2xl"
             />
           </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.3, duration: 0.7, ease: "easeOut" }}
-            className="relative mt-6 text-2xl font-extrabold tracking-tight text-white sm:mt-8 sm:text-4xl"
-          >
+          <p className="relative mt-6 text-2xl font-extrabold tracking-tight text-white sm:mt-8 sm:text-4xl">
             {t(brand.name)}
-          </motion.p>
+          </p>
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.55, duration: 0.7 }}
+            transition={{ delay: 0.35, duration: 0.5 }}
             className="relative mt-3 text-center text-sm text-slate-400 sm:text-base"
           >
             {t(brand.tagline)}
@@ -133,7 +128,7 @@ export function IntroScreen() {
             aria-hidden
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ delay: 1.4, duration: 1.5, ease: "easeInOut" }}
+            transition={{ delay: 0.5, duration: 0.8, ease: "easeInOut" }}
             className="relative mt-10 h-0.5 w-28 origin-center rounded-full bg-gradient-to-r from-transparent via-blue-500 to-transparent"
           />
         </motion.div>
