@@ -48,6 +48,19 @@
     @apply font-arabic;
   }
 
+  /* Arabic runs right-to-left at the text level while the page layout stays
+     left-to-right. Without this, trailing punctuation and comma-led clauses are
+     reordered by the bidi algorithm and appear at the wrong end of the sentence. */
+  html[lang^="ar"] :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, label, blockquote) {
+    direction: rtl;
+  }
+
+  /* Latin-only values must not be reordered inside an Arabic paragraph. */
+  html[lang^="ar"] [dir="ltr"] {
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
   ::selection {
     @apply bg-brand-yellow text-black;
   }
