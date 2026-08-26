@@ -5,22 +5,22 @@ export function BackgroundDecor() {
       <div className="absolute inset-0 bg-grid-faint [background-size:64px_64px] opacity-60" />
 
       {/*
-        Drifting auras as plain divs rather than filtered SVG ellipses. A transform
-        animation inside an SVG that carries a filter cannot be handed to the
-        compositor, so it ran on the main thread every frame; CSS blur on a div can.
-        will-change keeps each orb on its own layer for the whole loop.
+        One static pre-blurred gradient layer instead of three animated blur-filtered
+        orbs. A large CSS blur radius forces the compositor to re-rasterize the layer on
+        every frame of the drift loop; that per-frame raster dominated Style & Layout in
+        the trace. Painting the same look once costs nothing after first paint.
       */}
       <div
-        className="animate-drift-a absolute left-[-10%] top-[-10%] h-[60vmax] w-[60vmax] rounded-full bg-[radial-gradient(circle,rgba(0,240,255,0.18),transparent_70%)] blur-[80px] will-change-transform"
-      />
-      <div
-        className="animate-drift-b absolute right-[-15%] top-[20%] h-[65vmax] w-[65vmax] rounded-full bg-[radial-gradient(circle,rgba(2,132,199,0.20),transparent_70%)] blur-[90px] will-change-transform"
-      />
-      <div
-        className="animate-drift-c absolute bottom-[-15%] left-[20%] h-[55vmax] w-[55vmax] rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.14),transparent_70%)] blur-[85px] will-change-transform"
+        className="absolute inset-0"
+        style={{
+          backgroundImage: [
+            "radial-gradient(60% 50% at 10% 6%, rgba(0,240,255,0.16), transparent 70%)",
+            "radial-gradient(65% 55% at 90% 28%, rgba(2,132,199,0.18), transparent 70%)",
+            "radial-gradient(55% 45% at 30% 94%, rgba(56,189,248,0.12), transparent 70%)",
+          ].join(","),
+        }}
       />
 
-      <div className="absolute inset-0 noise-overlay opacity-[0.035] mix-blend-soft-light" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-base-950/40 to-base-950" />
     </div>
   );
