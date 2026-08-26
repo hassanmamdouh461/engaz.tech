@@ -8,8 +8,6 @@ import { useLocale } from "@/lib/locale-context";
 
 const { brand } = content;
 
-const SESSION_KEY = "engaz.introSeen";
-
 /**
  * Each of the three glyph strokes flies in from its own direction and settles into
  * place, so the mark reads as being assembled rather than faded in.
@@ -37,12 +35,11 @@ export function IntroScreen() {
 
   useEffect(() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion || window.sessionStorage.getItem(SESSION_KEY) === "1") {
+    if (reduceMotion) {
       return;
     }
 
     setVisible(true);
-    window.sessionStorage.setItem(SESSION_KEY, "1");
 
     const timer = window.setTimeout(() => setVisible(false), 3100);
     return () => window.clearTimeout(timer);
