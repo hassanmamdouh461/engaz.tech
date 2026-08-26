@@ -61,11 +61,14 @@ export function useTheme(): ThemeContextValue {
 }
 
 /**
- * Runs before first paint: reads the stored choice, falls back to the OS setting.
- * Rendered in <head> so no themed pixel is ever painted with the wrong palette.
+ * Runs before first paint so no themed pixel is painted with the wrong palette.
+ *
+ * Light is the default regardless of the visitor's OS setting: this design is built
+ * on black ink and offset shadows over paper, and that is the intended first
+ * impression. Anyone who prefers dark can switch, and the choice is remembered.
  */
 export function ThemeScript() {
-  const script = `(function(){try{var s=localStorage.getItem("${STORAGE_KEY}");var t=s==="dark"||s==="light"?s:(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","light");}})();`;
+  const script = `(function(){try{var s=localStorage.getItem("${STORAGE_KEY}");document.documentElement.setAttribute("data-theme",s==="dark"?"dark":"light");}catch(e){document.documentElement.setAttribute("data-theme","light");}})();`;
 
   return <script dangerouslySetInnerHTML={{ __html: script }} />;
 }
