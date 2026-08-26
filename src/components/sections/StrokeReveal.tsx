@@ -60,11 +60,14 @@ export function StrokeReveal() {
 
       const timeline = gsap.timeline();
 
+      // Eight viewports on a desktop reads as deliberate; on a phone the same
+      // sequence becomes an interminable swipe, so the pin is shorter there.
+      const viewports = window.innerWidth < 768 ? 4 : 8;
+
       ScrollTrigger.create({
         trigger: section,
         start: "top top",
-        // Eight viewports of scroll: enough for the sequence to read as deliberate.
-        end: () => `+=${window.innerHeight * 8}`,
+        end: () => `+=${window.innerHeight * viewports}`,
         pin: true,
         pinSpacing: true,
         scrub: 1,
@@ -119,17 +122,19 @@ export function StrokeReveal() {
       className="group/stroke relative h-svh w-full overflow-hidden bg-[#e3e3db] transition-colors duration-500 data-[phase=out]:bg-[#141414]"
     >
       {/* Two headlines occupy the same spot; the phase attribute decides which shows. */}
-      <h2 className="absolute left-1/2 top-1/2 z-10 w-[90%] -translate-x-1/2 -translate-y-1/2 text-center text-3xl font-bold uppercase leading-[0.9] text-black group-data-[phase=out]/stroke:hidden sm:w-1/2 sm:text-5xl lg:text-6xl">
+      <h2 className="absolute left-1/2 top-1/2 z-10 w-[86%] -translate-x-1/2 -translate-y-1/2 text-center text-xl font-bold uppercase leading-[0.95] text-black group-data-[phase=out]/stroke:hidden xs:text-2xl sm:w-3/4 sm:text-4xl lg:w-1/2 lg:text-6xl">
         {t(hero.headlineLead)}
       </h2>
-      <h2 className="absolute left-1/2 top-1/2 z-10 hidden w-[90%] -translate-x-1/2 -translate-y-1/2 text-center text-3xl font-bold uppercase leading-[0.9] text-white group-data-[phase=out]/stroke:block sm:w-1/2 sm:text-5xl lg:text-6xl">
+      <h2 className="absolute left-1/2 top-1/2 z-10 hidden w-[86%] -translate-x-1/2 -translate-y-1/2 text-center text-xl font-bold uppercase leading-[0.95] text-white group-data-[phase=out]/stroke:block xs:text-2xl sm:w-3/4 sm:text-4xl lg:w-1/2 lg:text-6xl">
         {t(hero.headlineAccent)}
       </h2>
 
-      {/* Overscaled so the strokes read as slabs crossing the frame, not as lines. */}
+      {/* Overscaled so the strokes read as slabs crossing the frame, not as lines.
+          A phone needs far more overscale than a desktop for the same read, because
+          the slab thickness is set by the viewport height, not its width. */}
       <div
         aria-hidden
-        className="absolute left-1/2 top-1/2 flex h-svh w-[1000%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center sm:w-[300%]"
+        className="absolute left-1/2 top-1/2 flex h-svh w-[1200%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center sm:w-[600%] lg:w-[300%]"
       >
         {ROWS.map((row) => (
           <div key={row.id} className="stroke-row relative h-full w-full flex-1 will-change-transform">
@@ -165,7 +170,7 @@ export function StrokeReveal() {
 
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 flex h-svh w-[1000%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center sm:w-[300%]"
+        className="pointer-events-none absolute left-1/2 top-1/2 flex h-svh w-[1200%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center sm:w-[600%] lg:w-[300%]"
       >
         <div className="relative h-full w-full flex-1" />
         <div className="relative h-full w-full flex-1">

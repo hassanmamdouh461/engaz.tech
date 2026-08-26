@@ -74,12 +74,13 @@
   /* ---- Buttons -------------------------------------------------------- */
 
   /* The press: the element travels the full shadow offset and the shadow
-     collapses, so the surface appears to meet the page. */
+     collapses, so the surface appears to meet the page. min-h is 44px, the
+     smallest reliable touch target. */
   .neo-btn {
     @apply inline-flex min-h-[2.75rem] items-center justify-center gap-2 rounded-md border-3
-      border-edge px-6 py-3 text-base font-bold text-black shadow-neo-4 transition-all
+      border-edge px-4 py-2.5 text-sm font-bold text-black shadow-neo-4 transition-all
       duration-200 hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-neo-0
-      active:translate-x-[4px] active:translate-y-[4px];
+      active:translate-x-[4px] active:translate-y-[4px] sm:px-6 sm:py-3 sm:text-base;
   }
 
   .neo-btn-primary {
@@ -101,11 +102,12 @@
       active:translate-x-[3px] active:translate-y-[3px];
   }
 
-  /* Square icon button. */
+  /* Square icon button. Narrower on a phone, where three of these share the header
+     row with the wordmark. */
   .neo-icon-btn {
-    @apply inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border-3
+    @apply inline-flex h-11 w-9 shrink-0 items-center justify-center rounded-md border-3
       border-edge bg-surface text-ink shadow-neo-3 transition-all duration-200
-      hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-neo-0;
+      hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-neo-0 sm:w-11;
   }
 
   /* ---- Chips ---------------------------------------------------------- */
@@ -118,9 +120,10 @@
 
   /* Raised, interactive chip. */
   .neo-tag {
-    @apply inline-flex items-center gap-2 border-3 border-edge bg-surface px-[1.15rem]
-      py-[0.65rem] text-sm font-semibold text-ink shadow-neo-3 transition-all duration-200
-      hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-neo-0;
+    @apply inline-flex items-center gap-2 border-3 border-edge bg-surface px-3 py-2
+      text-xs font-semibold text-ink shadow-neo-3 transition-all duration-200
+      hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-neo-0
+      sm:px-[1.15rem] sm:py-[0.65rem] sm:text-sm;
   }
 
   /* ---- Fields --------------------------------------------------------- */
@@ -136,22 +139,25 @@
       focus:translate-x-[4px] focus:translate-y-[4px] focus:shadow-neo-0 sm:text-sm;
   }
 
-  /* ---- Type ----------------------------------------------------------- */
+  /* ---- Type -----------------------------------------------------------
+     Three steps rather than two. Jumping straight from the phone size to the
+     desktop size leaves tablets rendering headline type meant for a 400px
+     column across a 700px one. */
 
   .neo-h1 {
-    @apply text-[2rem] font-bold leading-[1.1] text-ink sm:text-5xl lg:text-[3.5rem];
+    @apply text-[1.75rem] font-bold leading-[1.12] text-ink xs:text-[2rem] sm:text-4xl md:text-5xl lg:text-[3.5rem];
   }
 
   .neo-h2 {
-    @apply text-2xl font-bold uppercase leading-[1.1] tracking-[-0.5px] text-ink sm:text-4xl lg:text-5xl;
+    @apply text-xl font-bold uppercase leading-[1.12] tracking-[-0.5px] text-ink xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
   }
 
   .neo-h3 {
-    @apply text-xl font-bold uppercase tracking-[-0.5px] text-ink sm:text-2xl;
+    @apply text-base font-bold uppercase tracking-[-0.5px] text-ink xs:text-lg sm:text-xl lg:text-2xl;
   }
 
   .neo-meta {
-    @apply font-mono text-sm text-ink/70;
+    @apply font-mono text-xs text-ink/70 sm:text-sm;
   }
 }
 

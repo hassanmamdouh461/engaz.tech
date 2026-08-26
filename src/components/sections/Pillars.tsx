@@ -28,7 +28,7 @@ export function Pillars() {
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="mt-10 grid gap-6 sm:mt-14 md:grid-cols-2 md:gap-8"
+        className="mt-8 grid gap-4 sm:mt-12 sm:gap-6 md:grid-cols-2 lg:gap-8"
       >
         {pillars.items.map((item, index) => (
           <li key={item.id} className="h-full">

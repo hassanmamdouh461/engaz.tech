@@ -58,30 +58,32 @@ export function NeoCard({
   return (
     <motion.article
       variants={dropIn(index % 2 === 0 ? -1.5 : 1.5)}
-      whileHover={press(8)}
+      whileHover={press(6)}
       className={cn(
-        "relative flex h-full flex-col overflow-hidden border-4 border-edge p-5 shadow-neo-8 sm:p-7",
+        "relative flex h-full flex-col overflow-hidden border-3 border-edge p-4 shadow-neo-4 xs:p-5 sm:border-4 sm:p-7 sm:shadow-neo-8",
         filled ? "bg-brand-yellow text-black" : "bg-surface text-ink",
         className,
       )}
     >
       <span aria-hidden className={cn("absolute inset-x-0 top-0 h-1.5", STRIPE[tone])} />
 
-      <div className="flex items-center gap-4 border-b-4 border-edge pb-4">
+      <div className="flex items-center gap-3 border-b-3 border-edge pb-3 sm:gap-4 sm:border-b-4 sm:pb-4">
         {Icon ? (
           <Icon
             aria-hidden
-            className={cn("h-10 w-10 shrink-0 sm:h-12 sm:w-12", filled ? "text-black" : ICON[tone])}
+            className={cn("h-8 w-8 shrink-0 sm:h-12 sm:w-12", filled ? "text-black" : ICON[tone])}
           />
         ) : null}
         <h3 className="neo-h3">{title}</h3>
       </div>
 
       {body ? (
-        <p className="mt-4 text-sm leading-relaxed text-current opacity-80 sm:text-base">{body}</p>
+        <p className="mt-3 text-sm leading-relaxed text-current opacity-80 sm:mt-4 sm:text-base">
+          {body}
+        </p>
       ) : null}
 
-      {footer ? <div className="mt-5">{footer}</div> : null}
+      {footer ? <div className="mt-4 sm:mt-5">{footer}</div> : null}
     </motion.article>
   );
 }

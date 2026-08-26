@@ -61,41 +61,41 @@ export function Navbar() {
     <motion.header
       animate={{ y: hidden && !open ? "-140%" : 0 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="sticky top-[15px] z-[60] mx-[10px] mt-[10px] sm:mx-[15px] sm:mt-[15px]"
+      className="sticky top-2 z-[60] mx-1.5 mt-1.5 sm:top-[15px] sm:mx-3 sm:mt-3 lg:mx-[15px] lg:mt-[15px]"
     >
-      <div className="border-4 border-edge bg-brand-yellow shadow-neo-8">
-        <div className="flex items-center justify-between gap-3 px-3 py-2 sm:px-4">
+      <div className="border-3 border-edge bg-brand-yellow shadow-neo-4 sm:border-4 sm:shadow-neo-8">
+        <div className="flex items-center justify-between gap-2 px-2 py-1.5 sm:gap-3 sm:px-4 sm:py-2">
           <a
             href="#home"
             onClick={(event) => handleAnchorClick(event, "#home")}
-            className="flex items-center gap-2 rounded-md border-3 border-edge bg-brand-cyan px-2 py-1 text-black shadow-neo-3 transition-all duration-200 hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-neo-0 sm:gap-3 sm:px-3"
+            className="flex shrink-0 items-center gap-1.5 rounded-md border-3 border-edge bg-brand-cyan px-1.5 py-1 text-black shadow-neo-3 transition-all duration-200 hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-neo-0 sm:gap-3 sm:px-3"
           >
-            <BrandMark className="h-6 w-6 sm:h-7 sm:w-7" />
-            <span className="text-lg font-bold tracking-tight sm:text-xl">
+            <BrandMark className="h-5 w-5 sm:h-7 sm:w-7" />
+            <span className="text-base font-bold tracking-tight xs:text-lg sm:text-xl">
               {t(brand.name)}
             </span>
           </a>
 
-          <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex">
+          <nav aria-label="Primary" className="hidden items-center gap-4 lg:flex xl:gap-6">
             {nav.links.map((link) => (
               <a
                 key={link.id}
                 href={link.href}
                 onClick={(event) => handleAnchorClick(event, link.href)}
-                className="origin-bottom-right text-base font-semibold text-black transition-transform duration-200 hover:-translate-y-[3px] hover:-rotate-2 hover:scale-110"
+                className="origin-bottom-right whitespace-nowrap text-sm font-semibold text-black transition-transform duration-200 hover:-translate-y-[3px] hover:-rotate-2 hover:scale-110 xl:text-base"
               >
                 {t(link.label)}
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
             <LocaleSwitch locale={locale} ariaLabel={t(nav.languageToggle)} />
             <ThemeToggle />
             <a
               href="#contact"
               onClick={(event) => handleAnchorClick(event, "#contact")}
-              className="neo-btn-sm hidden bg-brand-cyan sm:inline-flex"
+              className="neo-btn-sm hidden whitespace-nowrap bg-brand-cyan md:inline-flex"
             >
               {t(nav.cta)}
             </a>
@@ -119,12 +119,13 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-2 overflow-hidden border-4 border-edge bg-surface shadow-neo-8 lg:hidden"
+            className="mt-1.5 overflow-hidden border-3 border-edge bg-surface shadow-neo-4 sm:mt-2 sm:border-4 sm:shadow-neo-8 lg:hidden"
           >
-            {/* Capped to the viewport minus the header so the call to action stays reachable in landscape. */}
+            {/* Capped to the viewport minus the header so the call to action stays
+                reachable in landscape, where the whole list is taller than the screen. */}
             <nav
               aria-label="Mobile"
-              className="flex max-h-[calc(100svh-8rem)] flex-col gap-1 overflow-y-auto p-3"
+              className="flex max-h-[calc(100svh-7rem)] flex-col gap-1 overflow-y-auto p-2 sm:p-3"
             >
               {nav.links.map((link, index) => (
                 <motion.a

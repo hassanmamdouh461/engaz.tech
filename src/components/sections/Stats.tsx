@@ -47,12 +47,12 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
       {/* The animated figure is hidden from assistive tech; the real one sits beside it. */}
       <motion.span
         aria-hidden
-        className="text-4xl font-bold leading-none tabular-nums sm:text-5xl lg:text-6xl"
+        className="text-3xl font-bold leading-none tabular-nums xs:text-4xl sm:text-5xl lg:text-6xl"
       >
         {rounded}
       </motion.span>
       <span className="sr-only">{value.toLocaleString("en-US")}</span>
-      <span className="mt-1 text-xl font-bold sm:text-2xl">{suffix}</span>
+      <span className="mt-0.5 text-lg font-bold sm:mt-1 sm:text-2xl">{suffix}</span>
     </span>
   );
 }
@@ -69,12 +69,14 @@ export function Stats() {
         accent="mint"
       />
 
+      {/* Two up on a phone rather than one: these are short figures, and a single
+          column turns four of them into a lot of scrolling for little content. */}
       <motion.ul
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="mt-10 grid gap-6 sm:mt-14 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4"
+        className="mt-8 grid grid-cols-2 gap-3 xs:gap-4 sm:mt-12 sm:gap-6 lg:grid-cols-4 lg:gap-8"
       >
         {stats.cards.map((card, index) => (
           <li key={card.id} className="h-full">
@@ -82,19 +84,21 @@ export function Stats() {
               variants={dropIn(TILT[index % TILT.length])}
               whileHover={press(6)}
               className={cn(
-                "relative flex h-full flex-col items-center justify-center gap-2 border-3 border-edge px-4 py-8 text-center text-black shadow-neo-6",
+                "relative flex h-full flex-col items-center justify-center gap-1.5 border-3 border-edge px-2 py-6 text-center text-black shadow-neo-4 sm:gap-2 sm:px-4 sm:py-8 sm:shadow-neo-6",
                 TONES[index % TONES.length],
               )}
             >
-              <Tape className="-top-3 end-4 h-7 w-16 rotate-[14deg]" />
+              <Tape className="-top-3 end-3 h-6 w-14 rotate-[14deg] sm:end-4 sm:h-7 sm:w-16" />
 
-              <p className="font-mono text-xs font-bold uppercase tracking-widest">
+              <p className="font-mono text-[0.6rem] font-bold uppercase tracking-widest xs:text-xs">
                 {t(card.caption)}
               </p>
 
               <Counter value={card.value} suffix={card.suffix} />
 
-              <p className="mt-1 text-sm font-semibold leading-snug">{t(card.label)}</p>
+              <p className="mt-0.5 text-xs font-semibold leading-snug xs:text-sm">
+                {t(card.label)}
+              </p>
             </motion.div>
           </li>
         ))}

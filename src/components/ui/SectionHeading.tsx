@@ -51,7 +51,7 @@ export function SectionHeading({
         <motion.span
           variants={fadeInUp}
           className={cn(
-            "inline-block -rotate-1 border-3 border-edge px-3 py-1 font-mono text-xs font-bold uppercase tracking-[0.2em] text-black shadow-neo-3",
+            "inline-block -rotate-1 border-3 border-edge px-2.5 py-1 font-mono text-[0.65rem] font-bold uppercase tracking-[0.15em] text-black shadow-neo-3 sm:px-3 sm:text-xs sm:tracking-[0.2em]",
             SLAB[accent],
           )}
         >
@@ -66,7 +66,7 @@ export function SectionHeading({
       {body ? (
         <motion.p
           variants={fadeInUp}
-          className="max-w-2xl text-base leading-relaxed text-ink/80 sm:text-lg"
+          className="max-w-2xl text-sm leading-relaxed text-ink/80 xs:text-base sm:text-lg"
         >
           <MarkedText text={body} />
         </motion.p>

@@ -131,11 +131,14 @@ export function ContactForm() {
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="mt-10 grid gap-6 sm:mt-14 sm:gap-8 lg:grid-cols-[0.8fr_1.2fr]"
+        className="mt-8 grid gap-6 sm:mt-12 sm:gap-8 lg:grid-cols-[0.8fr_1.2fr]"
       >
         {/* Channels are sticky notes: each tilted at rest, straightening and lifting
             out from under its tape on hover. */}
-        <motion.ul variants={slideFromStart} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
+        <motion.ul
+          variants={slideFromStart}
+          className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-1"
+        >
           {contact.channels.map((channel, index) => {
             const Icon = resolveIcon(channel.icon);
             const tone = NOTE_TONE[index % NOTE_TONE.length];
@@ -144,7 +147,7 @@ export function ContactForm() {
             return (
               <li key={channel.id} className="relative">
                 <Tape
-                  className="-top-3 end-2 z-10 h-7 w-[70px]"
+                  className="-top-3 end-2 z-10 h-6 w-14 sm:h-7 sm:w-[70px]"
                   style={{ transform: `rotate(${15 + tilt}deg)` }}
                 />
                 <motion.a
@@ -153,11 +156,16 @@ export function ContactForm() {
                   initial={{ rotate: tilt }}
                   whileHover={lift}
                   whileFocus={lift}
-                  className={`flex min-h-[7rem] flex-col items-center justify-center gap-1 border-3 border-edge px-4 py-5 text-center text-black shadow-neo-6 ${tone}`}
+                  className={`flex min-h-[6rem] flex-col items-center justify-center gap-1 border-3 border-edge px-2 py-4 text-center text-black shadow-neo-4 sm:min-h-[7rem] sm:px-4 sm:py-5 sm:shadow-neo-6 ${tone}`}
                 >
-                  <Icon aria-hidden className="h-7 w-7" />
-                  <span className="font-hand text-lg font-bold">{t(channel.label)}</span>
-                  <span dir="ltr" className="max-w-full truncate font-mono text-sm font-semibold">
+                  <Icon aria-hidden className="h-6 w-6 sm:h-7 sm:w-7" />
+                  <span className="font-hand text-base font-bold sm:text-lg">
+                    {t(channel.label)}
+                  </span>
+                  <span
+                    dir="ltr"
+                    className="max-w-full truncate font-mono text-[0.7rem] font-semibold sm:text-sm"
+                  >
                     {channel.value}
                   </span>
                 </motion.a>
@@ -170,9 +178,9 @@ export function ContactForm() {
           variants={slideFromEnd}
           onSubmit={handleSubmit}
           noValidate
-          className="flex flex-col gap-5 border-4 border-edge bg-surface p-5 shadow-neo-8 sm:p-7"
+          className="flex flex-col gap-4 border-3 border-edge bg-surface p-4 shadow-neo-4 xs:p-5 sm:gap-5 sm:border-4 sm:p-7 sm:shadow-neo-8"
         >
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
             <div>
               <label htmlFor="organization" className="neo-label">
                 {t(form.organization)}

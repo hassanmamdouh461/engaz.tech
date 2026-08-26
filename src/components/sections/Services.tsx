@@ -29,7 +29,7 @@ export function Services() {
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="mt-10 grid gap-6 sm:mt-14 md:grid-cols-2 md:gap-8 lg:grid-cols-6"
+        className="mt-8 grid gap-4 sm:mt-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-6 lg:gap-8"
       >
         {services.items.map((service, index) => (
           <li

@@ -10,6 +10,11 @@ const config: Config = {
   darkMode: ["selector", '[data-theme="dark"]'],
   theme: {
     extend: {
+      screens: {
+        // Small phones. 360px is the floor worth designing for; below it the
+        // reference layout has nowhere left to give.
+        xs: "400px",
+      },
       colors: {
         // Theme-dependent, resolved from variables so dark mode needs no variants.
         page: "rgb(var(--c-page) / <alpha-value>)",

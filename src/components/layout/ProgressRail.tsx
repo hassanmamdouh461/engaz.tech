@@ -21,11 +21,11 @@ export function ProgressRail() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-x-0 top-0 z-[70] h-3 border-b-4 border-edge bg-surface"
+      className="pointer-events-none fixed inset-x-0 top-0 z-[70] h-2 border-b-3 border-edge bg-surface sm:h-3 sm:border-b-4"
     >
       <motion.div
         style={{ scaleX, transformOrigin: "left" }}
-        className="h-full border-e-4 border-edge bg-brand-yellow"
+        className="h-full border-e-3 border-edge bg-brand-yellow sm:border-e-4"
       />
 
       <div className="absolute inset-0 flex items-center justify-between px-[5%]">

@@ -38,7 +38,7 @@ export function LocaleSwitch({
             title={option.title}
             aria-current={active ? "true" : undefined}
             className={cn(
-              "inline-flex h-11 w-9 items-center justify-center rounded-md border-3 border-edge text-sm font-bold transition-all duration-200",
+              "inline-flex h-11 w-8 items-center justify-center rounded-md border-3 border-edge text-xs font-bold transition-all duration-200 sm:w-9 sm:text-sm",
               active
                 ? "bg-brand-pink text-black shadow-neo-0"
                 : "bg-surface text-ink shadow-neo-2 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-neo-0",
