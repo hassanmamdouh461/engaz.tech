@@ -1,15 +1,15 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useLenis } from "lenis/react";
 import { Menu, X } from "lucide-react";
-import { useEffect, useState, type MouseEvent } from "react";
-import { BrandMark } from "@/components/ui/BrandMark";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { LocaleSwitch } from "@/components/layout/LocaleSwitch";
+import { BrandMark } from "@/components/ui/BrandMark";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { content } from "@/lib/content";
 import { useLocale } from "@/lib/locale-context";
 import { useAnchorScroll } from "@/lib/use-anchor-scroll";
-import { cn } from "@/lib/cn";
 
 const { brand, nav } = content;
 
@@ -18,17 +18,23 @@ export function Navbar() {
   const scrollToAnchor = useAnchorScroll();
   const lenis = useLenis();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastScroll = useRef(0);
+  const { scrollY } = useScroll();
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  // Retracts on the way down and returns on the way up, past a 100px dead zone so
+  // it does not flicker on small corrections near the top.
+  useMotionValueEvent(scrollY, "change", (current) => {
+    if (current > lastScroll.current && current > 100) {
+      setHidden(true);
+    } else if (current < lastScroll.current) {
+      setHidden(false);
+    }
+    lastScroll.current = current;
+  });
 
-  // Lenis drives scrolling from its own wheel/touch handlers, so hiding body overflow
-  // alone does not stop the page moving behind the open menu on touch devices.
+  // Lenis drives scrolling from its own handlers, so hiding body overflow alone
+  // does not stop the page moving behind the open menu on touch devices.
   useEffect(() => {
     if (open) {
       lenis?.stop();
@@ -44,10 +50,7 @@ export function Navbar() {
     };
   }, [open, lenis]);
 
-  function handleAnchorClick(
-    event: MouseEvent<HTMLAnchorElement>,
-    href: string,
-  ) {
+  function handleAnchorClick(event: MouseEvent<HTMLAnchorElement>, href: string) {
     if (scrollToAnchor(href)) {
       event.preventDefault();
     }
@@ -56,66 +59,43 @@ export function Navbar() {
 
   return (
     <motion.header
-      initial={{ opacity: 0, y: -28 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed inset-x-0 top-0 z-50 px-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-5 sm:pt-4"
+      animate={{ y: hidden && !open ? "-140%" : 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="sticky top-[15px] z-[60] mx-[10px] mt-[10px] sm:mx-[15px] sm:mt-[15px]"
     >
-      {/* Transparent while at the top; condenses into a floating pill once scrolled. */}
-      <div
-        className={cn(
-          "mx-auto w-full max-w-7xl transition-all duration-300",
-          scrolled
-            ? "rounded-full border border-slate-700/60 bg-base-950/70 shadow-2xl backdrop-blur-xl"
-            : "rounded-full border border-transparent",
-        )}
-      >
-        <div className="flex h-16 w-full items-center justify-between gap-4 px-4 sm:px-6 lg:h-[4.5rem]">
+      <div className="border-4 border-edge bg-brand-yellow shadow-neo-8">
+        <div className="flex items-center justify-between gap-3 px-3 py-2 sm:px-4">
           <a
             href="#home"
             onClick={(event) => handleAnchorClick(event, "#home")}
-            className="flex items-center gap-3"
+            className="flex items-center gap-2 rounded-md border-3 border-edge bg-brand-cyan px-2 py-1 text-black shadow-neo-3 transition-all duration-200 hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-neo-0 sm:gap-3 sm:px-3"
           >
-            <motion.span
-              whileHover={{ scale: 1.08, rotate: -6 }}
-              transition={{ type: "spring", stiffness: 320, damping: 18 }}
-              className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500 text-white shadow-lg"
-            >
-              <BrandMark className="h-6 w-6" />
-            </motion.span>
-            <span className="flex flex-col leading-tight">
-              <span className="text-sm font-bold tracking-wide text-white sm:text-base">
-                {t(brand.name)}
-              </span>
-              <span className="hidden text-[0.65rem] text-slate-400 sm:block">
-                {t(brand.tagline)}
-              </span>
+            <BrandMark className="h-6 w-6 sm:h-7 sm:w-7" />
+            <span className="text-lg font-bold tracking-tight sm:text-xl">
+              {t(brand.name)}
             </span>
           </a>
 
-          <nav
-            aria-label="Primary"
-            className="hidden items-center gap-1 lg:flex"
-          >
+          <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex">
             {nav.links.map((link) => (
               <a
                 key={link.id}
                 href={link.href}
                 onClick={(event) => handleAnchorClick(event, link.href)}
-                className="group relative rounded-lg px-3 py-2 text-sm text-slate-300 transition-colors hover:text-white"
+                className="origin-bottom-right text-base font-semibold text-black transition-transform duration-200 hover:-translate-y-[3px] hover:-rotate-2 hover:scale-110"
               >
                 {t(link.label)}
-                <span className="absolute inset-x-3 -bottom-0.5 h-px origin-center scale-x-0 bg-gradient-to-r from-transparent via-accent-neon to-transparent transition-transform duration-300 group-hover:scale-x-100" />
               </a>
             ))}
           </nav>
 
           <div className="flex items-center gap-2">
             <LocaleSwitch locale={locale} ariaLabel={t(nav.languageToggle)} />
+            <ThemeToggle />
             <a
               href="#contact"
               onClick={(event) => handleAnchorClick(event, "#contact")}
-              className="btn-primary hidden !px-5 sm:inline-flex"
+              className="neo-btn-sm hidden bg-brand-cyan sm:inline-flex"
             >
               {t(nav.cta)}
             </a>
@@ -124,7 +104,7 @@ export function Navbar() {
               onClick={() => setOpen((value) => !value)}
               aria-expanded={open}
               aria-label={open ? t(nav.closeMenu) : t(nav.openMenu)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-800 text-slate-200 transition-colors hover:border-accent-neon/50 lg:hidden"
+              className="neo-icon-btn lg:hidden"
             >
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -139,12 +119,12 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto mt-2 max-w-7xl overflow-hidden rounded-3xl border border-slate-700/60 bg-base-950/95 backdrop-blur-xl lg:hidden"
+            className="mt-2 overflow-hidden border-4 border-edge bg-surface shadow-neo-8 lg:hidden"
           >
-            {/* Caps at the viewport minus the header so the CTA stays reachable in landscape. */}
+            {/* Capped to the viewport minus the header so the call to action stays reachable in landscape. */}
             <nav
               aria-label="Mobile"
-              className="mx-auto flex max-h-[calc(100svh-6rem)] max-w-7xl flex-col gap-1 overflow-y-auto px-5 py-4"
+              className="flex max-h-[calc(100svh-8rem)] flex-col gap-1 overflow-y-auto p-3"
             >
               {nav.links.map((link, index) => (
                 <motion.a
@@ -153,8 +133,8 @@ export function Navbar() {
                   onClick={(event) => handleAnchorClick(event, link.href)}
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 + index * 0.04, duration: 0.3 }}
-                  className="rounded-lg px-3 py-3 text-sm text-slate-200 transition-colors hover:bg-slate-800/60 hover:text-white"
+                  transition={{ delay: 0.04 + index * 0.035, duration: 0.28 }}
+                  className="border-3 border-transparent px-3 py-3 text-base font-semibold text-ink transition-colors hover:border-edge hover:bg-brand-yellow hover:text-black"
                 >
                   {t(link.label)}
                 </motion.a>
@@ -162,7 +142,7 @@ export function Navbar() {
               <a
                 href="#contact"
                 onClick={(event) => handleAnchorClick(event, "#contact")}
-                className="btn-primary mt-2"
+                className="neo-btn-primary mt-2"
               >
                 {t(nav.cta)}
               </a>

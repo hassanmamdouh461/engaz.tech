@@ -1,25 +1,37 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { MarkedText } from "@/components/ui/MarkedText";
 import { fadeInUp, staggerContainer, viewportOnce } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+
+export type Accent = "yellow" | "cyan" | "pink" | "mint";
+
+const SLAB: Record<Accent, string> = {
+  yellow: "bg-brand-yellow",
+  cyan: "bg-brand-cyan",
+  pink: "bg-brand-pink",
+  mint: "bg-brand-mint",
+};
 
 interface SectionHeadingProps {
   eyebrow?: string;
   heading: string;
   body?: string;
+  accent?: Accent;
   align?: "center" | "start";
   className?: string;
 }
 
 /**
- * Display heading: oversized, left-aligned, with the supporting paragraph directly
- * beneath it. `eyebrow` is optional — most sections lead with the headline itself.
+ * The eyebrow is a coloured slab with a hard edge and a slight tilt, so it reads as
+ * a label stuck onto the page rather than as text floating above the heading.
  */
 export function SectionHeading({
   eyebrow,
   heading,
   body,
+  accent = "yellow",
   align = "start",
   className,
 }: SectionHeadingProps) {
@@ -30,7 +42,7 @@ export function SectionHeading({
       whileInView="visible"
       viewport={viewportOnce}
       className={cn(
-        "flex flex-col gap-4 sm:gap-6",
+        "flex flex-col gap-4 sm:gap-5",
         align === "center" ? "items-center text-center" : "items-start text-start",
         className,
       )}
@@ -38,25 +50,25 @@ export function SectionHeading({
       {eyebrow ? (
         <motion.span
           variants={fadeInUp}
-          className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-400 sm:tracking-[0.28em]"
+          className={cn(
+            "inline-block -rotate-1 border-3 border-edge px-3 py-1 font-mono text-xs font-bold uppercase tracking-[0.2em] text-black shadow-neo-3",
+            SLAB[accent],
+          )}
         >
           {eyebrow}
         </motion.span>
       ) : null}
 
-      <motion.h2
-        variants={fadeInUp}
-        className="max-w-3xl text-[1.75rem] font-extrabold leading-[1.15] tracking-tight text-white sm:text-5xl sm:leading-[1.08] lg:text-6xl"
-      >
+      <motion.h2 variants={fadeInUp} className="neo-h2 max-w-3xl">
         {heading}
       </motion.h2>
 
       {body ? (
         <motion.p
           variants={fadeInUp}
-          className="max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg"
+          className="max-w-2xl text-base leading-relaxed text-ink/80 sm:text-lg"
         >
-          {body}
+          <MarkedText text={body} />
         </motion.p>
       ) : null}
     </motion.div>

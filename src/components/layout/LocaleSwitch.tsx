@@ -11,8 +11,8 @@ const OPTIONS: { locale: Locale; label: string; title: string }[] = [
 ];
 
 /**
- * Real links rather than buttons: each locale is its own indexable URL, so the switch
- * has to be crawlable for the Arabic page to be discovered and associated with it.
+ * Real links rather than buttons: each locale is its own indexable URL, so the
+ * switch has to be crawlable for the Arabic page to be found and associated.
  */
 export function LocaleSwitch({
   locale,
@@ -26,10 +26,7 @@ export function LocaleSwitch({
   return (
     <nav
       aria-label={ariaLabel}
-      className={cn(
-        "inline-flex items-center gap-1 rounded-full border border-slate-800/80 bg-slate-900/50 p-0.5 backdrop-blur-md",
-        className,
-      )}
+      className={cn("inline-flex items-center gap-1", className)}
     >
       {OPTIONS.map((option) => {
         const active = option.locale === locale;
@@ -41,10 +38,10 @@ export function LocaleSwitch({
             title={option.title}
             aria-current={active ? "true" : undefined}
             className={cn(
-              "relative inline-flex min-h-[2.25rem] min-w-[2.5rem] items-center justify-center rounded-full px-3 text-xs font-semibold transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-neon sm:px-4",
+              "inline-flex h-11 w-9 items-center justify-center rounded-md border-3 border-edge text-sm font-bold transition-all duration-200",
               active
-                ? "bg-gradient-to-r from-cyan-400 to-sky-500 text-base-950 shadow-glow"
-                : "text-slate-400 hover:text-white",
+                ? "bg-brand-pink text-black shadow-neo-0"
+                : "bg-surface text-ink shadow-neo-2 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-neo-0",
             )}
           >
             {option.label}

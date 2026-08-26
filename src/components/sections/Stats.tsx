@@ -1,129 +1,104 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
-import { useRef } from "react";
-import { StatsBackdrop } from "@/components/ui/StatsBackdrop";
+import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Tape } from "@/components/ui/Tape";
 import { content } from "@/lib/content";
 import { useLocale } from "@/lib/locale-context";
+import { dropIn, press, staggerContainer, viewportOnce } from "@/lib/motion";
+import { cn } from "@/lib/cn";
 
 const { stats } = content;
 
-/**
- * One counter panel. Each panel owns a slice of the section's scroll range: it fades
- * and lifts into place, holds while centred, then fades out as the next one arrives.
- * The map behind them stays fixed because the whole stage is `sticky`.
- */
-function StatPanel({
-  progress,
-  index,
-  total,
-  caption,
-  value,
-  suffix,
-  label,
-}: {
-  progress: MotionValue<number>;
-  index: number;
-  total: number;
-  caption: string;
-  value: number;
-  suffix: string;
-  label: string;
-}) {
-  const reduceMotion = useReducedMotion();
-  const slice = 1 / total;
-  const start = index * slice;
-  const enter = start + slice * 0.18;
-  const exit = start + slice * 0.82;
-  const end = start + slice;
+const TONES = [
+  "bg-brand-cyan",
+  "bg-brand-yellow",
+  "bg-brand-pink",
+  "bg-brand-mint",
+] as const;
 
-  // The first panel is already visible on entry; the last one holds until the end.
-  const opacity = useTransform(
-    progress,
-    [start, enter, exit, end],
-    [index === 0 ? 1 : 0, 1, 1, index === total - 1 ? 1 : 0],
-  );
-  const y = useTransform(
-    progress,
-    [start, enter, exit, end],
-    [index === 0 ? 0 : 40, 0, 0, index === total - 1 ? 0 : -40],
-  );
+/** Resting tilts, so the row of panels reads as cards laid down by hand. */
+const TILT = [-2, 1.5, -1, 2] as const;
 
-  const counted = useTransform(progress, [start, enter], [0, value], {
-    clamp: true,
-  });
-  const display = useTransform(counted, (latest) =>
+function Counter({ value, suffix }: { value: number; suffix: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.5 });
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) =>
     Math.round(latest).toLocaleString("en-US"),
   );
 
-  // Reduced motion keeps the crossfade (it carries meaning: which counter is active)
-  // but drops the vertical travel and the counting animation.
+  useEffect(() => {
+    if (!inView) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      count.set(value);
+      return;
+    }
+
+    const controls = animate(count, value, { duration: 1.6, ease: "easeOut" });
+    return () => controls.stop();
+  }, [inView, count, value]);
+
   return (
-    <motion.div
-      style={reduceMotion ? { opacity } : { opacity, y }}
-      className="absolute inset-0 flex flex-col items-center justify-center px-5 text-center sm:px-6"
-    >
-      <p className="text-base font-bold text-blue-400 sm:text-xl">{caption}</p>
-
-      <p className="mt-2 flex items-start justify-center text-white">
-        <motion.span
-          dir="ltr"
-          className="text-[3.25rem] font-extrabold leading-none tracking-tight tabular-nums sm:text-[6rem] lg:text-[9rem]"
-        >
-          {reduceMotion ? value.toLocaleString("en-US") : display}
-        </motion.span>
-        <span className="mt-1.5 text-xl font-bold sm:mt-5 sm:text-4xl">{suffix}</span>
-      </p>
-
-      <p className="mt-4 max-w-xs text-sm text-slate-400 sm:max-w-md sm:text-xl">{label}</p>
-    </motion.div>
+    <span ref={ref} dir="ltr" className="flex items-start justify-center">
+      {/* The animated figure is hidden from assistive tech; the real one sits beside it. */}
+      <motion.span
+        aria-hidden
+        className="text-4xl font-bold leading-none tabular-nums sm:text-5xl lg:text-6xl"
+      >
+        {rounded}
+      </motion.span>
+      <span className="sr-only">{value.toLocaleString("en-US")}</span>
+      <span className="mt-1 text-xl font-bold sm:text-2xl">{suffix}</span>
+    </span>
   );
 }
 
 export function Stats() {
   const { t } = useLocale();
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  // Progress across the tall track drives which counter is on screen.
-  const { scrollYProgress } = useScroll({
-    target: trackRef,
-    offset: ["start start", "end end"],
-  });
-
-  const cards = stats.cards;
 
   return (
-    <section id="impact" className="relative">
-      <div className="mx-auto w-full max-w-7xl px-5 pt-14 sm:px-8 sm:pt-20 md:pt-28">
-        <SectionHeading heading={t(stats.heading)} body={t(stats.body)} />
-      </div>
+    <Section id="impact">
+      <SectionHeading
+        eyebrow={t(stats.eyebrow)}
+        heading={t(stats.heading)}
+        body={t(stats.body)}
+        accent="mint"
+      />
 
-      {/* One viewport of scrolling per counter on desktop, shortened on phones so the
-          sequence does not turn into a very long swipe. svh keeps the sticky stage
-          aligned with the visible area under mobile browser chrome. */}
-      <div
-        ref={trackRef}
-        className="[--stat-step:62svh] sm:[--stat-step:100svh]"
-        style={{ height: `calc(${cards.length} * var(--stat-step))` }}
+      <motion.ul
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
+        className="mt-10 grid gap-6 sm:mt-14 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4"
       >
-        <div className="sticky top-0 h-svh overflow-hidden">
-          <StatsBackdrop className="absolute left-1/2 top-1/2 h-[70%] max-h-[38rem] w-auto max-w-[130%] -translate-x-1/2 -translate-y-1/2 opacity-70 sm:h-[85%] sm:max-w-none" />
+        {stats.cards.map((card, index) => (
+          <li key={card.id} className="h-full">
+            <motion.div
+              variants={dropIn(TILT[index % TILT.length])}
+              whileHover={press(6)}
+              className={cn(
+                "relative flex h-full flex-col items-center justify-center gap-2 border-3 border-edge px-4 py-8 text-center text-black shadow-neo-6",
+                TONES[index % TONES.length],
+              )}
+            >
+              <Tape className="-top-3 end-4 h-7 w-16 rotate-[14deg]" />
 
-          {cards.map((card, index) => (
-            <StatPanel
-              key={card.id}
-              progress={scrollYProgress}
-              index={index}
-              total={cards.length}
-              caption={t(card.caption)}
-              value={card.value}
-              suffix={card.suffix}
-              label={t(card.label)}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
+              <p className="font-mono text-xs font-bold uppercase tracking-widest">
+                {t(card.caption)}
+              </p>
+
+              <Counter value={card.value} suffix={card.suffix} />
+
+              <p className="mt-1 text-sm font-semibold leading-snug">{t(card.label)}</p>
+            </motion.div>
+          </li>
+        ))}
+      </motion.ul>
+    </Section>
   );
 }

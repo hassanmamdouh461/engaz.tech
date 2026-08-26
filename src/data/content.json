@@ -86,6 +86,10 @@
     }
   },
   "hero": {
+    "greeting": {
+      "en": "Hi there, we build software",
+      "ar": "أهلًا بك، نحن نبني البرمجيات"
+    },
     "headlineLead": {
       "en": "We Build Software",
       "ar": "نبني البرمجيات"
@@ -95,8 +99,8 @@
       "ar": "التي تُشغّل أعمالك"
     },
     "subtitle": {
-      "en": "Engaz is a software team building restaurant and café systems, AI-powered products, and websites that make a place look as good online as it does in person.",
-      "ar": "إنجاز فريق برمجي يبني أنظمة المطاعم والكافيهات، ومنتجات تعمل بالذكاء الاصطناعي، ومواقع تُظهر المكان على الشاشة بجمال حضوره الحقيقي."
+      "en": "Engaz builds ==restaurant and cafe systems==, AI-powered products, and websites that make a place look as good online as it does in person.",
+      "ar": "إنجاز تبني ==أنظمة المطاعم والكافيهات==، ومنتجات تعمل بالذكاء الاصطناعي، ومواقع تُظهر المكان على الشاشة بجمال حضوره الحقيقي."
     },
     "primaryCta": {
       "en": "Start a Project",
@@ -139,8 +143,8 @@
       "ar": "برمجيات تصمد أمام الاستخدام الحقيقي"
     },
     "body": {
-      "en": "A demo works once. A restaurant system works every night during the dinner rush. Four things we hold to on every project.",
-      "ar": "العرض التجريبي ينجح مرة واحدة، أما نظام المطعم فيعمل كل ليلة في ذروة الزحام. أربعة مبادئ نلتزم بها في كل مشروع."
+      "en": "We are a small team that ships. Every project gets ==real code, tested and deployed==, and support after launch — not a demo you cannot run.",
+      "ar": "نحن فريق صغير يُسلّم فعلًا. كل مشروع يحصل على ==كود حقيقي مُختبر ومنشور==، ودعم بعد الإطلاق، لا عرضًا لا يمكنك تشغيله."
     },
     "items": [
       {

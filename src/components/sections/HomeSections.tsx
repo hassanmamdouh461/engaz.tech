@@ -6,16 +6,23 @@ import { Pillars } from "@/components/sections/Pillars";
 import { ProjectsGrid } from "@/components/sections/ProjectsGrid";
 import { Services } from "@/components/sections/Services";
 import { Stats } from "@/components/sections/Stats";
+import { StrokeReveal } from "@/components/sections/StrokeReveal";
+import { PaperTear } from "@/components/ui/PaperTear";
 
 /**
- * The full page body, shared by the English route at `/` and the Arabic route at
- * `/ar`. Both render the same sections; the active locale decides the wording.
+ * The page body, shared by the English route at `/` and the Arabic route at `/ar`.
+ * Both render the same sections; the active locale decides the wording.
+ *
+ * The torn divider and the pinned stroke sequence sit outside the padded sections
+ * because both need the full width of the frame.
  */
 export function HomeSections() {
   return (
     <>
       <Hero />
+      <PaperTear />
       <Pillars />
+      <StrokeReveal />
       <Stats />
       <ProjectsGrid />
       <EcosystemDiagram />

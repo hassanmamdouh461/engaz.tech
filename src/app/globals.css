@@ -3,7 +3,29 @@
 @tailwind utilities;
 
 @layer base {
+  /*
+   * Light is the default theme. Only six colours flip; the accents are shared,
+   * which is what keeps the palette recognisable across both themes.
+   */
   :root {
+    --c-page: 255 255 255;
+    --c-surface: 255 255 255;
+    --c-ink: 0 0 0;
+    --c-edge: 0 0 0;
+    --c-void: 208 208 208;
+    --c-rule: 240 240 240;
+    color-scheme: light;
+  }
+
+  [data-theme="dark"] {
+    --c-page: 26 26 26;
+    --c-surface: 42 42 42;
+    --c-ink: 255 255 255;
+    /* Borders and shadows turn mint in the dark: black ink on a dark page reads
+       as absence rather than as a drawn edge. */
+    --c-edge: 168 230 207;
+    --c-void: 10 10 10;
+    --c-rule: 255 255 255;
     color-scheme: dark;
   }
 
@@ -11,61 +33,161 @@
     scroll-behavior: smooth;
   }
 
-  /* Decorative overhangs (aura, diagram connectors) must not create a horizontal scrollbar. */
+  /* Rotated stickers and offset shadows overhang; they must not scroll the page. */
   html,
   body {
     overflow-x: clip;
   }
 
   body {
-    @apply bg-base-950 text-slate-300 antialiased;
+    @apply bg-void font-sans text-ink antialiased;
+    line-height: 1.6;
   }
 
-  /* Arabic copy needs its own face; the layout direction stays left-to-right. */
-  html[lang="ar"] body {
+  html[lang^="ar"] body {
     @apply font-arabic;
   }
 
   ::selection {
-    @apply bg-accent-neon/30 text-white;
+    @apply bg-brand-yellow text-black;
+  }
+
+  /* Every interactive element in the reference relied on hover alone. A visible
+     keyboard ring is not optional, so it is defined once here. */
+  :focus-visible {
+    outline: 3px solid #ff6b9d;
+    outline-offset: 3px;
   }
 }
 
 @layer components {
-  .glass-card {
-    @apply rounded-2xl border border-slate-800/80 bg-slate-900/40 shadow-xl backdrop-blur-md transition-all duration-300 hover:border-accent-neon/40;
+  /* ---- Surfaces ------------------------------------------------------- */
+
+  .neo-card {
+    @apply border-3 border-edge bg-surface shadow-neo-8;
   }
 
-  /* Same surface without a CSS hover rule, for cards whose hover state Framer Motion drives. */
-  .glass-surface {
-    @apply rounded-2xl border border-slate-800/80 bg-slate-900/40 shadow-xl backdrop-blur-md;
+  .neo-panel {
+    @apply border-3 border-edge bg-surface shadow-neo-6;
   }
 
-  .gradient-text {
-    @apply bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-600 bg-clip-text text-transparent;
+  /* ---- Buttons -------------------------------------------------------- */
+
+  /* The press: the element travels the full shadow offset and the shadow
+     collapses, so the surface appears to meet the page. */
+  .neo-btn {
+    @apply inline-flex min-h-[2.75rem] items-center justify-center gap-2 rounded-md border-3
+      border-edge px-6 py-3 text-base font-bold text-black shadow-neo-4 transition-all
+      duration-200 hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-neo-0
+      active:translate-x-[4px] active:translate-y-[4px];
   }
 
-  .btn-primary {
-    @apply inline-flex min-h-[2.75rem] items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 disabled:cursor-not-allowed disabled:opacity-60 sm:px-7;
+  .neo-btn-primary {
+    @apply neo-btn bg-brand-cyan;
   }
 
-  .btn-ghost {
-    @apply inline-flex min-h-[2.75rem] items-center justify-center gap-2 rounded-full border border-white/70 px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:px-7;
+  .neo-btn-yellow {
+    @apply neo-btn bg-brand-yellow;
   }
 
-  .field-label {
-    @apply mb-2 block text-xs font-medium uppercase tracking-wider text-slate-400;
+  .neo-btn-surface {
+    @apply neo-btn bg-surface text-ink;
   }
 
-  /* text-base below sm: anything smaller makes iOS Safari zoom the viewport on focus. */
-  .field-input {
-    @apply w-full rounded-xl border border-slate-800 bg-base-900/70 px-4 py-3 text-base text-slate-100 outline-none transition-colors placeholder:text-slate-600 focus:border-accent-neon/60 focus:ring-1 focus:ring-accent-neon/40 sm:text-sm;
+  .neo-btn-sm {
+    @apply inline-flex min-h-[2.25rem] items-center justify-center gap-2 rounded-md border-3
+      border-edge px-4 py-2 text-sm font-semibold text-black shadow-neo-3 transition-all
+      duration-200 hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-neo-0
+      active:translate-x-[3px] active:translate-y-[3px];
+  }
+
+  /* Square icon button. */
+  .neo-icon-btn {
+    @apply inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border-3
+      border-edge bg-surface text-ink shadow-neo-3 transition-all duration-200
+      hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-neo-0;
+  }
+
+  /* ---- Chips ---------------------------------------------------------- */
+
+  /* Flat metadata chip: mono, no shadow, not interactive. */
+  .neo-badge {
+    @apply inline-flex items-center gap-2 whitespace-nowrap border-3 border-edge
+      px-4 py-2 font-mono text-sm font-semibold text-black;
+  }
+
+  /* Raised, interactive chip. */
+  .neo-tag {
+    @apply inline-flex items-center gap-2 border-3 border-edge bg-surface px-[1.15rem]
+      py-[0.65rem] text-sm font-semibold text-ink shadow-neo-3 transition-all duration-200
+      hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-neo-0;
+  }
+
+  /* ---- Fields --------------------------------------------------------- */
+
+  .neo-label {
+    @apply mb-2 block font-mono text-xs font-bold uppercase tracking-widest text-ink/70;
+  }
+
+  /* text-base under sm: anything smaller makes iOS Safari zoom on focus. */
+  .neo-input {
+    @apply w-full border-3 border-edge bg-surface px-4 py-3 text-base text-ink shadow-neo-4
+      outline-none transition-all duration-200 placeholder:text-ink/40
+      focus:translate-x-[4px] focus:translate-y-[4px] focus:shadow-neo-0 sm:text-sm;
+  }
+
+  /* ---- Type ----------------------------------------------------------- */
+
+  .neo-h1 {
+    @apply text-[2rem] font-bold leading-[1.1] text-ink sm:text-5xl lg:text-[3.5rem];
+  }
+
+  .neo-h2 {
+    @apply text-2xl font-bold uppercase leading-[1.1] tracking-[-0.5px] text-ink sm:text-4xl lg:text-5xl;
+  }
+
+  .neo-h3 {
+    @apply text-xl font-bold uppercase tracking-[-0.5px] text-ink sm:text-2xl;
+  }
+
+  .neo-meta {
+    @apply font-mono text-sm text-ink/70;
   }
 }
 
 @layer utilities {
+  /* Graph paper: a 20px grid washed out at the corners by four inverted vignettes,
+     so the ruling is strongest where the content sits. */
+  .neo-paper {
+    background-image:
+      radial-gradient(ellipse at top left, rgb(var(--c-page) / 0.9) 0%, transparent 35%),
+      radial-gradient(ellipse at top right, rgb(var(--c-page) / 0.9) 0%, transparent 35%),
+      radial-gradient(ellipse at bottom left, rgb(var(--c-page) / 0.9) 0%, transparent 35%),
+      radial-gradient(ellipse at bottom right, rgb(var(--c-page) / 0.9) 0%, transparent 35%),
+      repeating-linear-gradient(
+        90deg,
+        rgb(var(--c-rule) / var(--rule-alpha, 1)) 0px,
+        rgb(var(--c-rule) / var(--rule-alpha, 1)) 1px,
+        transparent 1px,
+        transparent 20px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgb(var(--c-rule) / var(--rule-alpha, 1)) 0px,
+        rgb(var(--c-rule) / var(--rule-alpha, 1)) 1px,
+        transparent 1px,
+        transparent 20px
+      );
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 20px 20px, 20px 20px;
+    background-color: rgb(var(--c-page));
+  }
+
+  /* On a dark page a solid rule colour glares; only the alpha changes. */
+  [data-theme="dark"] .neo-paper {
+    --rule-alpha: 0.05;
+  }
+
   .marquee-mask {
-    /* Multi-stop falloff so items dissolve at the edges instead of being sliced. */
     -webkit-mask-image: linear-gradient(
       to right,
       transparent 0%,
@@ -84,10 +206,6 @@
       rgba(0, 0, 0, 0.35) 96%,
       transparent 100%
     );
-  }
-
-  .noise-overlay {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
   }
 }
 

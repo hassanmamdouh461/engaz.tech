@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
+import { PageFrame } from "@/components/layout/PageFrame";
+import { ProgressRail } from "@/components/layout/ProgressRail";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
-import { BackgroundDecor } from "@/components/ui/BackgroundDecor";
-import { IntroScreen } from "@/components/ui/IntroScreen";
+import { Loader } from "@/components/ui/Loader";
 import { content } from "@/lib/content";
 import { LocaleProvider } from "@/lib/locale-context";
+import { ThemeProvider } from "@/lib/theme-context";
 import {
   HREFLANG,
   KEYWORDS,
@@ -116,25 +118,29 @@ export function LocaleShell({
 }) {
   return (
     <LocaleProvider locale={locale}>
-      {/* JSON-LD is emitted per route so each URL describes itself in its own language. */}
-      <script
-        type="application/ld+json"
-        // Next escapes the string, and the payload is built from our own content file.
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData(locale)) }}
-      />
-      <SmoothScroll>
-        <IntroScreen />
-        <BackgroundDecor />
-        <a
-          href="#home"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-cyan-500 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-base-950"
-        >
-          {locale === "ar" ? "تخطَّ إلى المحتوى" : "Skip to content"}
-        </a>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-      </SmoothScroll>
+      <ThemeProvider>
+        {/* JSON-LD is emitted per route so each URL describes itself in its own language. */}
+        <script
+          type="application/ld+json"
+          // Next escapes the string, and the payload is built from our own content file.
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData(locale)) }}
+        />
+        <SmoothScroll>
+          <Loader />
+          <ProgressRail />
+          <a
+            href="#home"
+            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[80] focus:border-3 focus:border-edge focus:bg-brand-yellow focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-black"
+          >
+            {locale === "ar" ? "تخطَّ إلى المحتوى" : "Skip to content"}
+          </a>
+          <PageFrame>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </PageFrame>
+        </SmoothScroll>
+      </ThemeProvider>
     </LocaleProvider>
   );
 }

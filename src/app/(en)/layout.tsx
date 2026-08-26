@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { localeMetadata } from "@/components/layout/LocaleShell";
 import { fontVariables } from "@/lib/fonts";
 import { HREFLANG } from "@/lib/seo";
+import { ThemeScript } from "@/lib/theme-context";
 import { pageViewport } from "@/lib/viewport";
 import "../globals.css";
 
@@ -12,7 +13,10 @@ export const viewport = pageViewport;
 export default function EnglishLayout({ children }: { children: ReactNode }) {
   return (
     <html lang={HREFLANG.en} dir="ltr" className={fontVariables}>
-      <body className="font-sans">{children}</body>
+      <head>
+        <ThemeScript />
+      </head>
+      <body>{children}</body>
     </html>
   );
 }

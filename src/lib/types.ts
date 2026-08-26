@@ -97,6 +97,8 @@ export interface SiteContent {
     closeMenu: Localized;
   };
   hero: {
+    /** Short opener above the headline, rendered with the scramble reveal. */
+    greeting: Localized;
     headlineLead: Localized;
     headlineAccent: Localized;
     subtitle: Localized;

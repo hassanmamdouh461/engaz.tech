@@ -5,14 +5,25 @@ import { CheckCircle2, Loader2, Send } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Tape } from "@/components/ui/Tape";
 import { content } from "@/lib/content";
 import { sendContactMessage } from "@/lib/contact";
 import { resolveIcon } from "@/lib/icons";
-import { slideInX, staggerContainer, viewportOnce } from "@/lib/motion";
+import { lift, slideInX, staggerContainer, viewportOnce } from "@/lib/motion";
 import { useLocale } from "@/lib/locale-context";
 
 const { contact } = content;
 const { form } = contact;
+
+const NOTE_TONE = [
+  "bg-brand-cyan",
+  "bg-brand-yellow",
+  "bg-brand-pink",
+  "bg-brand-mint",
+] as const;
+
+/** Resting tilts, so a column of notes never looks machine-aligned. */
+const NOTE_TILT = [-2, 1, -1, 2] as const;
 
 type Status =
   | "idle"
@@ -112,6 +123,7 @@ export function ContactForm() {
         eyebrow={t(contact.eyebrow)}
         heading={t(contact.heading)}
         body={t(contact.body)}
+        accent="pink"
       />
 
       <motion.div
@@ -119,46 +131,37 @@ export function ContactForm() {
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        className="mt-10 grid gap-5 sm:mt-14 sm:gap-6 md:grid-cols-2 lg:grid-cols-[0.85fr_1.15fr]"
+        className="mt-10 grid gap-6 sm:mt-14 sm:gap-8 lg:grid-cols-[0.8fr_1.2fr]"
       >
-        <motion.ul
-          variants={slideFromStart}
-          className="grid gap-4 sm:grid-cols-2 md:col-span-2 md:grid-cols-4 lg:col-span-1 lg:grid-cols-1"
-        >
-          {contact.channels.map((channel) => {
+        {/* Channels are sticky notes: each tilted at rest, straightening and lifting
+            out from under its tape on hover. */}
+        <motion.ul variants={slideFromStart} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
+          {contact.channels.map((channel, index) => {
             const Icon = resolveIcon(channel.icon);
+            const tone = NOTE_TONE[index % NOTE_TONE.length];
+            const tilt = NOTE_TILT[index % NOTE_TILT.length];
+
             return (
-              <motion.li
-                key={channel.id}
-                whileHover={{ x: 6 }}
-                transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                className="glass-card p-4 sm:p-5"
-              >
-                <div className="flex items-start gap-3 sm:gap-4">
-                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-800 bg-base-900/70 text-cyan-300">
-                    <Icon className="h-4 w-4" />
+              <li key={channel.id} className="relative">
+                <Tape
+                  className="-top-3 end-2 z-10 h-7 w-[70px]"
+                  style={{ transform: `rotate(${15 + tilt}deg)` }}
+                />
+                <motion.a
+                  href={channel.href ?? undefined}
+                  dir={channel.href ? "ltr" : undefined}
+                  initial={{ rotate: tilt }}
+                  whileHover={lift}
+                  whileFocus={lift}
+                  className={`flex min-h-[7rem] flex-col items-center justify-center gap-1 border-3 border-edge px-4 py-5 text-center text-black shadow-neo-6 ${tone}`}
+                >
+                  <Icon aria-hidden className="h-7 w-7" />
+                  <span className="font-hand text-lg font-bold">{t(channel.label)}</span>
+                  <span dir="ltr" className="max-w-full truncate font-mono text-sm font-semibold">
+                    {channel.value}
                   </span>
-                  <div className="min-w-0">
-                    <p className="text-xs uppercase tracking-wider text-slate-400">
-                      {t(channel.label)}
-                    </p>
-                    {channel.href ? (
-                      // -my-2 py-2 keeps the visual position while giving a ~40px tap row.
-                      <a
-                        href={channel.href}
-                        dir="ltr"
-                        className="mt-1 block truncate py-2 text-sm font-medium text-slate-200 transition-colors hover:text-cyan-300"
-                      >
-                        {channel.value}
-                      </a>
-                    ) : (
-                      <p dir="ltr" className="mt-1 truncate text-sm font-medium text-slate-200">
-                        {channel.value}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </motion.li>
+                </motion.a>
+              </li>
             );
           })}
         </motion.ul>
@@ -167,11 +170,11 @@ export function ContactForm() {
           variants={slideFromEnd}
           onSubmit={handleSubmit}
           noValidate
-          className="glass-surface flex flex-col gap-5 p-5 sm:p-7 md:col-span-2 lg:col-span-1"
+          className="flex flex-col gap-5 border-4 border-edge bg-surface p-5 shadow-neo-8 sm:p-7"
         >
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
-              <label htmlFor="organization" className="field-label">
+              <label htmlFor="organization" className="neo-label">
                 {t(form.organization)}
               </label>
               <input
@@ -180,11 +183,11 @@ export function ContactForm() {
                 value={organization}
                 onChange={(event) => setOrganization(event.target.value)}
                 required
-                className="field-input"
+                className="neo-input"
               />
             </div>
             <div>
-              <label htmlFor="email" className="field-label">
+              <label htmlFor="email" className="neo-label">
                 {t(form.email)}
               </label>
               <input
@@ -197,12 +200,12 @@ export function ContactForm() {
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder={t(form.emailPlaceholder)}
                 required
-                className="field-input"
+                className="neo-input"
               />
             </div>
 
             <div>
-              <label htmlFor="phone" className="field-label">
+              <label htmlFor="phone" className="neo-label">
                 {t(form.phone)}
               </label>
               <input
@@ -215,12 +218,12 @@ export function ContactForm() {
                 value={phone}
                 onChange={(event) => setPhone(event.target.value)}
                 placeholder={t(form.phonePlaceholder)}
-                className="field-input"
+                className="neo-input"
               />
             </div>
 
             <div>
-              <label htmlFor="sector" className="field-label">
+              <label htmlFor="sector" className="neo-label">
                 {t(form.sector)}
               </label>
               <select
@@ -228,7 +231,7 @@ export function ContactForm() {
                 name="sector"
                 value={sector}
                 onChange={(event) => setSector(event.target.value)}
-                className="field-input"
+                className="neo-input"
               >
                 <option value="">{t(form.sectorPlaceholder)}</option>
                 {form.sectorOptions.map((option) => (
@@ -241,7 +244,7 @@ export function ContactForm() {
           </div>
 
           <div>
-            <label htmlFor="scope" className="field-label">
+            <label htmlFor="scope" className="neo-label">
               {t(form.scope)}
             </label>
             <input
@@ -250,12 +253,12 @@ export function ContactForm() {
               value={scope}
               onChange={(event) => setScope(event.target.value)}
               placeholder={t(form.scopePlaceholder)}
-              className="field-input"
+              className="neo-input"
             />
           </div>
 
           <div>
-            <label htmlFor="message" className="field-label">
+            <label htmlFor="message" className="neo-label">
               {t(form.message)}
             </label>
             <textarea
@@ -266,17 +269,15 @@ export function ContactForm() {
               onChange={(event) => setMessage(event.target.value)}
               placeholder={t(form.messagePlaceholder)}
               required
-              className="field-input resize-y"
+              className="neo-input resize-y"
             />
           </div>
 
           <div className="flex flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:items-center">
-            <motion.button
+            <button
               type="submit"
               disabled={locked}
-              whileHover={locked ? undefined : { scale: 1.04 }}
-              whileTap={locked ? undefined : { scale: 0.97 }}
-              className="btn-primary w-full sm:w-auto"
+              className="neo-btn-yellow w-full disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
             >
               {status === "submitting" ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -288,18 +289,18 @@ export function ContactForm() {
                 : cooldownLeft > 0
                   ? `${t(form.submit)} (${cooldownLeft}s)`
                   : t(form.submit)}
-            </motion.button>
+            </button>
 
             <p
               role="status"
               aria-live="polite"
-              className="text-sm text-slate-400 empty:hidden"
+              className="text-sm font-semibold text-ink empty:hidden"
             >
               {status === "success" ? (
                 <motion.span
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="inline-flex items-center gap-2 text-emerald-300"
+                  className="inline-flex items-center gap-2 border-3 border-edge bg-brand-mint px-3 py-1 text-black"
                 >
                   <CheckCircle2 className="h-4 w-4" />
                   {t(form.success)}
@@ -309,7 +310,7 @@ export function ContactForm() {
                 <motion.span
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="text-amber-300"
+                  className="inline-block border-3 border-edge bg-brand-yellow px-3 py-1 text-black"
                 >
                   {t(form.errorCooldown).replace("{seconds}", String(cooldownLeft))}
                 </motion.span>
@@ -318,7 +319,7 @@ export function ContactForm() {
                 <motion.span
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="text-rose-300"
+                  className="inline-block border-3 border-edge bg-brand-pink px-3 py-1 text-black"
                 >
                   {status === "errorEmail"
                     ? t(form.errorEmail)
