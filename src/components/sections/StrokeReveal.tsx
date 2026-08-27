@@ -82,7 +82,6 @@ export function StrokeReveal() {
         // No smoothing on the scrub: with Lenis already easing the scroll, a second
         // easing layer lags the timeline behind the page and reads as a snap-back.
         scrub: true,
-        anticipatePin: 1,
         animation: timeline,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
@@ -131,7 +130,7 @@ export function StrokeReveal() {
       ref={sectionRef}
       data-phase="in"
       aria-label={t(hero.headlineLead)}
-      className="group/stroke relative h-svh w-full overflow-hidden bg-[#e3e3db] transition-colors duration-500 data-[phase=out]:bg-[#141414]"
+      className="group/stroke relative isolate z-0 h-svh w-full overflow-hidden bg-[#e3e3db] transition-colors duration-500 data-[phase=out]:bg-[#141414]"
     >
       {/* Two headlines occupy the same spot; the phase attribute decides which shows. */}
       <h2 className="absolute left-1/2 top-1/2 z-10 w-[86%] -translate-x-1/2 -translate-y-1/2 text-center text-xl font-bold uppercase leading-[0.95] text-black group-data-[phase=out]/stroke:hidden xs:text-2xl sm:w-3/4 sm:text-4xl lg:w-1/2 lg:text-6xl">
