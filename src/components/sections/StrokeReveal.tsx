@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { content } from "@/lib/content";
+import { useIntroDone } from "@/lib/intro-state";
 import { useLocale } from "@/lib/locale-context";
 import { gsap, ScrollTrigger, useGsapLenisBridge } from "@/lib/use-gsap-lenis";
 
@@ -40,11 +41,17 @@ const CURVE_PATH = "M180 180.538C1512.01 180.54 1718.64 133.099 2067.5 931.594";
 export function StrokeReveal() {
   useGsapLenisBridge();
   const { t, locale } = useLocale();
+  const introDone = useIntroDone();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
+
+    // The loader locks body overflow while it is up. Building the pin against a
+    // locked page measures the wrong start offset, and ScrollTrigger corrects it on
+    // the first gesture by yanking the page down and back.
+    if (!introDone) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return;
@@ -62,15 +69,20 @@ export function StrokeReveal() {
 
       // Eight viewports on a desktop reads as deliberate; on a phone the same
       // sequence becomes an interminable swipe, so the pin is shorter there.
-      const viewports = window.innerWidth < 768 ? 4 : 8;
+      const viewports = () => (window.innerWidth < 768 ? 4 : 8);
 
       ScrollTrigger.create({
         trigger: section,
         start: "top top",
-        end: () => `+=${window.innerHeight * viewports}`,
+        // Resolved on every refresh so a rotation or a collapsing browser bar
+        // recomputes the distance instead of keeping a stale pixel value.
+        end: () => `+=${window.innerHeight * viewports()}`,
         pin: true,
         pinSpacing: true,
-        scrub: 1,
+        // No smoothing on the scrub: with Lenis already easing the scroll, a second
+        // easing layer lags the timeline behind the page and reads as a snap-back.
+        scrub: true,
+        anticipatePin: 1,
         animation: timeline,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
@@ -112,7 +124,7 @@ export function StrokeReveal() {
     }, section);
 
     return () => context.revert();
-  }, [locale]);
+  }, [locale, introDone]);
 
   return (
     <section

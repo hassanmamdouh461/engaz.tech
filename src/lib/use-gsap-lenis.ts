@@ -18,6 +18,10 @@ export function useGsapLenisBridge() {
   useEffect(() => {
     if (!registered) {
       gsap.registerPlugin(ScrollTrigger);
+      // On phones the browser chrome collapsing on scroll changes viewport height.
+      // Treating that as a resize re-measures every pin mid-gesture, which remaps the
+      // scroll position and throws the reader down the page and back.
+      ScrollTrigger.config({ ignoreMobileResize: true });
       registered = true;
     }
 
@@ -30,9 +34,24 @@ export function useGsapLenisBridge() {
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
 
-    ScrollTrigger.refresh();
+    // Refresh once webfonts are applied. Measuring before that gives every pin a
+    // start offset based on fallback metrics, and correcting it later is what
+    // produced the jump.
+    let cancelled = false;
+    const refresh = () => {
+      if (!cancelled) {
+        ScrollTrigger.refresh();
+      }
+    };
+
+    if (document.fonts?.status === "loaded") {
+      refresh();
+    } else {
+      document.fonts?.ready.then(refresh).catch(refresh);
+    }
 
     return () => {
+      cancelled = true;
       lenis.off("scroll", onScroll);
       gsap.ticker.remove(raf);
       gsap.ticker.lagSmoothing(500, 33);
