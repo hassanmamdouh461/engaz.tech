@@ -101,6 +101,8 @@ export interface SiteContent {
     greeting: Localized;
     headlineLead: Localized;
     headlineAccent: Localized;
+    /** Lines the stroke section wipes through, one per band pass. Needs at least two. */
+    strokeLines: Localized[];
     subtitle: Localized;
     primaryCta: Localized;
     secondaryCta: Localized;

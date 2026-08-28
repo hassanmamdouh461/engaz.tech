@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { cn } from "@/lib/cn";
 import { content } from "@/lib/content";
 import { useLocale } from "@/lib/locale-context";
 import { gsap, ScrollTrigger, useGsapLenisBridge } from "@/lib/use-gsap-lenis";
@@ -68,6 +69,13 @@ export function StrokeReveal() {
 
       const timeline = gsap.timeline();
 
+      // Which line is currently on show, derived from progress across the passes.
+      const passes = Math.max(1, lines.length - 1);
+      const setPhase = (progress: number) => {
+        const index = Math.min(lines.length - 1, Math.round(progress * passes));
+        section.dataset.phase = index % 2 === 0 ? "in" : "out";
+      };
+
       // Eight viewports on a desktop reads as deliberate; on a phone the same
       // sequence becomes an interminable swipe, so the pin is shorter there.
       const viewports = () => (window.innerWidth < 768 ? 4 : 8);
@@ -87,13 +95,13 @@ export function StrokeReveal() {
         scrub: true,
         animation: timeline,
         invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          section.dataset.phase = self.progress >= 0.5 ? "out" : "in";
-        },
+        // Background alternates with the line on show, so odd lines read white on
+        // dark and even lines black on light.
+        onUpdate: (self) => setPhase(self.progress),
         onRefresh: (self) => {
           // A reload restores the previous scroll position, which can land inside the
           // pin range. Adopt that position rather than correcting the page to it.
-          section.dataset.phase = self.progress >= 0.5 ? "out" : "in";
+          setPhase(self.progress);
         },
       });
 
@@ -181,34 +189,36 @@ export function StrokeReveal() {
     <section
       ref={sectionRef}
       data-phase="in"
-      aria-label={t(hero.headlineLead)}
       className="group/stroke relative isolate z-0 h-svh min-h-[100lvh] w-full overflow-hidden bg-[#e3e3db] transition-colors duration-500 data-[phase=out]:bg-[#141414]"
     >
-      {/* One heading for assistive tech; the two visual layers below are decorative
-          halves of a single wipe and would otherwise be announced twice. */}
+      {/* One heading for assistive tech; the visual layers below are decorative
+          frames of a single wipe and would otherwise be announced as fragments. */}
       <h2 className="sr-only">
-        {`${t(hero.headlineLead)} ${t(hero.headlineAccent)}`}
+        {hero.strokeLines.map((line) => t(line)).join(". ")}
       </h2>
 
-      {/* Both lines occupy the same box. A single clip edge travels across them with
-          the sweeping band: what the band has passed shows the second line, what it
-          has not still shows the first, so the words read as printed on the band. */}
+      {/* Every line occupies the same box. One clip edge travels across each pair with
+          the sweeping band: what the band has passed shows the next line, what it has
+          not still shows the current one, so the words read as printed on the band. */}
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 z-10 w-[86%] -translate-x-1/2 -translate-y-1/2 sm:w-3/4 lg:w-1/2"
       >
-        <p
-          data-line="lead"
-          className="text-center text-xl font-bold uppercase leading-[0.95] text-black xs:text-2xl sm:text-4xl lg:text-6xl"
-        >
-          {t(hero.headlineLead)}
-        </p>
-        <p
-          data-line="accent"
-          className="absolute inset-0 text-center text-xl font-bold uppercase leading-[0.95] text-white xs:text-2xl sm:text-4xl lg:text-6xl"
-        >
-          {t(hero.headlineAccent)}
-        </p>
+        {hero.strokeLines.map((line, index) => (
+          <p
+            key={line.en}
+            data-line={index}
+            className={cn(
+              "text-center text-xl font-bold uppercase leading-[0.95] xs:text-2xl sm:text-4xl lg:text-6xl",
+              // The first line sets the box height; the rest stack on top of it.
+              index === 0 ? "relative" : "absolute inset-0",
+              // Alternating ink keeps each line legible against the band that carries it.
+              index % 2 === 0 ? "text-black" : "text-white",
+            )}
+          >
+            {t(line)}
+          </p>
+        ))}
       </div>
 
       {/* Overscaled so the strokes read as slabs crossing the frame, not as lines.
