@@ -57,6 +57,14 @@ export function StrokeReveal() {
       return;
     }
 
+    const lead = section.querySelector<HTMLElement>('[data-line="lead"]');
+    const accent = section.querySelector<HTMLElement>('[data-line="accent"]');
+    if (!lead || !accent) return;
+
+    // Start with the first line fully shown and the second fully clipped away.
+    lead.style.clipPath = "inset(0 0 0 0%)";
+    accent.style.clipPath = "inset(0 100% 0 0)";
+
     const context = gsap.context(() => {
       // Dash the strokes to their own length so each one draws from nothing.
       const paths = gsap.utils.toArray<SVGPathElement>(".stroke-line");
@@ -116,15 +124,40 @@ export function StrokeReveal() {
         );
       });
 
-      // Finally the whole block slides off, one row at a time.
+      // Finally the whole block slides off, one row at a time. The wipe rides the
+      // same tween so the swap tracks the leading edge of the bands rather than
+      // running on its own clock.
+      const wipe = { at: 0 };
+
       timeline.to(
         ".stroke-row",
         { xPercent: 100, duration: 2, ease: "power3.inOut", stagger: 0.15 },
         ">-0.5",
       );
+
+      // Clip both lines against one moving edge: the second line is revealed exactly
+      // where the first is hidden, so no gap or overlap can appear between them.
+      timeline.to(
+        wipe,
+        {
+          at: 100,
+          duration: 2,
+          ease: "power3.inOut",
+          onUpdate: () => {
+            const edge = `${wipe.at}%`;
+            lead.style.clipPath = `inset(0 0 0 ${edge})`;
+            accent.style.clipPath = `inset(0 ${100 - wipe.at}% 0 0)`;
+          },
+        },
+        "<",
+      );
     }, section);
 
-    return () => context.revert();
+    return () => {
+      context.revert();
+      lead.style.removeProperty("clip-path");
+      accent.style.removeProperty("clip-path");
+    };
   }, [locale, introDone]);
 
   return (
@@ -134,13 +167,32 @@ export function StrokeReveal() {
       aria-label={t(hero.headlineLead)}
       className="group/stroke relative isolate z-0 h-svh min-h-[100lvh] w-full overflow-hidden bg-[#e3e3db] transition-colors duration-500 data-[phase=out]:bg-[#141414]"
     >
-      {/* Two headlines occupy the same spot; the phase attribute decides which shows. */}
-      <h2 className="absolute left-1/2 top-1/2 z-10 w-[86%] -translate-x-1/2 -translate-y-1/2 text-center text-xl font-bold uppercase leading-[0.95] text-black group-data-[phase=out]/stroke:hidden xs:text-2xl sm:w-3/4 sm:text-4xl lg:w-1/2 lg:text-6xl">
-        {t(hero.headlineLead)}
+      {/* One heading for assistive tech; the two visual layers below are decorative
+          halves of a single wipe and would otherwise be announced twice. */}
+      <h2 className="sr-only">
+        {`${t(hero.headlineLead)} ${t(hero.headlineAccent)}`}
       </h2>
-      <h2 className="absolute left-1/2 top-1/2 z-10 hidden w-[86%] -translate-x-1/2 -translate-y-1/2 text-center text-xl font-bold uppercase leading-[0.95] text-white group-data-[phase=out]/stroke:block xs:text-2xl sm:w-3/4 sm:text-4xl lg:w-1/2 lg:text-6xl">
-        {t(hero.headlineAccent)}
-      </h2>
+
+      {/* Both lines occupy the same box. A single clip edge travels across them with
+          the sweeping band: what the band has passed shows the second line, what it
+          has not still shows the first, so the words read as printed on the band. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 z-10 w-[86%] -translate-x-1/2 -translate-y-1/2 sm:w-3/4 lg:w-1/2"
+      >
+        <p
+          data-line="lead"
+          className="text-center text-xl font-bold uppercase leading-[0.95] text-black xs:text-2xl sm:text-4xl lg:text-6xl"
+        >
+          {t(hero.headlineLead)}
+        </p>
+        <p
+          data-line="accent"
+          className="absolute inset-0 text-center text-xl font-bold uppercase leading-[0.95] text-white xs:text-2xl sm:text-4xl lg:text-6xl"
+        >
+          {t(hero.headlineAccent)}
+        </p>
+      </div>
 
       {/* Overscaled so the strokes read as slabs crossing the frame, not as lines.
           A phone needs far more overscale than a desktop for the same read, because
