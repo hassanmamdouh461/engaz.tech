@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { content } from "@/lib/content";
-import { useIntroDone } from "@/lib/intro-state";
 import { useLocale } from "@/lib/locale-context";
 import { gsap, ScrollTrigger, useGsapLenisBridge } from "@/lib/use-gsap-lenis";
 
@@ -41,29 +40,23 @@ const CURVE_PATH = "M180 180.538C1512.01 180.54 1718.64 133.099 2067.5 931.594";
 export function StrokeReveal() {
   useGsapLenisBridge();
   const { t, locale } = useLocale();
-  const introDone = useIntroDone();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    // The loader locks body overflow while it is up. Building the pin against a
-    // locked page measures the wrong start offset, and ScrollTrigger corrects it on
-    // the first gesture by yanking the page down and back.
-    if (!introDone) return;
-
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return;
     }
 
-    const lead = section.querySelector<HTMLElement>('[data-line="lead"]');
-    const accent = section.querySelector<HTMLElement>('[data-line="accent"]');
-    if (!lead || !accent) return;
+    const lines = Array.from(section.querySelectorAll<HTMLElement>("[data-line]"));
+    if (lines.length < 2) return;
 
-    // Start with the first line fully shown and the second fully clipped away.
-    lead.style.clipPath = "inset(0 0 0 0%)";
-    accent.style.clipPath = "inset(0 100% 0 0)";
+    // First line fully shown, every later one clipped away until its pass arrives.
+    lines.forEach((line, index) => {
+      line.style.clipPath = index === 0 ? "inset(0 0 0 0%)" : "inset(0 100% 0 0)";
+    });
 
     const context = gsap.context(() => {
       // Dash the strokes to their own length so each one draws from nothing.
@@ -97,6 +90,11 @@ export function StrokeReveal() {
         onUpdate: (self) => {
           section.dataset.phase = self.progress >= 0.5 ? "out" : "in";
         },
+        onRefresh: (self) => {
+          // A reload restores the previous scroll position, which can land inside the
+          // pin range. Adopt that position rather than correcting the page to it.
+          section.dataset.phase = self.progress >= 0.5 ? "out" : "in";
+        },
       });
 
       REVEAL_ORDER.forEach((id, index) => {
@@ -124,41 +122,60 @@ export function StrokeReveal() {
         );
       });
 
-      // Finally the whole block slides off, one row at a time. The wipe rides the
-      // same tween so the swap tracks the leading edge of the bands rather than
-      // running on its own clock.
-      const wipe = { at: 0 };
+      // The bands then make one pass per line change: each pass sweeps across, and the
+      // wipe edge rides that same tween so the words are replaced exactly where the
+      // band's leading edge crosses them. The final pass leaves the bands off-screen.
+      const PASS_DURATION = 2;
 
-      timeline.to(
-        ".stroke-row",
-        { xPercent: 100, duration: 2, ease: "power3.inOut", stagger: 0.15 },
-        ">-0.5",
-      );
+      lines.slice(0, -1).forEach((_, index) => {
+        const current = lines[index];
+        const next = lines[index + 1];
+        const wipe = { at: 0 };
+        const first = index === 0;
 
-      // Clip both lines against one moving edge: the second line is revealed exactly
-      // where the first is hidden, so no gap or overlap can appear between them.
-      timeline.to(
-        wipe,
-        {
-          at: 100,
-          duration: 2,
-          ease: "power3.inOut",
-          onUpdate: () => {
-            const edge = `${wipe.at}%`;
-            lead.style.clipPath = `inset(0 0 0 ${edge})`;
-            accent.style.clipPath = `inset(0 ${100 - wipe.at}% 0 0)`;
+        // The bands already cover the frame on the first pass; later passes have to
+        // re-enter from the left before they can cross again.
+        if (!first) {
+          timeline.set(".stroke-row", { xPercent: -100 });
+        }
+
+        timeline.to(
+          ".stroke-row",
+          {
+            xPercent: 100,
+            duration: PASS_DURATION,
+            ease: "power3.inOut",
+            stagger: 0.15,
           },
-        },
-        "<",
-      );
+          first ? ">-0.5" : ">",
+        );
+
+        timeline.to(
+          wipe,
+          {
+            at: 100,
+            duration: PASS_DURATION,
+            ease: "power3.inOut",
+            onUpdate: () => {
+              // One moving edge for both lines: the next line is revealed exactly
+              // where the current one is hidden, so no gap or overlap can appear.
+              current.style.clipPath = `inset(0 0 0 ${wipe.at}%)`;
+              next.style.clipPath = `inset(0 ${100 - wipe.at}% 0 0)`;
+            },
+          },
+          "<",
+        );
+      });
+
     }, section);
 
     return () => {
       context.revert();
-      lead.style.removeProperty("clip-path");
-      accent.style.removeProperty("clip-path");
+      for (const line of lines) {
+        line.style.removeProperty("clip-path");
+      }
     };
-  }, [locale, introDone]);
+  }, [locale]);
 
   return (
     <section

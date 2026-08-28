@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { useLenis } from "lenis/react";
 import { useEffect, useState } from "react";
 import { content } from "@/lib/content";
 import { markIntroDone } from "@/lib/intro-state";
@@ -22,6 +23,7 @@ const TILES = [
  */
 export function Loader() {
   const { locale } = useLocale();
+  const lenis = useLenis();
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -39,11 +41,23 @@ export function Loader() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = visible ? "hidden" : "";
+    // Body overflow alone does not hold: Lenis computes its own scroll position and
+    // transforms the content, so it keeps scrolling through a hidden overflow. The
+    // instance has to be stopped, otherwise a fast swipe during the curtain travels
+    // past sections whose scroll-driven pins do not exist yet.
+    if (visible) {
+      lenis?.stop();
+      document.body.style.overflow = "hidden";
+    } else {
+      lenis?.start();
+      document.body.style.overflow = "";
+    }
+
     return () => {
+      lenis?.start();
       document.body.style.overflow = "";
     };
-  }, [visible]);
+  }, [visible, lenis]);
 
   return (
     <AnimatePresence>
