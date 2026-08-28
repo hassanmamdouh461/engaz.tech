@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/cn";
 import { content } from "@/lib/content";
+import { useIntroDone } from "@/lib/intro-state";
 import { useLocale } from "@/lib/locale-context";
 import { gsap, ScrollTrigger, useGsapLenisBridge } from "@/lib/use-gsap-lenis";
 
@@ -41,6 +42,7 @@ const CURVE_PATH = "M180 180.538C1512.01 180.54 1718.64 133.099 2067.5 931.594";
 export function StrokeReveal() {
   useGsapLenisBridge();
   const { t, locale } = useLocale();
+  const introDone = useIntroDone();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -184,6 +186,13 @@ export function StrokeReveal() {
       }
     };
   }, [locale]);
+
+  // The curtain holds the scroll and hides body overflow, so the page it is measured
+  // against is not the page the reader gets. Re-measure once it clears.
+  useEffect(() => {
+    if (!introDone) return;
+    ScrollTrigger.refresh();
+  }, [introDone]);
 
   return (
     <section
