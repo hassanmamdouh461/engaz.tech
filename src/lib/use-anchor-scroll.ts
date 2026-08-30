@@ -1,6 +1,7 @@
 "use client";
 
 import { useLenis } from "lenis/react";
+import { teleportTo } from "@/components/providers/PageTransition";
 import { useCallback } from "react";
 
 const HEADER_OFFSET = 88;
@@ -22,6 +23,12 @@ export function useAnchorScroll() {
       const target = document.querySelector(href);
       if (!(target instanceof HTMLElement)) {
         return false;
+      }
+
+      // Nav clicks teleport behind a covering wipe rather than scrolling past every
+      // section in between. Falls through to scrolling if the overlay is unavailable.
+      if (teleportTo(href)) {
+        return true;
       }
 
       if (lenis) {

@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { PageFrame } from "@/components/layout/PageFrame";
 import { ProgressRail } from "@/components/layout/ProgressRail";
+import { PageTransition } from "@/components/providers/PageTransition";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { Loader } from "@/components/ui/Loader";
 import { content } from "@/lib/content";
@@ -134,11 +135,13 @@ export function LocaleShell({
           >
             {locale === "ar" ? "تخطَّ إلى المحتوى" : "Skip to content"}
           </a>
-          <PageFrame>
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-          </PageFrame>
+          <PageTransition>
+            <PageFrame>
+              <Navbar />
+              <main>{children}</main>
+              <Footer />
+            </PageFrame>
+          </PageTransition>
         </SmoothScroll>
       </ThemeProvider>
     </LocaleProvider>
