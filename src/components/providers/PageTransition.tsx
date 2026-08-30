@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { useLenis } from "lenis/react";
-import { gsap } from "@/lib/use-gsap-lenis";
+import { gsap, ScrollTrigger } from "@/lib/use-gsap-lenis";
 
 /**
  * Two overgrown strokes sweep across the viewport and thicken until they cover it,
@@ -66,6 +66,11 @@ export function PageTransition({ children }: { children: ReactNode }) {
       busyRef.current = true;
       setActive(true);
 
+      // Nothing may move while the wipe is up: not user input, not Lenis, not the
+      // scrollbar hidden state. All of it resumes when the timeline completes.
+      lenis?.stop();
+      document.body.style.overflow = "hidden";
+
       const paths = Array.from(svg.querySelectorAll<SVGPathElement>("path"));
       const lengths = paths.map((path) => path.getTotalLength());
 
@@ -79,6 +84,8 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
       const timeline = gsap.timeline({
         onComplete: () => {
+          lenis?.start();
+          document.body.style.overflow = "";
           setActive(false);
           busyRef.current = false;
         },
@@ -98,8 +105,13 @@ export function PageTransition({ children }: { children: ReactNode }) {
         );
       });
 
-      // Fully covered: move without any scrolling being visible.
-      timeline.add(land);
+      // Move while the viewport is still mostly covered, not after the cover
+      // finishes. Recalibrating pins immediately behind the cover keeps any
+      // correction ScrollTrigger would otherwise apply from ever being seen.
+      timeline.add(() => {
+        land();
+        ScrollTrigger.refresh();
+      }, COVER_SECONDS * 0.5);
 
       // Draw off the far side and reset for the next run.
       paths.forEach((path, index) => {
