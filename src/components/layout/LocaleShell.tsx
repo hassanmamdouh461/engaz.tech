@@ -131,6 +131,7 @@ export function LocaleShell({
           <ProgressRail />
           <a
             href="#home"
+            data-no-transition
             className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[80] focus:border-3 focus:border-edge focus:bg-brand-yellow focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-black"
           >
             {locale === "ar" ? "تخطَّ إلى المحتوى" : "Skip to content"}

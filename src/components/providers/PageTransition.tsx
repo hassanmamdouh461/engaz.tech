@@ -141,6 +141,33 @@ export function PageTransition({ children }: { children: ReactNode }) {
     };
   }, [jump]);
 
+  useEffect(() => {
+    const onClick = (event: MouseEvent) => {
+      // Leave modified clicks alone: they mean "open elsewhere", not "navigate here".
+      if (event.defaultPrevented || event.button !== 0) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      const anchor = (event.target as Element | null)?.closest?.("a");
+      if (!(anchor instanceof HTMLAnchorElement)) return;
+      if (anchor.target && anchor.target !== "_self") return;
+
+      const href = anchor.getAttribute("href");
+      if (!href || !href.startsWith("#") || href === "#") return;
+
+      // The skip link exists to move keyboard focus to the content. Covering the
+      // screen for a second in the middle of that is hostile, so let it behave
+      // natively.
+      if (anchor.dataset.noTransition !== undefined) return;
+
+      if (jump(href)) {
+        event.preventDefault();
+      }
+    };
+
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, [jump]);
+
   return (
     <>
       {children}
