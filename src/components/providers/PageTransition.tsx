@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { useLenis } from "lenis/react";
-import { gsap, ScrollTrigger } from "@/lib/use-gsap-lenis";
+import { gsap } from "@/lib/use-gsap-lenis";
 
 /**
  * Two overgrown strokes sweep across the viewport and thicken until they cover it,
@@ -108,13 +108,9 @@ export function PageTransition({ children }: { children: ReactNode }) {
         );
       });
 
-      // Move while the viewport is still mostly covered, not after the cover
-      // finishes. Recalibrating pins immediately behind the cover keeps any
-      // correction ScrollTrigger would otherwise apply from ever being seen.
-      timeline.add(() => {
-        land();
-        ScrollTrigger.refresh();
-      }, COVER_SECONDS * 0.5);
+      // Move while the viewport is still mostly covered, not after the cover finishes,
+      // so the landing is never visible.
+      timeline.add(land, COVER_SECONDS * 0.5);
 
       // Draw off the far side and reset for the next run.
       paths.forEach((path, index) => {
