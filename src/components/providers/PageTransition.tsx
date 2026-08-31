@@ -90,7 +90,11 @@ export function PageTransition({ children }: { children: ReactNode }) {
         onComplete: () => {
           lenis?.start();
           setActive(false);
-          busyRef.current = false;
+          // Held briefly past the end: a tap can emit a second, late click on some
+          // mobile engines, and releasing immediately let it start the wipe again.
+          window.setTimeout(() => {
+            busyRef.current = false;
+          }, 260);
         },
       });
 

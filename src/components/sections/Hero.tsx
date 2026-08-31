@@ -11,7 +11,6 @@ import { content } from "@/lib/content";
 import { useIntroDone } from "@/lib/intro-state";
 import { useLocale } from "@/lib/locale-context";
 import { backOut, fadeInUp, staggerContainer } from "@/lib/motion";
-import { useAnchorScroll } from "@/lib/use-anchor-scroll";
 
 const { hero, partners } = content;
 
@@ -39,7 +38,6 @@ const DECO = [
 
 export function Hero() {
   const { t, locale } = useLocale();
-  const scrollToAnchor = useAnchorScroll();
   // The entry curtain covers the screen for the first moment, so the decorative
   // reveals wait for it to clear rather than playing behind it. The copy itself is
   // never gated: hiding it at first paint leaves nothing contentful to measure.
@@ -93,9 +91,6 @@ export function Hero() {
             >
               <a
                 href="#contact"
-                onClick={(event) => {
-                  if (scrollToAnchor("#contact")) event.preventDefault();
-                }}
                 className="neo-btn-primary group"
               >
                 {t(hero.primaryCta)}
@@ -104,9 +99,6 @@ export function Hero() {
 
               <a
                 href="#work"
-                onClick={(event) => {
-                  if (scrollToAnchor("#work")) event.preventDefault();
-                }}
                 className="neo-btn-surface"
               >
                 <Terminal className="h-4 w-4" />

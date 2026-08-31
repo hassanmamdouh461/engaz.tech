@@ -3,19 +3,17 @@
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useLenis } from "lenis/react";
 import { Menu, X } from "lucide-react";
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LocaleSwitch } from "@/components/layout/LocaleSwitch";
 import { BrandMark } from "@/components/ui/BrandMark";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { content } from "@/lib/content";
 import { useLocale } from "@/lib/locale-context";
-import { useAnchorScroll } from "@/lib/use-anchor-scroll";
 
 const { brand, nav } = content;
 
 export function Navbar() {
   const { t, locale } = useLocale();
-  const scrollToAnchor = useAnchorScroll();
   const lenis = useLenis();
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -50,10 +48,9 @@ export function Navbar() {
     };
   }, [open, lenis]);
 
-  function handleAnchorClick(event: MouseEvent<HTMLAnchorElement>, href: string) {
-    if (scrollToAnchor(href)) {
-      event.preventDefault();
-    }
+  // Navigation itself is handled by the page-level transition listener. This only
+  // dismisses the drawer, so one tap can never enter the transition twice.
+  function handleAnchorClick() {
     setOpen(false);
   }
 
@@ -67,7 +64,7 @@ export function Navbar() {
         <div className="flex items-center justify-between gap-2 px-2 py-1.5 sm:gap-3 sm:px-4 sm:py-2">
           <a
             href="#home"
-            onClick={(event) => handleAnchorClick(event, "#home")}
+            onClick={handleAnchorClick}
             className="flex shrink-0 items-center gap-1.5 rounded-md border-3 border-edge bg-brand-cyan px-1.5 py-1 text-black shadow-neo-3 transition-all duration-200 hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-neo-0 sm:gap-3 sm:px-3"
           >
             <BrandMark className="h-5 w-5 sm:h-7 sm:w-7" />
@@ -81,7 +78,7 @@ export function Navbar() {
               <a
                 key={link.id}
                 href={link.href}
-                onClick={(event) => handleAnchorClick(event, link.href)}
+                onClick={handleAnchorClick}
                 className="origin-bottom-right whitespace-nowrap text-sm font-semibold text-black transition-transform duration-200 hover:-translate-y-[3px] hover:-rotate-2 hover:scale-110 xl:text-base"
               >
                 {t(link.label)}
@@ -94,7 +91,7 @@ export function Navbar() {
             <ThemeToggle />
             <a
               href="#contact"
-              onClick={(event) => handleAnchorClick(event, "#contact")}
+              onClick={handleAnchorClick}
               className="neo-btn-sm hidden whitespace-nowrap bg-brand-cyan md:inline-flex"
             >
               {t(nav.cta)}
@@ -131,7 +128,7 @@ export function Navbar() {
                 <motion.a
                   key={link.id}
                   href={link.href}
-                  onClick={(event) => handleAnchorClick(event, link.href)}
+                  onClick={handleAnchorClick}
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.04 + index * 0.035, duration: 0.28 }}
@@ -142,7 +139,7 @@ export function Navbar() {
               ))}
               <a
                 href="#contact"
-                onClick={(event) => handleAnchorClick(event, "#contact")}
+                onClick={handleAnchorClick}
                 className="neo-btn-primary mt-2"
               >
                 {t(nav.cta)}
