@@ -46,12 +46,16 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
       // Land the reader at the target even when the animation cannot run.
       const land = () => {
-        const top = target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
-        if (lenis) {
-          lenis.scrollTo(top, { immediate: true, force: true });
-        } else {
-          window.scrollTo({ top, behavior: "auto" });
-        }
+        const top = Math.max(
+          0,
+          target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET,
+        );
+
+        // Set the real scroll position first: Lenis is stopped during the wipe, so a
+        // scrollTo through it would be queued rather than applied.
+        window.scrollTo({ top, behavior: "auto" });
+        // Then hand Lenis the new position so restarting does not animate back.
+        lenis?.scrollTo(top, { immediate: true, force: true, lock: true });
       };
 
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -66,10 +70,10 @@ export function PageTransition({ children }: { children: ReactNode }) {
       busyRef.current = true;
       setActive(true);
 
-      // Nothing may move while the wipe is up: not user input, not Lenis, not the
-      // scrollbar hidden state. All of it resumes when the timeline completes.
+      // Block user input for the duration. Note this must not hide body overflow:
+      // that collapses the scrollable area, and the programmatic landing below would
+      // then have nothing to scroll.
       lenis?.stop();
-      document.body.style.overflow = "hidden";
 
       const paths = Array.from(svg.querySelectorAll<SVGPathElement>("path"));
       const lengths = paths.map((path) => path.getTotalLength());
@@ -85,7 +89,6 @@ export function PageTransition({ children }: { children: ReactNode }) {
       const timeline = gsap.timeline({
         onComplete: () => {
           lenis?.start();
-          document.body.style.overflow = "";
           setActive(false);
           busyRef.current = false;
         },
