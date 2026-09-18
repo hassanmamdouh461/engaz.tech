@@ -78,11 +78,16 @@ export function PageTransition({ children }: { children: ReactNode }) {
       const paths = Array.from(svg.querySelectorAll<SVGPathElement>("path"));
       const lengths = paths.map((path) => path.getTotalLength());
 
+      // Pin both strokes to the same fat width and hide them off-screen at the start.
+      // Keeping the width constant across the whole run means the line never thins out
+      // mid-wipe on portrait phones: the wave shapes never poke a gap through the
+      // cover, and the uncover leaves no thin wavy strip behind it.
+      const COVER_STROKE = 700;
       paths.forEach((path, index) => {
         gsap.set(path, {
           strokeDasharray: lengths[index],
           strokeDashoffset: lengths[index],
-          attr: { "stroke-width": 200 },
+          attr: { "stroke-width": COVER_STROKE },
         });
       });
 
@@ -98,13 +103,13 @@ export function PageTransition({ children }: { children: ReactNode }) {
         },
       });
 
-      // Draw on and fatten until the strokes fill the screen.
+      // Draw on until the strokes fill the screen. Width stays at COVER_STROKE so
+      // the cover reads as a full sheet even on tall portrait phones.
       paths.forEach((path) => {
         timeline.to(
           path,
           {
             strokeDashoffset: 0,
-            attr: { "stroke-width": 700 },
             duration: COVER_SECONDS,
             ease: "power1.inOut",
           },
@@ -116,22 +121,36 @@ export function PageTransition({ children }: { children: ReactNode }) {
       // so the landing is never visible.
       timeline.add(land, COVER_SECONDS * 0.5);
 
-      // Draw off the far side and reset for the next run.
+      // Draw off the far side with the width still locked at COVER_STROKE. The old
+      // version shrank the stroke back to 200 here, which on a portrait phone left
+      // a thin wavy strip and let the new page bleed through the gaps mid-uncover.
       paths.forEach((path, index) => {
         timeline.to(
           path,
           {
             strokeDashoffset: -lengths[index],
-            attr: { "stroke-width": 200 },
             duration: UNCOVER_SECONDS,
             ease: "power1.inOut",
-            onComplete: () => {
-              gsap.set(path, { strokeDashoffset: lengths[index] });
-            },
           },
           COVER_SECONDS,
         );
       });
+
+      // Reset every path together once the full timeline is done. The per-stroke
+      // onComplete was firing on the slowest phone while the dash was still partly
+      // off-screen, snapping the path back into view for a frame.
+      timeline.call(
+        () => {
+          paths.forEach((path, index) => {
+            gsap.set(path, {
+              strokeDashoffset: lengths[index],
+              attr: { "stroke-width": COVER_STROKE },
+            });
+          });
+        },
+        [],
+        COVER_SECONDS + UNCOVER_SECONDS,
+      );
 
       return true;
     },
