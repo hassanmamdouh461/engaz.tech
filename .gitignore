@@ -9,3 +9,7 @@ out
 .DS_Store
 next-env.d.ts
 tsconfig.tsbuildinfo
+
+# Local agent session memory and notes. Not part of the site and must never be
+# committed, but it sits in the repo root, so `git add .` would otherwise pick it up.
+.workbuddy-ai/
