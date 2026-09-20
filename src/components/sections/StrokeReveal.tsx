@@ -49,17 +49,20 @@ export function StrokeReveal() {
     const section = sectionRef.current;
     if (!section) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
-
     const lines = Array.from(section.querySelectorAll<HTMLElement>("[data-line]"));
     if (lines.length < 2) return;
 
     // First line fully shown, every later one clipped away until its pass arrives.
+    // Set this BEFORE the reduced-motion short-circuit so the static layout still
+    // reads as one line when the animation is disabled: otherwise all four lines
+    // stack at the same position and the headline area collapses into a smear.
     lines.forEach((line, index) => {
       line.style.clipPath = index === 0 ? "inset(0 0 0 0%)" : "inset(0 100% 0 0)";
     });
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
 
     const context = gsap.context(() => {
       // Dash the strokes to their own length so each one draws from nothing.

@@ -39,6 +39,14 @@
     overflow-x: clip;
   }
 
+  /* The wipe section stacks four lines on the same coordinates. Until its effect
+     runs, every line beyond the first would render on top of the headline and
+     collapse it into a smear. The effect re-applies this on mount; the rule here
+     only covers the render → effect gap. */
+  [data-line]:not([data-line="0"]) {
+    clip-path: inset(0 100% 0 0);
+  }
+
   body {
     @apply bg-void font-sans text-ink antialiased;
     line-height: 1.6;
