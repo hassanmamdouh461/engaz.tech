@@ -15,14 +15,23 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # Next.js 16 requires Node 20.9+; keep the major pinned for reproducibility.
+          node-version: 22
           cache: npm
 
       - run: npm ci
 
       - run: npm run typecheck
 
+      - run: npm run lint
+
+      - run: npm test
+
+      # NEXT_PUBLIC_* values are inlined at build time, so the FormSubmit hash must
+      # reach this step — setting the secret alone changes nothing in the output.
       - run: npm run build
+        env:
+          NEXT_PUBLIC_CONTACT_FORM_ID: ${{ secrets.NEXT_PUBLIC_CONTACT_FORM_ID }}
 
       - uses: cloudflare/wrangler-action@v3
         with:

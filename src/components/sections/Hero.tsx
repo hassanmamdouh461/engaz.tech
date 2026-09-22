@@ -94,7 +94,13 @@ export function Hero() {
                 className="neo-btn-primary group"
               >
                 {t(hero.primaryCta)}
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:rotate-180" />
+                {/* html stays dir=ltr even in Arabic, so rtl: variants never apply —
+                    flip the "forward" arrow by locale instead. */}
+                <ArrowRight
+                  className={`h-4 w-4 transition-transform duration-300 ${
+                    locale === "ar" ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"
+                  }`}
+                />
               </a>
 
               <a

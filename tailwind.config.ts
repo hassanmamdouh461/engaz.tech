@@ -40,7 +40,9 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-display)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
-        hand: ["var(--font-hand)", "cursive"],
+        // Caveat has no Arabic coverage; fall through to Cairo rather than a
+        // random system cursive so Arabic labels keep a deliberate face.
+        hand: ["var(--font-hand)", "var(--font-arabic)", "cursive"],
         arabic: ["var(--font-arabic)", "system-ui", "sans-serif"],
       },
       borderWidth: {
@@ -71,12 +73,15 @@ const config: Config = {
         gravity: "cubic-bezier(0.36, 0, 0.66, -0.56)",
       },
       keyframes: {
+        // The loop distance is one copy PLUS one inter-item gap: the flex gap
+        // between the last item of copy A and the first of copy B counts too, so
+        // -50% alone lands half a gap short and the seam jumps at every wrap.
         marquee: {
           from: { transform: "translateX(0)" },
-          to: { transform: "translateX(-50%)" },
+          to: { transform: "translateX(calc(-50% - 6px))" },
         },
         "marquee-reverse": {
-          from: { transform: "translateX(-50%)" },
+          from: { transform: "translateX(calc(-50% - 6px))" },
           to: { transform: "translateX(0)" },
         },
         "letter-pop": {

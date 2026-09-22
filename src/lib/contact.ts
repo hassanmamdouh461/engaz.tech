@@ -22,6 +22,44 @@ export interface ContactSubmission {
   message: string;
 }
 
+export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+export function isValidEmail(value: string): boolean {
+  return EMAIL_PATTERN.test(value.trim());
+}
+
+/**
+ * Field names become rows in the relayed email's table; underscore-prefixed keys are
+ * FormSubmit controls and are not rendered. `_replyto` makes the mailbox's Reply
+ * button answer the sender — without it replies go nowhere. `_honey` is the honeypot:
+ * it must stay empty; spam bots that fill it are dropped server-side.
+ */
+export function buildContactPayload(data: ContactSubmission): Record<string, string> {
+  return {
+    _subject: `Engaz enquiry — ${data.name}`,
+    _template: "table",
+    _replyto: data.email,
+    _honey: "",
+    Name: data.name,
+    Email: data.email,
+    Phone: data.phone || "—",
+    "Project type": data.projectType || "—",
+    Budget: data.budget || "—",
+    Message: data.message,
+  };
+}
+
+/**
+ * The AJAX endpoint answers 200 even when it refuses the submission — the JSON body
+ * carries `success: "false"` (unactivated form, rejected payload). Checking the body
+ * is the difference between a delivered message and a silent loss.
+ */
+export function isRelayFailure(status: number, body: unknown): boolean {
+  if (status < 200 || status >= 300) return true;
+  if (typeof body !== "object" || body === null) return false;
+  return (body as { success?: unknown }).success === "false";
+}
+
 /**
  * Sends the submission and resolves only when the relay accepts it, so the caller can
  * distinguish a real delivery from a network or configuration failure.
@@ -33,19 +71,12 @@ export async function sendContactMessage(data: ContactSubmission): Promise<void>
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify({
-      _subject: `Engaz enquiry — ${data.name}`,
-      _template: "table",
-      Name: data.name,
-      Email: data.email,
-      Phone: data.phone || "—",
-      "Project type": data.projectType || "—",
-      Budget: data.budget || "—",
-      Message: data.message,
-    }),
+    body: JSON.stringify(buildContactPayload(data)),
   });
 
-  if (!response.ok) {
+  const body: unknown = await response.json().catch(() => null);
+
+  if (isRelayFailure(response.status, body)) {
     throw new Error(`Relay rejected the submission: ${response.status}`);
   }
 }

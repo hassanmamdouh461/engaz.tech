@@ -25,11 +25,19 @@ export function ScrambleText({
   className?: string;
 }) {
   const [display, setDisplay] = useState(text);
+  const [lastText, setLastText] = useState(text);
   const frame = useRef(0);
+
+  // If the text prop changes, settle on the new string during render rather
+  // than inside an effect — the sanctioned "adjust state when props change"
+  // pattern, which keeps reduced-motion and hydration paths identical.
+  if (text !== lastText) {
+    setLastText(text);
+    setDisplay(text);
+  }
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setDisplay(text);
       return;
     }
 

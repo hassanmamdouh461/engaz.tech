@@ -16,17 +16,16 @@ const CYCLE: HighlightColor[] = ["yellow", "cyan", "pink", "mint"];
 export function MarkedText({ text, className }: { text: string; className?: string }) {
   const parts = text.split(MARKER);
 
-  // split() with one capture group alternates plain, captured, plain, captured…
-  let marked = -1;
-
   return (
     <span className={className}>
       {parts.map((part, index) => {
+        // split() with one capture group alternates plain, captured, plain…
+        // so odd indexes are the marked phrases.
         if (index % 2 === 0) {
           return <Fragment key={index}>{part}</Fragment>;
         }
 
-        marked += 1;
+        const marked = (index - 1) / 2;
         return (
           <Highlight
             key={index}

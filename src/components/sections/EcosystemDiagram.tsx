@@ -69,7 +69,7 @@ export function EcosystemDiagram() {
                 {stage.nodes.map((node) => (
                   <li
                     key={node.en}
-                    className="border-2 border-edge bg-page px-1.5 py-0.5 font-mono text-[0.65rem] font-semibold text-ink sm:px-2 sm:text-[0.7rem]"
+                    className="border-2 border-edge bg-page px-1.5 py-0.5 font-mono text-[0.7rem] font-semibold text-ink sm:px-2 sm:text-xs"
                   >
                     {t(node)}
                   </li>

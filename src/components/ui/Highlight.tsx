@@ -3,6 +3,7 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { useMounted } from "@/lib/use-mounted";
 
 export type HighlightColor = "yellow" | "cyan" | "pink" | "mint";
 
@@ -33,7 +34,12 @@ export function Highlight({
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const reduceMotion = useReducedMotion();
+  const mounted = useMounted();
+  // useReducedMotion() already resolves during the hydration render, where it
+  // disagrees with the server output and forces a client re-render. Gating the
+  // value on mount keeps hydration identical; reduced-motion users still get the
+  // static fill.
+  const reduceMotion = useReducedMotion() && mounted;
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.85", "start 0.6"],

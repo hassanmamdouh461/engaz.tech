@@ -23,7 +23,9 @@ export function PageFrame({
         className={cn(
           // svh, not vh: vh measures past mobile browser chrome, which leaves the
           // frame taller than the visible area and a dead strip below the footer.
-          "neo-paper relative mx-auto min-h-[calc(100svh-1.5rem)] max-w-[1400px] border-3 border-edge pt-3",
+          // The vh value is the pre-iOS-15.4 fallback where svh does not parse.
+          "neo-paper relative mx-auto min-h-[calc(100vh-1.5rem)] max-w-[1400px] border-3 border-edge pt-3",
+          "supports-[height:100svh]:min-h-[calc(100svh-1.5rem)]",
           "shadow-neo-4 sm:border-4 sm:shadow-neo-8 lg:border-6 lg:pt-4 lg:shadow-neo-12",
           className,
         )}

@@ -123,8 +123,11 @@ export function LocaleShell({
         {/* JSON-LD is emitted per route so each URL describes itself in its own language. */}
         <script
           type="application/ld+json"
-          // Next escapes the string, and the payload is built from our own content file.
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData(locale)) }}
+          // Escape "<" so a "</script>" inside any content string can never break
+          // out of the block — belt-and-suspenders on top of Next's own escaping.
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData(locale)).replace(/</g, "\\u003c"),
+          }}
         />
         <SmoothScroll>
           <Loader />

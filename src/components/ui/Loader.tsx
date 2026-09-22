@@ -10,6 +10,9 @@ import { backOut } from "@/lib/motion";
 
 const { brand } = content;
 
+/** Remembers the curtain already played this session (new tab = new session). */
+const INTRO_KEY = "engaz.intro-seen";
+
 /** The two glyph tiles that pop in, coloured like the accent pair. */
 const TILES = [
   { char: "E", charAr: "إ", className: "bg-brand-cyan", delay: 0.1 },
@@ -27,15 +30,33 @@ export function Loader() {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setVisible(false);
-      markIntroDone();
+    // Replays only on the first page of a visit. The locale switch is a full
+    // navigation, so without this every EN/AR toggle re-ran the whole curtain.
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem(INTRO_KEY) === "1";
+    } catch {
+      seen = false;
+    }
+
+    if (seen || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      // Microtask, not a bare call: still before first paint, but out of the
+      // synchronous effect body where setState triggers a cascading render.
+      queueMicrotask(() => {
+        setVisible(false);
+        markIntroDone();
+      });
       return;
     }
 
     const timer = window.setTimeout(() => {
       setVisible(false);
       markIntroDone();
+      try {
+        sessionStorage.setItem(INTRO_KEY, "1");
+      } catch {
+        // Private browsing can reject the write; the curtain still clears.
+      }
     }, 1500);
     return () => window.clearTimeout(timer);
   }, []);
@@ -60,10 +81,17 @@ export function Loader() {
   }, [visible, lenis]);
 
   return (
-    <AnimatePresence>
+    <>
+      {/* With JS disabled the curtain can never lift — it would hide the whole
+          page forever, so noscript suppresses it entirely. */}
+      <noscript>
+        <style>{"[data-loader]{display:none !important}"}</style>
+      </noscript>
+      <AnimatePresence>
       {visible ? (
         <motion.div
           role="presentation"
+          data-loader
           exit={{ opacity: 0, transition: { duration: 0.35, ease: "easeOut" } }}
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-5 bg-brand-yellow px-4 xs:gap-7 sm:gap-8 sm:px-6"
         >
@@ -113,6 +141,7 @@ export function Loader() {
           </div>
         </motion.div>
       ) : null}
-    </AnimatePresence>
+      </AnimatePresence>
+    </>
   );
 }

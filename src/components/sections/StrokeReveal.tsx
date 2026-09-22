@@ -201,7 +201,7 @@ export function StrokeReveal() {
     <section
       ref={sectionRef}
       data-phase="in"
-      className="group/stroke relative isolate z-0 h-svh min-h-[100lvh] w-full overflow-hidden bg-[#e3e3db] transition-colors duration-500 data-[phase=out]:bg-[#141414]"
+      className="group/stroke relative isolate z-0 h-screen min-h-[100vh] w-full overflow-hidden bg-[#e3e3db] transition-colors duration-500 supports-[height:100svh]:h-svh supports-[height:100lvh]:min-h-[100lvh] data-[phase=out]:bg-[#141414]"
     >
       {/* One heading for assistive tech; the visual layers below are decorative
           frames of a single wipe and would otherwise be announced as fragments. */}
@@ -238,10 +238,13 @@ export function StrokeReveal() {
           the slab thickness is set by the viewport height, not its width. */}
       <div
         aria-hidden
-        className="absolute left-1/2 top-1/2 flex h-svh min-h-[100lvh] w-[1200%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center sm:w-[600%] lg:w-[300%]"
+        className="absolute left-1/2 top-1/2 flex h-screen min-h-[100vh] w-[1200%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center supports-[height:100svh]:h-svh supports-[height:100lvh]:min-h-[100lvh] sm:w-[600%] lg:w-[300%]"
       >
         {ROWS.map((row) => (
-          <div key={row.id} className="stroke-row relative h-full w-full flex-1 will-change-transform">
+          // No persistent will-change: three permanently composited layers this
+          // wide exhaust GPU memory on low-end phones, and the pin only animates
+          // while it is on screen anyway.
+          <div key={row.id} className="stroke-row relative h-full w-full flex-1">
             {row.colors.map((color, index) => (
               <svg
                 key={index}
@@ -274,7 +277,7 @@ export function StrokeReveal() {
 
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 flex h-svh min-h-[100lvh] w-[1200%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center sm:w-[600%] lg:w-[300%]"
+        className="pointer-events-none absolute left-1/2 top-1/2 flex h-screen min-h-[100vh] w-[1200%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center supports-[height:100svh]:h-svh supports-[height:100lvh]:min-h-[100lvh] sm:w-[600%] lg:w-[300%]"
       >
         <div className="relative h-full w-full flex-1" />
         <div className="relative h-full w-full flex-1">

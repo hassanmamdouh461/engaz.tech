@@ -33,8 +33,15 @@
     scroll-behavior: smooth;
   }
 
-  /* Rotated stickers and offset shadows overhang; they must not scroll the page. */
-  html,
+  /* Rotated stickers and offset shadows overhang; they must not scroll the page.
+     `clip` does not create a scroll container so sticky keeps working; the
+     `hidden` line is the fallback for Safari <16, which ignores `clip` entirely —
+     on html it clips at the viewport without breaking sticky either. */
+  html {
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
+
   body {
     overflow-x: clip;
   }
@@ -61,6 +68,13 @@
      reordered by the bidi algorithm and appear at the wrong end of the sentence. */
   html[lang^="ar"] :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, label, blockquote) {
     direction: rtl;
+  }
+
+  /* Block-level links and buttons (the drawer, the footer) read right-aligned in
+     Arabic. direction:rtl is NOT used here — on a flex container it would reverse
+     the order of icon and label, not just align the text. */
+  html[lang^="ar"] :is(a, button) {
+    text-align: right;
   }
 
   /* Latin-only values must not be reordered inside an Arabic paragraph. */
@@ -153,11 +167,12 @@
     @apply mb-2 block font-mono text-xs font-bold uppercase tracking-widest text-ink/70;
   }
 
-  /* text-base under sm: anything smaller makes iOS Safari zoom on focus. */
+  /* text-base at every width: anything under 16px makes iOS Safari zoom on focus,
+     and iPhones in landscape plus iPads sit above the sm breakpoint. */
   .neo-input {
     @apply w-full border-3 border-edge bg-surface px-4 py-3 text-base text-ink shadow-neo-4
       outline-none transition-all duration-200 placeholder:text-ink/40
-      focus:translate-x-[4px] focus:translate-y-[4px] focus:shadow-neo-0 sm:text-sm;
+      focus:translate-x-[4px] focus:translate-y-[4px] focus:shadow-neo-0;
   }
 
   /* ---- Type -----------------------------------------------------------

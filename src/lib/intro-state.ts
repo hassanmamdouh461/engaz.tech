@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 /**
  * Tiny signal for "the intro overlay has finished".
@@ -10,8 +10,8 @@ import { useEffect, useState } from "react";
  * was already settled by the time the overlay cleared. Anything that should be
  * watched rather than merely happen waits on this instead of on mount.
  */
-
 let done = false;
+let armed = false;
 const listeners = new Set<() => void>();
 
 /** Fallback so the page is never left waiting on an overlay that never mounted. */
@@ -27,24 +27,24 @@ export function markIntroDone() {
   }
 }
 
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  // Armed by the first subscriber so the timer cannot run during SSR.
+  if (!armed) {
+    armed = true;
+    window.setTimeout(markIntroDone, SAFETY_MS);
+  }
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
 export function useIntroDone(): boolean {
-  const [value, setValue] = useState(false);
-
-  useEffect(() => {
-    if (done) {
-      setValue(true);
-      return;
-    }
-
-    const listener = () => setValue(true);
-    listeners.add(listener);
-    const timer = window.setTimeout(markIntroDone, SAFETY_MS);
-
-    return () => {
-      listeners.delete(listener);
-      window.clearTimeout(timer);
-    };
-  }, []);
-
-  return value;
+  // Server snapshot false keeps hydration identical; subscribers are notified
+  // when the loader calls markIntroDone.
+  return useSyncExternalStore(
+    subscribe,
+    () => done,
+    () => false,
+  );
 }

@@ -90,7 +90,7 @@ export function Stats() {
             >
               <Tape className="-top-3 end-3 h-6 w-14 rotate-[14deg] sm:end-4 sm:h-7 sm:w-16" />
 
-              <p className="font-mono text-[0.6rem] font-bold uppercase tracking-widest xs:text-xs">
+              <p className="font-mono text-[0.7rem] font-bold uppercase tracking-widest xs:text-xs">
                 {t(card.caption)}
               </p>
 

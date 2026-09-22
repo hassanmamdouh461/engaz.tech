@@ -83,6 +83,14 @@
     "closeMenu": {
       "en": "Close navigation menu",
       "ar": "إغلاق قائمة التنقل"
+    },
+    "primaryNav": {
+      "en": "Primary",
+      "ar": "التنقل الرئيسي"
+    },
+    "mobileNav": {
+      "en": "Mobile",
+      "ar": "قائمة الجوال"
     }
   },
   "hero": {

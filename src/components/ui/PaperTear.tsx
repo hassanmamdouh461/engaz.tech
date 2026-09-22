@@ -3,6 +3,7 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Tape } from "@/components/ui/Tape";
+import { useMounted } from "@/lib/use-mounted";
 
 /**
  * Hand-authored torn edge: a quadratic ribbon oscillating irregularly around the
@@ -45,7 +46,10 @@ function TearEdge({ variant }: { variant: "top" | "bottom" }) {
  */
 export function PaperTear() {
   const ref = useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion();
+  const mounted = useMounted();
+  // Same hydration contract as Highlight: the reduced-motion branch renders a
+  // different tree, so it must wait until after hydration or React mismatches.
+  const reduceMotion = useReducedMotion() && mounted;
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.85", "start 0.25"],

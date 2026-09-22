@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
-import { dropIn, press, viewportOnce } from "@/lib/motion";
+import { dropIn, press } from "@/lib/motion";
 
 export type Accent = "cyan" | "yellow" | "pink" | "mint";
 
@@ -87,5 +87,3 @@ export function NeoCard({
     </motion.article>
   );
 }
-
-export { viewportOnce };

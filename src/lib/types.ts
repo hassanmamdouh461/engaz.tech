@@ -95,6 +95,9 @@ export interface SiteContent {
     cta: Localized;
     openMenu: Localized;
     closeMenu: Localized;
+    /** Accessible names for the two nav landmarks — announced by screen readers. */
+    primaryNav: Localized;
+    mobileNav: Localized;
   };
   hero: {
     /** Short opener above the headline, rendered with the scramble reveal. */

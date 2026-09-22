@@ -17,15 +17,6 @@ const COVER_SECONDS = 0.9;
 const UNCOVER_SECONDS = 0.9;
 const HEADER_OFFSET = 88;
 
-type Jump = (href: string) => boolean;
-
-let jumpImpl: Jump = () => false;
-
-/** Called by anything that wants to teleport rather than scroll. */
-export function teleportTo(href: string): boolean {
-  return jumpImpl(href);
-}
-
 export function PageTransition({ children }: { children: ReactNode }) {
   const lenis = useLenis();
   const svgRef = useRef<SVGSVGElement>(null);
@@ -156,13 +147,6 @@ export function PageTransition({ children }: { children: ReactNode }) {
     },
     [lenis],
   );
-
-  useEffect(() => {
-    jumpImpl = jump;
-    return () => {
-      jumpImpl = () => false;
-    };
-  }, [jump]);
 
   useEffect(() => {
     const onClick = (event: MouseEvent) => {

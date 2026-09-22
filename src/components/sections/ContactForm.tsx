@@ -7,7 +7,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Tape } from "@/components/ui/Tape";
 import { content } from "@/lib/content";
-import { sendContactMessage } from "@/lib/contact";
+import { isValidEmail, sendContactMessage } from "@/lib/contact";
 import { resolveIcon } from "@/lib/icons";
 import { lift, slideInX, staggerContainer, viewportOnce } from "@/lib/motion";
 import { useLocale } from "@/lib/locale-context";
@@ -46,6 +46,7 @@ export function ContactForm() {
   const [sector, setSector] = useState("");
   const [scope, setScope] = useState("");
   const [message, setMessage] = useState("");
+  const [honey, setHoney] = useState("");
   const [cooldownLeft, setCooldownLeft] = useState(0);
   // Kept in a ref so the countdown effect does not need to re-run on every tick.
   const sentAtRef = useRef(0);
@@ -70,6 +71,13 @@ export function ContactForm() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    // Honeypot: a human never sees this field, so anything typed into it is a bot.
+    // Report success anyway — the point is to waste the bot's time, not to warn it.
+    if (honey) {
+      setStatus("success");
+      return;
+    }
+
     const elapsed = (Date.now() - sentAtRef.current) / 1000;
     if (sentAtRef.current > 0 && elapsed < COOLDOWN_SECONDS) {
       setCooldownLeft(Math.ceil(COOLDOWN_SECONDS - elapsed));
@@ -83,7 +91,7 @@ export function ContactForm() {
     }
 
     // A reply is impossible without a reachable address, so this one is required.
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) {
+    if (!isValidEmail(email)) {
       setStatus("errorEmail");
       return;
     }
@@ -164,7 +172,7 @@ export function ContactForm() {
                   </span>
                   <span
                     dir="ltr"
-                    className="max-w-full truncate font-mono text-[0.7rem] font-semibold sm:text-sm"
+                    className="max-w-full truncate font-mono text-xs font-semibold sm:text-sm"
                   >
                     {channel.value}
                   </span>
@@ -262,6 +270,21 @@ export function ContactForm() {
               onChange={(event) => setScope(event.target.value)}
               placeholder={t(form.scopePlaceholder)}
               className="neo-input"
+            />
+          </div>
+
+          {/* Honeypot: off-screen but in the DOM for bots that fill every field.
+              Kept out of the tab order and announced as hidden either way. */}
+          <div aria-hidden className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+            <label htmlFor="company-site">Website</label>
+            <input
+              id="company-site"
+              name="company-site"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honey}
+              onChange={(event) => setHoney(event.target.value)}
             />
           </div>
 

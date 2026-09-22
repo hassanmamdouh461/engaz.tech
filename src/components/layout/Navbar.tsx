@@ -73,7 +73,7 @@ export function Navbar() {
             </span>
           </a>
 
-          <nav aria-label="Primary" className="hidden items-center gap-4 lg:flex xl:gap-6">
+          <nav aria-label={t(nav.primaryNav)} className="hidden items-center gap-4 lg:flex xl:gap-6">
             {nav.links.map((link) => (
               <a
                 key={link.id}
@@ -121,8 +121,8 @@ export function Navbar() {
             {/* Capped to the viewport minus the header so the call to action stays
                 reachable in landscape, where the whole list is taller than the screen. */}
             <nav
-              aria-label="Mobile"
-              className="flex max-h-[calc(100svh-7rem)] flex-col gap-1 overflow-y-auto p-2 sm:p-3"
+              aria-label={t(nav.mobileNav)}
+              className="flex max-h-[calc(100vh-7rem)] flex-col gap-1 overflow-y-auto p-2 supports-[height:100svh]:max-h-[calc(100svh-7rem)] sm:p-3"
             >
               {nav.links.map((link, index) => (
                 <motion.a

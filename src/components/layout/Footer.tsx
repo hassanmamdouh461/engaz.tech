@@ -53,7 +53,7 @@ export function Footer() {
               {footer.compliance.map((badge) => (
                 <li
                   key={badge.en}
-                  className="border-2 border-edge bg-brand-mint px-2 py-0.5 font-mono text-[0.7rem] font-semibold text-black"
+                  className="border-2 border-edge bg-brand-mint px-2 py-0.5 font-mono text-xs font-semibold text-black"
                 >
                   {t(badge)}
                 </li>
@@ -83,7 +83,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-7 flex flex-col gap-2 border-t-3 border-edge pt-4 font-mono text-[0.7rem] text-ink/70 sm:mt-8 sm:pt-5 sm:text-xs md:flex-row md:items-center md:justify-between">
+        <div className="mt-7 flex flex-col gap-2 border-t-3 border-edge pt-4 font-mono text-xs text-ink/70 sm:mt-8 sm:pt-5 md:flex-row md:items-center md:justify-between">
           <p>
             <span dir="ltr">{`© ${year} ${brand.name.en}`}</span> — {t(footer.copyright)}
           </p>

@@ -36,7 +36,7 @@ export function LocaleSwitch({
             href={LOCALE_PATH[option.locale]}
             hrefLang={option.locale}
             title={option.title}
-            aria-current={active ? "true" : undefined}
+            aria-current={active ? "page" : undefined}
             className={cn(
               "inline-flex h-11 w-8 items-center justify-center rounded-md border-3 border-edge text-xs font-bold transition-all duration-200 sm:w-9 sm:text-sm",
               active
