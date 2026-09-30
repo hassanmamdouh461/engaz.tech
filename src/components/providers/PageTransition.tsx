@@ -56,16 +56,36 @@ export function PageTransition({ children }: { children: ReactNode }) {
   /** Instant move to a section, shared by the wipe, deep links, and Back/Forward. */
   const scrollToTarget = useCallback(
     (target: HTMLElement) => {
-      const top = Math.max(
-        0,
-        target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET,
-      );
+      const land = () => {
+        const top = Math.max(
+          0,
+          target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET,
+        );
 
-      // Set the real scroll position first: Lenis is stopped during the wipe, so a
-      // scrollTo through it would be queued rather than applied.
-      window.scrollTo({ top, behavior: "auto" });
-      // Then hand Lenis the new position so restarting does not animate back.
-      lenis?.scrollTo(top, { immediate: true, force: true, lock: true });
+        // Lenis re-measures the page on a 250ms debounce. A deep link lands right
+        // after ScrollTrigger inserts the pin spacer, so without this Lenis still
+        // holds the shorter page's limit and clamps the jump into the pinned section.
+        lenis?.resize();
+
+        // Set the real scroll position first: Lenis is stopped during the wipe, so a
+        // scrollTo through it would be queued rather than applied.
+        window.scrollTo({ top, behavior: "auto" });
+        // Then hand Lenis the new position so restarting does not animate back.
+        lenis?.scrollTo(top, { immediate: true, force: true, lock: true });
+      };
+
+      land();
+
+      // Scroll-driven layout above the target (the paper tear closing its gap) only
+      // settles on the frames after the jump, pulling the target up by its height.
+      // Measure again once it has applied and correct if the target moved.
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          if (Math.abs(target.getBoundingClientRect().top - HEADER_OFFSET) > 1) {
+            land();
+          }
+        }),
+      );
     },
     [lenis],
   );
