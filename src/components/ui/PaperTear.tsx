@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Tape } from "@/components/ui/Tape";
+import { ScrollTrigger } from "@/lib/use-gsap-lenis";
 
 /**
  * Hand-authored torn edge: a quadratic ribbon oscillating irregularly around the
@@ -59,6 +60,21 @@ export function PaperTear() {
   const tapeZ = useTransform(scrollYProgress, [0.78, 1], [30, 0]);
   const tapeRotateX = useTransform(scrollYProgress, [0.78, 1], [35, 0]);
   const tapeOpacity = useTransform(scrollYProgress, [0.85, 0.95], [0, 1]);
+
+  // The gap is real layout: closing it pulls everything below up by ~330px. The
+  // pinned stroke section further down measured its start with the gap open, so
+  // without a re-measure it pinned ~330px late: the page scrolled past it, then
+  // snapped back to start the animation. Re-measure whenever the seam finishes
+  // closing or starts reopening; both happen well before that pin is reached.
+  const closedRef = useRef<boolean | null>(null);
+  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+    const closed = progress >= 0.72;
+    if (closedRef.current === closed) return;
+    closedRef.current = closed;
+    if (ScrollTrigger.getAll().length > 0) {
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+    }
+  });
 
   return (
     <div ref={ref} className="relative [perspective:1000px]">
