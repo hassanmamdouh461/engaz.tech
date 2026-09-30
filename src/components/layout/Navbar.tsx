@@ -18,6 +18,8 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const lastScroll = useRef(0);
+  const headerRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const { scrollY } = useScroll();
 
   // Retracts on the way down and returns on the way up, past a 100px dead zone so
@@ -48,6 +50,31 @@ export function Navbar() {
     };
   }, [open, lenis]);
 
+  // Escape closes the drawer and hands focus back to the toggle; a tap outside
+  // the header closes it too. Without these a keyboard user had no way out.
+  useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [open]);
+
   // Navigation itself is handled by the page-level transition listener. This only
   // dismisses the drawer, so one tap can never enter the transition twice.
   function handleAnchorClick() {
@@ -56,6 +83,7 @@ export function Navbar() {
 
   return (
     <motion.header
+      ref={headerRef}
       animate={{ y: hidden && !open ? "-140%" : 0 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
       className="sticky top-2 z-[60] mx-1.5 mt-1.5 sm:top-[15px] sm:mx-3 sm:mt-3 lg:mx-[15px] lg:mt-[15px]"
@@ -97,8 +125,10 @@ export function Navbar() {
               {t(nav.cta)}
             </a>
             <button
+              ref={toggleRef}
               type="button"
               onClick={() => setOpen((value) => !value)}
+              aria-controls="mobile-nav"
               aria-expanded={open}
               aria-label={open ? t(nav.closeMenu) : t(nav.openMenu)}
               className="neo-icon-btn lg:hidden"
@@ -121,6 +151,7 @@ export function Navbar() {
             {/* Capped to the viewport minus the header so the call to action stays
                 reachable in landscape, where the whole list is taller than the screen. */}
             <nav
+              id="mobile-nav"
               aria-label={t(nav.mobileNav)}
               className="flex max-h-[calc(100vh-7rem)] flex-col gap-1 overflow-y-auto p-2 supports-[height:100svh]:max-h-[calc(100svh-7rem)] sm:p-3"
             >
@@ -129,7 +160,7 @@ export function Navbar() {
                   key={link.id}
                   href={link.href}
                   onClick={handleAnchorClick}
-                  initial={{ opacity: 0, x: -12 }}
+                  initial={{ opacity: 0, x: locale === "ar" ? 12 : -12 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.04 + index * 0.035, duration: 0.28 }}
                   className="border-3 border-transparent px-3 py-3 text-base font-semibold text-ink transition-colors hover:border-edge hover:bg-brand-yellow hover:text-black"

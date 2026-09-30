@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -47,11 +48,17 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       : "light";
   });
 
+  // ThemeScript runs in <head> and can execute before the theme-color <meta> has
+  // been parsed, in which case its sync finds nothing. Re-sync once mounted so
+  // dark-theme visitors do not get light browser chrome until they toggle.
+  useEffect(() => {
+    syncThemeColor(theme);
+  }, [theme]);
+
   const toggleTheme = useCallback(() => {
     setTheme((current) => {
       const next: Theme = current === "light" ? "dark" : "light";
       document.documentElement.setAttribute("data-theme", next);
-      syncThemeColor(next);
       try {
         window.localStorage.setItem(STORAGE_KEY, next);
       } catch {

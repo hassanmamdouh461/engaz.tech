@@ -135,7 +135,27 @@ const SERVICE_KEYWORDS: Record<Locale, string> = {
   ar: "أنظمة المطاعم، وكلاء الذكاء الاصطناعي، المواقع، تطبيقات الجوال، برمجيات مخصصة",
 };
 
-const AREA_SERVED = ["EG", "SA", "AE", "KW", "QA"];
+/** schema.org Country takes a name; the ISO code goes in `identifier`. */
+const AREA_SERVED = [
+  { code: "EG", name: "Egypt" },
+  { code: "SA", name: "Saudi Arabia" },
+  { code: "AE", name: "United Arab Emirates" },
+  { code: "KW", name: "Kuwait" },
+  { code: "QA", name: "Qatar" },
+];
+
+const areaServed = () =>
+  AREA_SERVED.map((country) => ({
+    "@type": "Country",
+    name: country.name,
+    identifier: country.code,
+  }));
+
+/**
+ * sameAs is for the organisation's profiles on other sites. The site itself and
+ * direct-contact links (WhatsApp chats, tel:, mailto:) are not profiles.
+ */
+const NOT_A_PROFILE = [SITE_URL, "https://wa.me", "https://api.whatsapp.com"];
 
 /**
  * Organization plus WebSite plus the service catalogue, as one graph so the nodes can
@@ -165,7 +185,7 @@ export function structuredData(locale: Locale) {
         description: footer.summary[locale],
         knowsAbout: KEYWORDS[locale].slice(0, 25),
         knowsLanguage: ["ar", "en"],
-        areaServed: AREA_SERVED.map((code) => ({ "@type": "Country", name: code })),
+        areaServed: areaServed(),
         address: { "@type": "PostalAddress", addressCountry: "EG" },
         ...(phone ? { telephone: phone.value } : {}),
         ...(email ? { email: email.value.replace(/^mailto:/, "") } : {}),
@@ -179,7 +199,8 @@ export function structuredData(locale: Locale) {
           })),
         sameAs: contact.channels
           .map((channel) => channel.href)
-          .filter((href): href is string => Boolean(href?.startsWith("https://"))),
+          .filter((href): href is string => Boolean(href?.startsWith("https://")))
+          .filter((href) => !NOT_A_PROFILE.some((prefix) => href.startsWith(prefix))),
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: services.heading[locale],
@@ -191,7 +212,7 @@ export function structuredData(locale: Locale) {
               description: service.body[locale],
               serviceType: service.title[locale],
               provider: { "@id": organizationId },
-              areaServed: AREA_SERVED.map((code) => ({ "@type": "Country", name: code })),
+              areaServed: areaServed(),
             },
           })),
         },

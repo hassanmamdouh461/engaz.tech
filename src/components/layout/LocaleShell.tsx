@@ -53,7 +53,9 @@ export function localeMetadata(locale: Locale): Metadata {
       template: `%s | ${brand.name[locale]}`,
     },
     description,
-    keywords: KEYWORDS[locale],
+    // Google ignores this tag and Bing reads a long one as stuffing, so only the
+    // core terms go here; the full list still drives copy and structured data.
+    keywords: KEYWORDS[locale].slice(0, 15),
     applicationName: brand.name.en,
     generator: "Next.js",
     authors: [{ name: brand.name.en, url: SITE_URL }],
@@ -135,7 +137,7 @@ export function LocaleShell({
           <a
             href="#home"
             data-no-transition
-            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[80] focus:border-3 focus:border-edge focus:bg-brand-yellow focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-black"
+            className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-4 focus:z-[80] focus:border-3 focus:border-edge focus:bg-brand-yellow focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-black"
           >
             {locale === "ar" ? "تخطَّ إلى المحتوى" : "Skip to content"}
           </a>

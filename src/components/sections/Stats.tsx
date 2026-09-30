@@ -33,11 +33,6 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
   useEffect(() => {
     if (!inView) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      count.set(value);
-      return;
-    }
-
     const controls = animate(count, value, { duration: 1.6, ease: "easeOut" });
     return () => controls.stop();
   }, [inView, count, value]);

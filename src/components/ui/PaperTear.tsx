@@ -1,9 +1,9 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Tape } from "@/components/ui/Tape";
-import { useMounted } from "@/lib/use-mounted";
+import { ScrollTrigger } from "@/lib/use-gsap-lenis";
 
 /**
  * Hand-authored torn edge: a quadratic ribbon oscillating irregularly around the
@@ -46,10 +46,6 @@ function TearEdge({ variant }: { variant: "top" | "bottom" }) {
  */
 export function PaperTear() {
   const ref = useRef<HTMLDivElement>(null);
-  const mounted = useMounted();
-  // Same hydration contract as Highlight: the reduced-motion branch renders a
-  // different tree, so it must wait until after hydration or React mismatches.
-  const reduceMotion = useReducedMotion() && mounted;
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.85", "start 0.25"],
@@ -65,13 +61,20 @@ export function PaperTear() {
   const tapeRotateX = useTransform(scrollYProgress, [0.78, 1], [35, 0]);
   const tapeOpacity = useTransform(scrollYProgress, [0.85, 0.95], [0, 1]);
 
-  if (reduceMotion) {
-    return (
-      <div className="relative" aria-hidden>
-        <TearEdge variant="bottom" />
-      </div>
-    );
-  }
+  // The gap is real layout: closing it pulls everything below up by ~330px. The
+  // pinned stroke section further down measured its start with the gap open, so
+  // without a re-measure it pinned ~330px late: the page scrolled past it, then
+  // snapped back to start the animation. Re-measure whenever the seam finishes
+  // closing or starts reopening; both happen well before that pin is reached.
+  const closedRef = useRef<boolean | null>(null);
+  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+    const closed = progress >= 0.72;
+    if (closedRef.current === closed) return;
+    closedRef.current = closed;
+    if (ScrollTrigger.getAll().length > 0) {
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+    }
+  });
 
   return (
     <div ref={ref} className="relative [perspective:1000px]">

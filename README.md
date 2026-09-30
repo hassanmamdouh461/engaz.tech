@@ -88,8 +88,11 @@ check, a hidden honeypot field, and a 30-second resend cooldown. The relay's JSO
 a fake success.
 
 After the first real submission, FormSubmit issues a hashed endpoint id. Set it as
-`NEXT_PUBLIC_CONTACT_FORM_ID` (see `.env.example`) so the raw inbox address stops
-appearing in the client bundle. The deploy workflow reads it from the
+`NEXT_PUBLIC_CONTACT_FORM_ID` (see `.env.example`) so the form endpoint no longer
+carries the raw inbox address. Note that this alone does **not** hide the address
+from scrapers: the email contact card in `src/data/content.json` renders it (and
+`mailto:`) on the page and in the JSON-LD. Remove that channel, or switch it to a
+domain address, if the inbox should stay private. The deploy workflow reads it from the
 `NEXT_PUBLIC_CONTACT_FORM_ID` GitHub secret — it must reach the build step, because
 `NEXT_PUBLIC_*` values are inlined at build time.
 

@@ -6,12 +6,10 @@ import { useEffect, useState } from "react";
 import { content } from "@/lib/content";
 import { markIntroDone } from "@/lib/intro-state";
 import { useLocale } from "@/lib/locale-context";
+import { INTRO_KEY } from "@/lib/intro-script";
 import { backOut } from "@/lib/motion";
 
 const { brand } = content;
-
-/** Remembers the curtain already played this session (new tab = new session). */
-const INTRO_KEY = "engaz.intro-seen";
 
 /** The two glyph tiles that pop in, coloured like the accent pair. */
 const TILES = [
@@ -39,9 +37,11 @@ export function Loader() {
       seen = false;
     }
 
-    if (seen || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      // Microtask, not a bare call: still before first paint, but out of the
-      // synchronous effect body where setState triggers a cascading render.
+    if (seen) {
+      // Effects run after paint, so this alone would flash the curtain for a
+      // frame. IntroScript already hid it before first paint (html[data-intro]);
+      // this only unmounts it and releases the scroll lock. Microtask rather than
+      // a bare call keeps setState out of the synchronous effect body.
       queueMicrotask(() => {
         setVisible(false);
         markIntroDone();

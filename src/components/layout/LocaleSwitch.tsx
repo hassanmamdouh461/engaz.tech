@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LOCALE_PATH } from "@/lib/seo";
+import { HREFLANG, LOCALE_PATH } from "@/lib/seo";
 import type { Locale } from "@/lib/types";
 import { cn } from "@/lib/cn";
 
@@ -34,7 +34,8 @@ export function LocaleSwitch({
           <Link
             key={option.locale}
             href={LOCALE_PATH[option.locale]}
-            hrefLang={option.locale}
+            hrefLang={HREFLANG[option.locale]}
+            lang={HREFLANG[option.locale]}
             title={option.title}
             aria-current={active ? "page" : undefined}
             className={cn(

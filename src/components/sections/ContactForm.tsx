@@ -38,7 +38,7 @@ type Status =
 const COOLDOWN_SECONDS = 30;
 
 export function ContactForm() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const [status, setStatus] = useState<Status>("idle");
   const [organization, setOrganization] = useState("");
   const [email, setEmail] = useState("");
@@ -64,9 +64,9 @@ export function ContactForm() {
     return () => window.clearInterval(timer);
   }, [cooldownLeft]);
 
-  // Info enters from the left, form from the right. Layout is always left-to-right.
-  const slideFromStart = useMemo(() => slideInX(-60), []);
-  const slideFromEnd = useMemo(() => slideInX(60), []);
+  // Info enters from the start edge, form from the end edge; Arabic mirrors both.
+  const slideFromStart = useMemo(() => slideInX(locale === "ar" ? 60 : -60), [locale]);
+  const slideFromEnd = useMemo(() => slideInX(locale === "ar" ? -60 : 60), [locale]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

@@ -26,10 +26,10 @@ export function LocaleProvider({
   children: ReactNode;
 }) {
   useEffect(() => {
-    // Language changes the text and the font, never the layout direction:
-    // the document stays left-to-right so switching locales only translates.
+    // Each route's root layout already serves the right lang and dir; this keeps
+    // them in step if the provider is ever mounted under the other layout.
     document.documentElement.lang = HREFLANG[locale];
-    document.documentElement.dir = "ltr";
+    document.documentElement.dir = locale === "ar" ? "rtl" : "ltr";
   }, [locale]);
 
   const value = useMemo<LocaleContextValue>(() => {
