@@ -69,8 +69,8 @@
       }
     ],
     "languageToggle": {
-      "en": "العربية",
-      "ar": "English"
+      "en": "Language",
+      "ar": "اللغة"
     },
     "cta": {
       "en": "Start a Project",
@@ -1265,4 +1265,4 @@
       "ar": "جميع الحقوق محفوظة."
     }
   }
-}
+}

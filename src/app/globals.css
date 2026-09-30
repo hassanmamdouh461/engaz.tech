@@ -93,6 +93,19 @@
     outline: 3px solid #ff6b9d;
     outline-offset: 3px;
   }
+
+  /* Sections receive programmatic focus after an in-page jump so keyboard and
+     screen-reader users continue from the section. A mouse click should not
+     paint a ring around the whole section, so only keyboard focus shows one. */
+  [tabindex="-1"]:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Set before first paint by IntroScript for returning visitors, so the intro
+     curtain never flashes before the Loader unmounts it. */
+  html[data-intro="skip"] [data-loader] {
+    display: none !important;
+  }
 }
 
 @layer components {
@@ -248,19 +261,5 @@
       rgba(0, 0, 0, 0.35) 96%,
       transparent 100%
     );
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-
-  html {
-    scroll-behavior: auto;
   }
 }

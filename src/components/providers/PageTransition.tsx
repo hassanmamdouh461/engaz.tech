@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { useLenis } from "lenis/react";
+import { useIntroDone } from "@/lib/intro-state";
 import { gsap } from "@/lib/use-gsap-lenis";
 
 /**
@@ -17,40 +18,77 @@ const COVER_SECONDS = 0.9;
 const UNCOVER_SECONDS = 0.9;
 const HEADER_OFFSET = 88;
 
+/**
+ * Resolves "#id" to its element. getElementById rather than querySelector: an id
+ * that starts with a digit or holds CSS syntax is a valid fragment but an invalid
+ * selector, and querySelector would throw on it.
+ */
+function targetFor(hash: string): HTMLElement | null {
+  if (!hash.startsWith("#") || hash.length < 2) return null;
+  let id = hash.slice(1);
+  try {
+    id = decodeURIComponent(id);
+  } catch {
+    // Malformed escape: fall back to the raw fragment.
+  }
+  return document.getElementById(id);
+}
+
+/**
+ * Moves keyboard and screen-reader focus to the section the reader landed on.
+ * Without this the visual jump happens but focus stays on the nav link, so the
+ * next Tab press goes back to the header instead of into the section.
+ */
+function focusTarget(target: HTMLElement) {
+  if (!target.hasAttribute("tabindex")) {
+    target.setAttribute("tabindex", "-1");
+  }
+  target.focus({ preventScroll: true });
+}
+
 export function PageTransition({ children }: { children: ReactNode }) {
   const lenis = useLenis();
   const svgRef = useRef<SVGSVGElement>(null);
   const busyRef = useRef(false);
   const [active, setActive] = useState(false);
+  const introDone = useIntroDone();
+
+  /** Instant move to a section, shared by the wipe, deep links, and Back/Forward. */
+  const scrollToTarget = useCallback(
+    (target: HTMLElement) => {
+      const top = Math.max(
+        0,
+        target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET,
+      );
+
+      // Set the real scroll position first: Lenis is stopped during the wipe, so a
+      // scrollTo through it would be queued rather than applied.
+      window.scrollTo({ top, behavior: "auto" });
+      // Then hand Lenis the new position so restarting does not animate back.
+      lenis?.scrollTo(top, { immediate: true, force: true, lock: true });
+    },
+    [lenis],
+  );
 
   const jump = useCallback(
     (href: string) => {
-      if (!href.startsWith("#")) {
-        return false;
-      }
-
       const svg = svgRef.current;
-      const target = document.querySelector(href);
-      if (!(target instanceof HTMLElement)) {
+      const target = targetFor(href);
+      if (!target) {
         return false;
       }
 
-      // Land the reader at the target even when the animation cannot run.
+      // Land the reader at the target even when the animation cannot run. The URL
+      // follows along, so Back, reload, and "copy link" all point at the section.
       const land = () => {
-        const top = Math.max(
-          0,
-          target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET,
-        );
-
-        // Set the real scroll position first: Lenis is stopped during the wipe, so a
-        // scrollTo through it would be queued rather than applied.
-        window.scrollTo({ top, behavior: "auto" });
-        // Then hand Lenis the new position so restarting does not animate back.
-        lenis?.scrollTo(top, { immediate: true, force: true, lock: true });
+        scrollToTarget(target);
+        if (window.location.hash !== href) {
+          window.history.pushState(null, "", href);
+        }
+        focusTarget(target);
       };
 
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (!svg || reduceMotion) {
+      if (!svg) {
         land();
         return true;
       }
@@ -145,8 +183,41 @@ export function PageTransition({ children }: { children: ReactNode }) {
 
       return true;
     },
-    [lenis],
+    [lenis, scrollToTarget],
   );
+
+  // Deep links (/#contact) and Back/Forward. The browser's own anchor jump on load
+  // happens while the intro curtain holds the page and before the pinned stroke
+  // section inserts its spacer, so it lands in the wrong place. Re-land once the
+  // curtain is gone and ScrollTrigger has re-measured (StrokeReveal refreshes on
+  // the same signal, and child effects run before this one).
+  const deepLinkHandledRef = useRef(false);
+  useEffect(() => {
+    // Once per page load: a later Lenis instance change must not yank the reader
+    // back to the fragment they arrived on.
+    if (!introDone || deepLinkHandledRef.current) return;
+    deepLinkHandledRef.current = true;
+    const target = targetFor(window.location.hash);
+    if (target) {
+      scrollToTarget(target);
+    }
+  }, [introDone, scrollToTarget]);
+
+  useEffect(() => {
+    const onPopState = () => {
+      const target = targetFor(window.location.hash);
+      if (target) {
+        scrollToTarget(target);
+        focusTarget(target);
+      } else {
+        window.scrollTo({ top: 0, behavior: "auto" });
+        lenis?.scrollTo(0, { immediate: true, force: true });
+      }
+    };
+
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [lenis, scrollToTarget]);
 
   useEffect(() => {
     const onClick = (event: MouseEvent) => {

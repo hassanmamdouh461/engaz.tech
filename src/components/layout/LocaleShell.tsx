@@ -53,7 +53,9 @@ export function localeMetadata(locale: Locale): Metadata {
       template: `%s | ${brand.name[locale]}`,
     },
     description,
-    keywords: KEYWORDS[locale],
+    // Google ignores this tag and Bing reads a long one as stuffing, so only the
+    // core terms go here; the full list still drives copy and structured data.
+    keywords: KEYWORDS[locale].slice(0, 15),
     applicationName: brand.name.en,
     generator: "Next.js",
     authors: [{ name: brand.name.en, url: SITE_URL }],

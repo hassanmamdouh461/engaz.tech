@@ -4,6 +4,8 @@ The site is a static export with no image pipeline, so the card is generated onc
 here and committed as public/og.png rather than rendered per request.
 """
 
+import os
+
 from PIL import Image, ImageDraw, ImageFont
 
 W, H = 1200, 630
@@ -20,8 +22,26 @@ img = Image.new("RGB", (W, H), VOID)
 draw = ImageDraw.Draw(img, "RGBA")
 
 
+# Font lookup: FONT_DIR if set, then the usual system locations on Windows,
+# macOS, and Linux, so the card can be regenerated on any machine.
+FONT_DIRS = [
+    os.environ.get("FONT_DIR", ""),
+    "C:/Windows/Fonts",
+    "/Library/Fonts",
+    "/System/Library/Fonts/Supplemental",
+    os.path.expanduser("~/Library/Fonts"),
+    "/usr/share/fonts/truetype/msttcorefonts",
+    "/usr/share/fonts/truetype",
+    os.path.expanduser("~/.fonts"),
+]
+
+
 def font(name, size):
-    return ImageFont.truetype(f"C:/Windows/Fonts/{name}", size)
+    for directory in filter(None, FONT_DIRS):
+        path = os.path.join(directory, name)
+        if os.path.exists(path):
+            return ImageFont.truetype(path, size)
+    raise SystemExit(f"Font {name} not found; set FONT_DIR to a folder containing it.")
 
 
 def slab(box, fill, shadow=12, border=6):

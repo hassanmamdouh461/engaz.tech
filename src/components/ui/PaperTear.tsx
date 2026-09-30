@@ -1,9 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Tape } from "@/components/ui/Tape";
-import { useMounted } from "@/lib/use-mounted";
 
 /**
  * Hand-authored torn edge: a quadratic ribbon oscillating irregularly around the
@@ -46,10 +45,6 @@ function TearEdge({ variant }: { variant: "top" | "bottom" }) {
  */
 export function PaperTear() {
   const ref = useRef<HTMLDivElement>(null);
-  const mounted = useMounted();
-  // Same hydration contract as Highlight: the reduced-motion branch renders a
-  // different tree, so it must wait until after hydration or React mismatches.
-  const reduceMotion = useReducedMotion() && mounted;
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.85", "start 0.25"],
@@ -64,14 +59,6 @@ export function PaperTear() {
   const tapeZ = useTransform(scrollYProgress, [0.78, 1], [30, 0]);
   const tapeRotateX = useTransform(scrollYProgress, [0.78, 1], [35, 0]);
   const tapeOpacity = useTransform(scrollYProgress, [0.85, 0.95], [0, 1]);
-
-  if (reduceMotion) {
-    return (
-      <div className="relative" aria-hidden>
-        <TearEdge variant="bottom" />
-      </div>
-    );
-  }
 
   return (
     <div ref={ref} className="relative [perspective:1000px]">

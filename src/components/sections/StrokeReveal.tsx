@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { cn } from "@/lib/cn";
 import { content } from "@/lib/content";
 import { useIntroDone } from "@/lib/intro-state";
 import { useLocale } from "@/lib/locale-context";
@@ -49,21 +48,6 @@ export function StrokeReveal() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const lines = Array.from(section.querySelectorAll<HTMLElement>("[data-line]"));
-    if (lines.length < 2) return;
-
-    // First line fully shown, every later one clipped away until its pass arrives.
-    // Set this BEFORE the reduced-motion short-circuit so the static layout still
-    // reads as one line when the animation is disabled: otherwise all four lines
-    // stack at the same position and the headline area collapses into a smear.
-    lines.forEach((line, index) => {
-      line.style.clipPath = index === 0 ? "inset(0 0 0 0%)" : "inset(0 100% 0 0)";
-    });
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
-
     const context = gsap.context(() => {
       // Dash the strokes to their own length so each one draws from nothing.
       const paths = gsap.utils.toArray<SVGPathElement>(".stroke-line");
@@ -74,11 +58,10 @@ export function StrokeReveal() {
 
       const timeline = gsap.timeline();
 
-      // Which line is currently on show, derived from progress across the passes.
-      const passes = Math.max(1, lines.length - 1);
+      // Halfway through the pin the light sheet goes dark and the second line
+      // takes over — the swap fires while the bands still cover the frame.
       const setPhase = (progress: number) => {
-        const index = Math.min(lines.length - 1, Math.round(progress * passes));
-        section.dataset.phase = index % 2 === 0 ? "in" : "out";
+        section.dataset.phase = progress >= 0.5 ? "out" : "in";
       };
 
       // Eight viewports on a desktop reads as deliberate; on a phone the same
@@ -100,8 +83,6 @@ export function StrokeReveal() {
         scrub: true,
         animation: timeline,
         invalidateOnRefresh: true,
-        // Background alternates with the line on show, so odd lines read white on
-        // dark and even lines black on light.
         onUpdate: (self) => setPhase(self.progress),
         onRefresh: (self) => {
           // A reload restores the previous scroll position, which can land inside the
@@ -135,59 +116,21 @@ export function StrokeReveal() {
         );
       });
 
-      // The bands then make one pass per line change: each pass sweeps across, and the
-      // wipe edge rides that same tween so the words are replaced exactly where the
-      // band's leading edge crosses them. The final pass leaves the bands off-screen.
-      const PASS_DURATION = 2;
-
-      lines.slice(0, -1).forEach((_, index) => {
-        const current = lines[index];
-        const next = lines[index + 1];
-        const wipe = { at: 0 };
-        const first = index === 0;
-
-        // The bands already cover the frame on the first pass; later passes have to
-        // re-enter from the left before they can cross again.
-        if (!first) {
-          timeline.set(".stroke-row", { xPercent: -100 });
-        }
-
-        timeline.to(
-          ".stroke-row",
-          {
-            xPercent: 100,
-            duration: PASS_DURATION,
-            ease: "power3.inOut",
-            stagger: 0.15,
-          },
-          first ? ">-0.5" : ">",
-        );
-
-        timeline.to(
-          wipe,
-          {
-            at: 100,
-            duration: PASS_DURATION,
-            ease: "power3.inOut",
-            onUpdate: () => {
-              // One moving edge for both lines: the next line is revealed exactly
-              // where the current one is hidden, so no gap or overlap can appear.
-              current.style.clipPath = `inset(0 0 0 ${wipe.at}%)`;
-              next.style.clipPath = `inset(0 ${100 - wipe.at}% 0 0)`;
-            },
-          },
-          "<",
-        );
-      });
-
+      // One final sweep: every band exits to the right together, uncovering the
+      // second line sitting on the dark sheet.
+      timeline.to(
+        ".stroke-row",
+        {
+          xPercent: 100,
+          duration: 2,
+          ease: "power3.inOut",
+          stagger: 0.15,
+        },
+        ">-0.5",
+      );
     }, section);
 
-    return () => {
-      context.revert();
-      for (const line of lines) {
-        line.style.removeProperty("clip-path");
-      }
-    };
+    return () => context.revert();
   }, [locale]);
 
   // The curtain holds the scroll and hides body overflow, so the page it is measured
@@ -206,31 +149,21 @@ export function StrokeReveal() {
       {/* One heading for assistive tech; the visual layers below are decorative
           frames of a single wipe and would otherwise be announced as fragments. */}
       <h2 className="sr-only">
-        {hero.strokeLines.map((line) => t(line)).join(". ")}
+        {t(hero.strokeLines[0])}. {t(hero.strokeLines[1])}
       </h2>
 
-      {/* Every line occupies the same box. One clip edge travels across each pair with
-          the sweeping band: what the band has passed shows the next line, what it has
-          not still shows the current one, so the words read as printed on the band. */}
+      {/* The bands hide whichever line is leaving, so the swap lands mid-pin while
+          the frame is still covered; the reader only ever sees one line at a time. */}
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 z-10 w-[86%] -translate-x-1/2 -translate-y-1/2 sm:w-3/4 lg:w-1/2"
       >
-        {hero.strokeLines.map((line, index) => (
-          <p
-            key={line.en}
-            data-line={index}
-            className={cn(
-              "text-center text-xl font-bold uppercase leading-[0.95] xs:text-2xl sm:text-4xl lg:text-6xl",
-              // The first line sets the box height; the rest stack on top of it.
-              index === 0 ? "relative" : "absolute inset-0",
-              // Alternating ink keeps each line legible against the band that carries it.
-              index % 2 === 0 ? "text-black" : "text-white",
-            )}
-          >
-            {t(line)}
-          </p>
-        ))}
+        <p className="text-center text-xl font-bold uppercase leading-[0.95] text-black xs:text-2xl sm:text-4xl lg:text-6xl group-data-[phase=out]/stroke:hidden">
+          {t(hero.strokeLines[0])}
+        </p>
+        <p className="hidden text-center text-xl font-bold uppercase leading-[0.95] text-white xs:text-2xl sm:text-4xl lg:text-6xl group-data-[phase=out]/stroke:block">
+          {t(hero.strokeLines[1])}
+        </p>
       </div>
 
       {/* Overscaled so the strokes read as slabs crossing the frame, not as lines.

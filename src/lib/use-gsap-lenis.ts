@@ -21,7 +21,11 @@ export function useGsapLenisBridge() {
       // On phones the browser chrome collapsing on scroll changes viewport height.
       // Treating that as a resize re-measures every pin mid-gesture, which remaps the
       // scroll position and throws the reader down the page and back.
-      ScrollTrigger.config({ ignoreMobileResize: true });
+      // A hard wheel flick under Lenis can jump past a pin start before the next
+      // update tick; pinning a viewport early means the overshoot never shows as
+      // the section sliding by and then yanking back. anticipatePin ships at
+      // runtime but is missing from this version's ConfigVars type.
+      ScrollTrigger.config({ ignoreMobileResize: true, anticipatePin: 1 } as ScrollTrigger.ConfigVars);
       registered = true;
     }
 

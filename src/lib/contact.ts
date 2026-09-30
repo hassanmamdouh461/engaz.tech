@@ -5,9 +5,10 @@
  * submission triggers a one-time confirmation email to the recipient; until that link
  * is clicked, nothing is delivered.
  *
- * The address is public in the client bundle, which is a spam-scraping risk. After
+ * Without a hash the address sits in the endpoint URL in the client bundle. After
  * activating, FormSubmit issues a hashed endpoint id — set NEXT_PUBLIC_CONTACT_FORM_ID
- * to that hash and the address stops appearing in the bundle.
+ * to that hash and the endpoint stops carrying it. The email contact card in
+ * content.json still shows the address on the page unless that channel is removed.
  */
 const FORM_ID = process.env.NEXT_PUBLIC_CONTACT_FORM_ID || "hassanmamdouh461@gmail.com";
 
@@ -57,8 +58,13 @@ export function buildContactPayload(data: ContactSubmission): Record<string, str
 export function isRelayFailure(status: number, body: unknown): boolean {
   if (status < 200 || status >= 300) return true;
   if (typeof body !== "object" || body === null) return false;
-  return (body as { success?: unknown }).success === "false";
+  // The relay has answered with both the string "false" and a real boolean over
+  // time; normalising through String() catches either.
+  return String((body as { success?: unknown }).success) === "false";
 }
+
+/** How long to wait for the relay before telling the visitor it failed. */
+export const SEND_TIMEOUT_MS = 15_000;
 
 /**
  * Sends the submission and resolves only when the relay accepts it, so the caller can
@@ -72,6 +78,9 @@ export async function sendContactMessage(data: ContactSubmission): Promise<void>
       Accept: "application/json",
     },
     body: JSON.stringify(buildContactPayload(data)),
+    // Without a deadline a relay that never answers leaves the button on
+    // "Sending…" forever; aborting surfaces it as a normal send error instead.
+    signal: AbortSignal.timeout(SEND_TIMEOUT_MS),
   });
 
   const body: unknown = await response.json().catch(() => null);

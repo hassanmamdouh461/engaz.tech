@@ -65,4 +65,13 @@ describe("isRelayFailure", () => {
     expect(isRelayFailure(200, { success: "false", message: "not activated" })).toBe(true);
     expect(isRelayFailure(200, { success: "true" })).toBe(false);
   });
+
+  it("treats a boolean success:false the same as the string form", () => {
+    expect(isRelayFailure(200, { success: false })).toBe(true);
+    expect(isRelayFailure(200, { success: true })).toBe(false);
+  });
+
+  it("does not fail a 200 whose body has no success flag", () => {
+    expect(isRelayFailure(200, {})).toBe(false);
+  });
 });

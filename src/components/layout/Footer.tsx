@@ -85,7 +85,10 @@ export function Footer() {
 
         <div className="mt-7 flex flex-col gap-2 border-t-3 border-edge pt-4 font-mono text-xs text-ink/70 sm:mt-8 sm:pt-5 md:flex-row md:items-center md:justify-between">
           <p>
-            <span dir="ltr">{`© ${year} ${brand.name.en}`}</span> — {t(footer.copyright)}
+            {/* The static export bakes the build year into the HTML; the client
+                re-renders it with the current year, so a deploy that outlives
+                New Year's Eve self-corrects instead of reporting a mismatch. */}
+            <span dir="ltr" suppressHydrationWarning>{`© ${year} ${brand.name.en}`}</span> — {t(footer.copyright)}
           </p>
           <p>{t(brand.tagline)}</p>
         </div>

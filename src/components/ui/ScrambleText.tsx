@@ -30,17 +30,13 @@ export function ScrambleText({
 
   // If the text prop changes, settle on the new string during render rather
   // than inside an effect — the sanctioned "adjust state when props change"
-  // pattern, which keeps reduced-motion and hydration paths identical.
+  // pattern, which keeps the hydration path identical.
   if (text !== lastText) {
     setLastText(text);
     setDisplay(text);
   }
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
-
     const pool = poolFor(text);
     const chars = [...text];
     frame.current = 0;
@@ -73,9 +69,12 @@ export function ScrambleText({
     };
   }, [text, delay]);
 
-  // The label carries the settled string so assistive tech never reads the noise.
+  // Screen readers get the settled string as real text; the animated copy is
+  // hidden from them. aria-label on a plain <span> is ignored by most readers,
+  // which previously removed the greeting from the accessibility tree entirely.
   return (
-    <span className={className} aria-label={text}>
+    <span className={className}>
+      <span className="sr-only">{text}</span>
       <span aria-hidden>{display}</span>
     </span>
   );
