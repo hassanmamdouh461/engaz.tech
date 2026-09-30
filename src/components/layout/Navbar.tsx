@@ -160,7 +160,7 @@ export function Navbar() {
                   key={link.id}
                   href={link.href}
                   onClick={handleAnchorClick}
-                  initial={{ opacity: 0, x: -12 }}
+                  initial={{ opacity: 0, x: locale === "ar" ? 12 : -12 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.04 + index * 0.035, duration: 0.28 }}
                   className="border-3 border-transparent px-3 py-3 text-base font-semibold text-ink transition-colors hover:border-edge hover:bg-brand-yellow hover:text-black"

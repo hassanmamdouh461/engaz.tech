@@ -96,24 +96,24 @@
   "hero": {
     "greeting": {
       "en": "Hi there, we build software",
-      "ar": "أهلًا بك، نحن نبني البرمجيات"
+      "ar": "أهلًا بك في إنجاز"
     },
     "headlineLead": {
       "en": "We Build Software",
-      "ar": "نبني البرمجيات"
+      "ar": "نبني برمجيات"
     },
     "headlineAccent": {
       "en": "That Runs Your Business",
-      "ar": "التي تُشغّل أعمالك"
+      "ar": "تُشغّل أعمالك"
     },
     "strokeLines": [
       {
         "en": "We Build Software",
-        "ar": "نبني البرمجيات"
+        "ar": "نبني برمجيات"
       },
       {
         "en": "That Runs Your Business",
-        "ar": "التي تُشغّل أعمالك"
+        "ar": "تُشغّل أعمالك"
       },
       {
         "en": "Shipped Fast, Supported After",
@@ -336,7 +336,7 @@
             "id": "orders",
             "value": {
               "en": "100K+",
-              "ar": "+100 ألف"
+              "ar": "100 ألف+"
             },
             "label": {
               "en": "Orders processed",

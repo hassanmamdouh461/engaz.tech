@@ -71,7 +71,7 @@ export function Hero() {
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: ready ? 1 : 0 }}
                   transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
-                  className="absolute -inset-x-1 bottom-1 top-[55%] -z-0 origin-left bg-brand-yellow"
+                  className="absolute -inset-x-1 bottom-1 top-[55%] -z-0 origin-left bg-brand-yellow rtl:origin-right"
                 />
               </span>
             </h1>
@@ -94,13 +94,8 @@ export function Hero() {
                 className="neo-btn-primary group"
               >
                 {t(hero.primaryCta)}
-                {/* html stays dir=ltr even in Arabic, so rtl: variants never apply —
-                    flip the "forward" arrow by locale instead. */}
-                <ArrowRight
-                  className={`h-4 w-4 transition-transform duration-300 ${
-                    locale === "ar" ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"
-                  }`}
-                />
+                {/* "Forward" points toward the end edge, so the arrow flips in Arabic. */}
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1" />
               </a>
 
               <a

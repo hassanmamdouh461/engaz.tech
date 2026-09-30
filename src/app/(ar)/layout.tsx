@@ -19,7 +19,7 @@ export default function ArabicLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang={HREFLANG.ar}
-      dir="ltr"
+      dir="rtl"
       className={fontVariables}
       // The pre-paint scripts below add data-theme / data-intro and an inline
       // overflow lock to <html> before React hydrates; those are expected to

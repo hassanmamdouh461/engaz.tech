@@ -63,18 +63,24 @@
     @apply font-arabic;
   }
 
-  /* Arabic runs right-to-left at the text level while the page layout stays
-     left-to-right. Without this, trailing punctuation and comma-led clauses are
-     reordered by the bidi algorithm and appear at the wrong end of the sentence. */
-  html[lang^="ar"] :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, label, blockquote) {
-    direction: rtl;
+  /* Space Mono and Space Grotesk ship Latin only, and their metric-matched
+     fallbacks are local fonts that do carry Arabic, so Arabic in mono labels and
+     badges rendered in a system typewriter face with monospace word gaps. Arabic
+     copy uses Cairo throughout; Latin-only values (phone, email, domain) are
+     marked dir=ltr and keep the brand mono. */
+  html[lang^="ar"] {
+    --font-mono: var(--font-arabic);
+    --font-display: var(--font-arabic);
   }
 
-  /* Block-level links and buttons (the drawer, the footer) read right-aligned in
-     Arabic. direction:rtl is NOT used here — on a flex container it would reverse
-     the order of icon and label, not just align the text. */
-  html[lang^="ar"] :is(a, button) {
-    text-align: right;
+  html[lang^="ar"] [dir="ltr"] {
+    --font-mono: "Space Mono", ui-monospace, monospace;
+  }
+
+  /* Arabic letters join; any tracking pulls them apart, so labels and headings
+     tracked for Latin copy are reset in Arabic. */
+  html[lang^="ar"] * {
+    letter-spacing: normal;
   }
 
   /* Latin-only values must not be reordered inside an Arabic paragraph. */
