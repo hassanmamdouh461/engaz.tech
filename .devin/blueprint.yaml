@@ -27,3 +27,6 @@ knowledge:
       # npm install-scripts approve esbuild unrs-resolver workerd (approvals
       # live in package.json allowScripts once merged).
       # Every user-visible string lives in src/data/content.json as {en, ar} pairs.
+      # UI automation: the session Chrome already runs with
+      # --remote-debugging-port=29229 — drive it via CDP (Node's global
+      # WebSocket suffices, no deps). Dev server: npm run dev → :3000.
