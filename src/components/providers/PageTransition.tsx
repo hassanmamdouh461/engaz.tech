@@ -67,10 +67,11 @@ export function PageTransition({ children }: { children: ReactNode }) {
         // holds the shorter page's limit and clamps the jump into the pinned section.
         lenis?.resize();
 
-        // The mobile drawer also hides body overflow while open; if its cleanup
-        // has not flushed yet on a slow phone, a jump issued here would land on a
-        // page with nothing to scroll. Clearing it again is harmless — the drawer
-        // is already on its way out.
+        // The mobile drawer also locks <html> overflow while open; if its
+        // cleanup has not flushed yet on a slow phone, a jump issued here would
+        // land on a page with nothing to scroll. Clearing it again is harmless —
+        // the drawer is already on its way out.
+        document.documentElement.style.overflow = "";
         document.body.style.overflow = "";
 
         // html{scroll-behavior:smooth} makes every programmatic scroll glide, and
@@ -244,6 +245,19 @@ export function PageTransition({ children }: { children: ReactNode }) {
       scrollToTarget(target);
     }
   }, [introDone, scrollToTarget]);
+
+  // Back/Forward lands through scrollToTarget, so the browser's own scroll
+  // restore must not race the jump: on "auto" Chrome can replay a stale saved
+  // offset over the landing and leave the reader sections away (observed ending
+  // at the page bottom for a #work back-navigation). Manual hands the whole
+  // landing to the popstate handler below.
+  useEffect(() => {
+    if (!("scrollRestoration" in window.history)) return;
+    window.history.scrollRestoration = "manual";
+    return () => {
+      window.history.scrollRestoration = "auto";
+    };
+  }, []);
 
   useEffect(() => {
     const onPopState = () => {

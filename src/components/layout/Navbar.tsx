@@ -33,12 +33,16 @@ export function Navbar() {
     lastScroll.current = current;
   });
 
-  // Lenis drives scrolling from its own handlers, so hiding body overflow alone
+  // Lenis drives scrolling from its own handlers, so locking overflow alone
   // does not stop the page moving behind the open menu on touch devices.
   useEffect(() => {
     if (open) {
       lenis?.stop();
-      document.body.style.overflow = "hidden";
+      // Lock on <html>, not <body>: overflow:hidden turns body into a scroll
+      // container, which re-roots this sticky header at document top while the
+      // viewport sits deep in the page — the drawer would open where nobody
+      // can see it.
+      document.documentElement.style.overflow = "hidden";
     } else {
       // A tap on a drawer link also fires the wipe, which stops Lenis itself for
       // the jump. Restarting here would undo that mid-transition and let the page
@@ -46,12 +50,12 @@ export function Navbar() {
       if (document.documentElement.dataset.wipe !== "1") {
         lenis?.start();
       }
-      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     }
 
     return () => {
       lenis?.start();
-      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     };
   }, [open, lenis]);
 
