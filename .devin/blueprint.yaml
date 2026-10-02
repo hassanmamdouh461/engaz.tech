@@ -1,0 +1,32 @@
+# https://docs.devin.ai/onboard-devin/environment-yaml
+# Commands run from the repo root.
+initialize: |
+  # Nothing global needed — Node 20+ is present; npm handles the rest.
+maintenance: |
+  npm install
+knowledge:
+  - name: lint
+    contents: |
+      # npm run lint  (eslint . — next/core-web-vitals + typescript)
+  - name: typecheck
+    contents: |
+      # npm run typecheck  (tsc --noEmit)
+  - name: test
+    contents: |
+      # npm test  (vitest run)
+  - name: build
+    contents: |
+      # npm run build → static export to out/; deploy via wrangler (npm run deploy)
+  - name: notes
+    contents: |
+      # No GitHub App on this repo — Devin's git proxy can fetch but not push (403).
+      # Push/PRs go through PAT: secret:repo:hassanmamdouh461/web-noqta:GITHUB_PAT_NOQTA
+      # e.g. git push https://x-access-token:$GH_PAT@github.com/hassanmamdouh461/engaz.tech.git <branch>
+      # and api.github.com PR creation with the same token (has admin on this repo).
+      # If postinstalls are skipped (missing esbuild/workerd binaries), run
+      # npm install-scripts approve esbuild unrs-resolver workerd (approvals
+      # live in package.json allowScripts once merged).
+      # Every user-visible string lives in src/data/content.json as {en, ar} pairs.
+      # UI automation: the session Chrome already runs with
+      # --remote-debugging-port=29229 — drive it via CDP (Node's global
+      # WebSocket suffices, no deps). Dev server: npm run dev → :3000.
