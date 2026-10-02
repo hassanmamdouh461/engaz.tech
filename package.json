@@ -39,5 +39,10 @@
     "safari >= 16.4",
     "firefox >= 128",
     "edge >= 111"
-  ]
+  ],
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "unrs-resolver@1.12.2": true,
+    "workerd@1.20260921.1": true
+  }
 }

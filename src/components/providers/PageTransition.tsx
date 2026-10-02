@@ -67,11 +67,29 @@ export function PageTransition({ children }: { children: ReactNode }) {
         // holds the shorter page's limit and clamps the jump into the pinned section.
         lenis?.resize();
 
-        // Set the real scroll position first: Lenis is stopped during the wipe, so a
-        // scrollTo through it would be queued rather than applied.
+        // The mobile drawer also hides body overflow while open; if its cleanup
+        // has not flushed yet on a slow phone, a jump issued here would land on a
+        // page with nothing to scroll. Clearing it again is harmless — the drawer
+        // is already on its way out.
+        document.body.style.overflow = "";
+
+        // html{scroll-behavior:smooth} makes every programmatic scroll glide, and
+        // scrollTo({behavior:"auto"}) defers to that CSS value — including the
+        // fallback WebKit uses when it does not know "instant". Suspend it for the
+        // jump so the landing cannot turn into a second-long page scroll under the
+        // wipe on iOS Safari.
+        const root = document.documentElement;
+        const prevScrollBehavior = root.style.scrollBehavior;
+        root.style.scrollBehavior = "auto";
+        // scrollTop assignment rather than scrollTo options: it jumps on engines
+        // that do not parse the options bag, and with smooth suspended it cannot
+        // animate.
+        root.scrollTop = top;
+        document.body.scrollTop = top;
         window.scrollTo({ top, behavior: "auto" });
         // Then hand Lenis the new position so restarting does not animate back.
         lenis?.scrollTo(top, { immediate: true, force: true, lock: true });
+        root.style.scrollBehavior = prevScrollBehavior;
       };
 
       land();
@@ -118,6 +136,9 @@ export function PageTransition({ children }: { children: ReactNode }) {
       }
       busyRef.current = true;
       setActive(true);
+      // Flag the run on <html>: the mobile drawer close effect restarts Lenis on
+      // the same tap, and checking this there keeps it from undoing the stop below.
+      document.documentElement.dataset.wipe = "1";
 
       // Block user input for the duration. Note this must not hide body overflow:
       // that collapses the scrollable area, and the programmatic landing below would
@@ -143,6 +164,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       const timeline = gsap.timeline({
         onComplete: () => {
           lenis?.start();
+          delete document.documentElement.dataset.wipe;
           setActive(false);
           // Held briefly past the end: a tap can emit a second, late click on some
           // mobile engines, and releasing immediately let it start the wipe again.
