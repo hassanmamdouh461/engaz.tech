@@ -40,7 +40,12 @@ export function Navbar() {
       lenis?.stop();
       document.body.style.overflow = "hidden";
     } else {
-      lenis?.start();
+      // A tap on a drawer link also fires the wipe, which stops Lenis itself for
+      // the jump. Restarting here would undo that mid-transition and let the page
+      // scroll while it is supposed to be covered.
+      if (document.documentElement.dataset.wipe !== "1") {
+        lenis?.start();
+      }
       document.body.style.overflow = "";
     }
 
