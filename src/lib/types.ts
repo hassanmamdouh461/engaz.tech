@@ -84,7 +84,51 @@ export interface FooterColumn {
   links: Localized[];
 }
 
+export interface TitledItem {
+  id: string;
+  title: Localized;
+  body: Localized;
+}
+
 export interface SiteContent {
+  /** Interface strings shared across pages: nav, CTAs, footer labels, 404. */
+  ui: {
+    nav: Record<"services" | "pos" | "work" | "process" | "contact", Localized>;
+    menu: Localized;
+    skipToContent: Localized;
+    breadcrumb: Localized;
+    themeToDark: Localized;
+    themeToLight: Localized;
+    whatsappCta: Localized;
+    /** Pre-filled WhatsApp text; each page passes its own so leads show their source. */
+    whatsappMessage: Localized;
+    briefCta: Localized;
+    learnMore: Localized;
+    posLink: Localized;
+    closingHeading: Localized;
+    closingBody: Localized;
+    footerPages: Localized;
+    footerContact: Localized;
+    notFoundTitle: Localized;
+    notFoundBody: Localized;
+    backHome: Localized;
+  };
+  posPage: {
+    metaTitle: Localized;
+    metaDescription: Localized;
+    eyebrow: Localized;
+    heading: Localized;
+    modulesHeading: Localized;
+    modules: TitledItem[];
+    flowHeading: Localized;
+    flow: TitledItem[];
+    ctaHeading: Localized;
+    whatsappMessage: Localized;
+  };
+  contactPage: {
+    metaTitle: Localized;
+    metaDescription: Localized;
+  };
   brand: {
     name: Localized;
     tagline: Localized;

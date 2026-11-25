@@ -1,0 +1,93 @@
+---
+import BrandMark from "@/components/BrandMark.astro";
+import { content } from "@/lib/content";
+import { pathFor } from "@/lib/routes";
+import type { Locale } from "@/lib/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { brand, footer, ui, contact } = content;
+const home = pathFor(locale, "home");
+const year = new Date().getFullYear();
+
+const pages = [
+  { href: home, label: content.nav.links[0].label[locale] },
+  { href: `${home}#services`, label: ui.nav.services[locale] },
+  { href: pathFor(locale, "pos"), label: ui.nav.pos[locale] },
+  { href: `${home}#work`, label: ui.nav.work[locale] },
+  { href: pathFor(locale, "contact"), label: ui.nav.contact[locale] },
+];
+
+// The website channel points back at this site; the footer lists ways to reach a person.
+const channels = contact.channels.filter((channel) => channel.id !== "site");
+---
+
+<footer class="border-t-2 border-ink">
+  <div class="frame grid gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr]">
+    <div class="flex flex-col gap-4">
+      <a href={home} class="flex items-center gap-2.5 font-display text-lg font-semibold">
+        <span class="flex size-9 items-center justify-center border-2 border-ink bg-accent text-accent-ink">
+          <BrandMark class="size-5" />
+        </span>
+        {brand.name[locale]}
+      </a>
+      <p class="max-w-sm text-sm text-ink/70">{footer.summary[locale]}</p>
+      <ul class="flex flex-wrap gap-2">
+        {footer.compliance.map((badge) => (
+          <li class="border border-ink/30 px-2 py-0.5 font-mono text-xs">
+            {badge[locale]}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="eyebrow mb-4">{ui.footerPages[locale]}</h2>
+      <ul class="flex flex-col gap-1">
+        {pages.map((item) => (
+          <li>
+            <a href={item.href} class="inline-block py-1.5 text-sm hover:underline">
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="eyebrow mb-4">{ui.footerContact[locale]}</h2>
+      <ul class="flex flex-col gap-1">
+        {channels.map((channel) => (
+          <li>
+            <a
+              href={channel.href}
+              class="inline-flex flex-col py-1.5 text-sm hover:underline"
+              target={channel.href?.startsWith("http") ? "_blank" : undefined}
+              rel={channel.href?.startsWith("http") ? "noopener" : undefined}
+            >
+              <span class="text-ink/60">{channel.label[locale]}</span>
+              <span dir="ltr" class="font-mono [overflow-wrap:anywhere]">
+                {channel.value}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="frame flex flex-col gap-1 px-4 py-5 font-mono text-xs text-ink/60 sm:flex-row sm:justify-between sm:px-6">
+      <p>
+        <span dir="ltr">
+          © {year} {brand.name.en}
+        </span>{" "}
+        — {footer.copyright[locale]}
+      </p>
+      <p>{brand.tagline[locale]}</p>
+    </div>
+  </div>
+</footer>

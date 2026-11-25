@@ -16,7 +16,7 @@ knowledge:
       # npm test  (vitest run)
   - name: build
     contents: |
-      # npm run build → static export to out/; deploy via wrangler (npm run deploy)
+      # npm run build → static site to dist/; deploy via wrangler (npm run deploy)
   - name: notes
     contents: |
       # No GitHub App on this repo — Devin's git proxy can fetch but not push (403).

@@ -1,0 +1,112 @@
+---
+import alexandriaArabic from "@fontsource-variable/alexandria/files/alexandria-arabic-wght-normal.woff2?url";
+import geistLatin from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
+import plexArabic from "@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-arabic-400-normal.woff2?url";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import MobileCta from "@/components/MobileCta.astro";
+import { content } from "@/lib/content";
+import { type Page, absoluteUrl } from "@/lib/routes";
+import { HREFLANG, KEYWORDS, OG_LOCALE, SITE_URL, structuredData } from "@/lib/seo";
+import type { Locale, Localized } from "@/lib/types";
+import "@/styles/global.css";
+
+interface Props {
+  locale: Locale;
+  page: Page;
+  title: string;
+  description: string;
+  /** WhatsApp text for this page's CTAs, so leads show where they came from. */
+  whatsappMessage?: Localized;
+}
+
+const {
+  locale,
+  page,
+  title,
+  description,
+  whatsappMessage = content.ui.whatsappMessage,
+} = Astro.props;
+const { brand, ui } = content;
+const other: Locale = locale === "en" ? "ar" : "en";
+const canonical = absoluteUrl(locale, page);
+const ogImage = `${SITE_URL}/og.png`;
+
+// The theme is applied before first paint so dark-mode visitors never see a
+// flash of the light page. Light is the default whatever the OS prefers.
+const themeScript = `(function(){try{if(localStorage.getItem("engaz.theme")==="dark"){document.documentElement.setAttribute("data-theme","dark")}}catch(e){}})();`;
+---
+
+<!doctype html>
+<html lang={HREFLANG[locale]} dir={locale === "ar" ? "rtl" : "ltr"}>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={KEYWORDS[locale].slice(0, 15).join(", ")} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={HREFLANG.en} href={absoluteUrl("en", page)} />
+    <link rel="alternate" hreflang={HREFLANG.ar} href={absoluteUrl("ar", page)} />
+    <link rel="alternate" hreflang="x-default" href={absoluteUrl("en", page)} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={brand.name[locale]} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={OG_LOCALE[locale]} />
+    <meta property="og:locale:alternate" content={OG_LOCALE[other]} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <meta name="theme-color" content="#f4f4f0" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    {locale === "ar" ? (
+      <>
+        <link rel="preload" href={plexArabic} as="font" type="font/woff2" crossorigin />
+        <link
+          rel="preload"
+          href={alexandriaArabic}
+          as="font"
+          type="font/woff2"
+          crossorigin
+        />
+      </>
+    ) : (
+      <link rel="preload" href={geistLatin} as="font" type="font/woff2" crossorigin />
+    )}
+
+    <script is:inline set:html={themeScript} />
+    {page === "home" && (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(structuredData(locale)).replace(/</g, "\\u003c")}
+      />
+    )}
+  </head>
+  <body class="min-h-dvh pb-20 lg:pb-0">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50 focus:border-2 focus:border-ink focus:bg-accent focus:px-4 focus:py-2 focus:font-semibold focus:text-accent-ink"
+    >
+      {ui.skipToContent[locale]}
+    </a>
+    <Header locale={locale} page={page} whatsappMessage={whatsappMessage} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+    <MobileCta locale={locale} whatsappMessage={whatsappMessage} />
+  </body>
+</html>

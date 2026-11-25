@@ -2,7 +2,7 @@ name = "engaz-tech"
 compatibility_date = "2025-01-01"
 
 [assets]
-directory = "./out"
+directory = "./dist"
 not_found_handling = "404-page"
 
 # custom_domain = true makes Cloudflare create and manage the DNS record for the

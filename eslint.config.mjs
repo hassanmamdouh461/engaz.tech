@@ -1,9 +1,11 @@
+import js from "@eslint/js";
+import astro from "eslint-plugin-astro";
 import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import tseslint from "typescript-eslint";
 
 export default defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  globalIgnores([".next/**", "out/**", "node_modules/**"]),
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...astro.configs.recommended,
+  globalIgnores(["dist/**", ".astro/**", "node_modules/**", ".wrangler/**"]),
 ]);

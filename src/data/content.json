@@ -1264,5 +1264,288 @@
       "en": "All rights reserved.",
       "ar": "جميع الحقوق محفوظة."
     }
+  },
+  "ui": {
+    "nav": {
+      "services": {
+        "en": "Services",
+        "ar": "الخدمات"
+      },
+      "pos": {
+        "en": "POS System",
+        "ar": "نظام الكاشير"
+      },
+      "work": {
+        "en": "Work",
+        "ar": "أعمالنا"
+      },
+      "process": {
+        "en": "How we work",
+        "ar": "كيف نعمل"
+      },
+      "contact": {
+        "en": "Contact",
+        "ar": "تواصل معنا"
+      }
+    },
+    "menu": {
+      "en": "Menu",
+      "ar": "القائمة"
+    },
+    "skipToContent": {
+      "en": "Skip to content",
+      "ar": "تخطَّ إلى المحتوى"
+    },
+    "breadcrumb": {
+      "en": "Breadcrumb",
+      "ar": "مسار التنقل"
+    },
+    "themeToDark": {
+      "en": "Switch to dark theme",
+      "ar": "التبديل إلى الوضع الداكن"
+    },
+    "themeToLight": {
+      "en": "Switch to light theme",
+      "ar": "التبديل إلى الوضع الفاتح"
+    },
+    "whatsappCta": {
+      "en": "Chat on WhatsApp",
+      "ar": "تواصل عبر واتساب"
+    },
+    "whatsappMessage": {
+      "en": "Hi Engaz, I'd like to discuss a project.",
+      "ar": "مرحبًا إنجاز، أريد مناقشة مشروع."
+    },
+    "briefCta": {
+      "en": "Send a project brief",
+      "ar": "أرسل تفاصيل مشروعك"
+    },
+    "learnMore": {
+      "en": "Learn more",
+      "ar": "اعرف المزيد"
+    },
+    "posLink": {
+      "en": "Explore the POS system",
+      "ar": "استكشف نظام الكاشير"
+    },
+    "closingHeading": {
+      "en": "Have a project in mind?",
+      "ar": "لديك مشروع في بالك؟"
+    },
+    "closingBody": {
+      "en": "Message us on WhatsApp or send a short brief, and we'll come back with an approach, a timeline, and an honest estimate.",
+      "ar": "راسلنا على واتساب أو أرسل وصفًا قصيرًا، ونعود إليك بمقاربة وجدول زمني وتقدير صادق."
+    },
+    "footerPages": {
+      "en": "Pages",
+      "ar": "الصفحات"
+    },
+    "footerContact": {
+      "en": "Contact",
+      "ar": "التواصل"
+    },
+    "notFoundTitle": {
+      "en": "Page not found",
+      "ar": "الصفحة غير موجودة"
+    },
+    "notFoundBody": {
+      "en": "The page you were looking for doesn't exist or has moved.",
+      "ar": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها."
+    },
+    "backHome": {
+      "en": "Back to the homepage",
+      "ar": "العودة إلى الرئيسية"
+    }
+  },
+  "posPage": {
+    "metaTitle": {
+      "en": "Restaurant & Café POS System",
+      "ar": "نظام كاشير وإدارة للمطاعم والكافيهات"
+    },
+    "metaDescription": {
+      "en": "A point of sale and management system for restaurants and cafés: orders, tables, kitchen display, stock, shift reports, and an owner dashboard — and it keeps working offline.",
+      "ar": "نظام نقطة بيع وإدارة للمطاعم والكافيهات: الطلبات والطاولات وشاشة المطبخ والمخزون وتقارير الورديات ولوحة للمالك، ويستمر في العمل دون إنترنت."
+    },
+    "eyebrow": {
+      "en": "Restaurants & Cafés",
+      "ar": "المطاعم والكافيهات"
+    },
+    "heading": {
+      "en": "One system from the cashier to the kitchen to the owner's dashboard",
+      "ar": "نظام واحد من الكاشير إلى المطبخ إلى لوحة المالك"
+    },
+    "modulesHeading": {
+      "en": "What's in the system",
+      "ar": "ماذا يضم النظام"
+    },
+    "modules": [
+      {
+        "id": "pos",
+        "title": {
+          "en": "Point of sale",
+          "ar": "نقطة البيع"
+        },
+        "body": {
+          "en": "Orders and split bills at the counter, built for rush hour.",
+          "ar": "الطلبات وتقسيم الفواتير على الكاشير، مصمَّمة لساعات الذروة."
+        }
+      },
+      {
+        "id": "tables",
+        "title": {
+          "en": "Tables & order flow",
+          "ar": "الطاولات وسير الطلبات"
+        },
+        "body": {
+          "en": "Follow every table and every order from opening to payment.",
+          "ar": "تابع كل طاولة وكل طلب من الفتح حتى الدفع."
+        }
+      },
+      {
+        "id": "kitchen",
+        "title": {
+          "en": "Kitchen display",
+          "ar": "شاشة المطبخ"
+        },
+        "body": {
+          "en": "Orders reach the kitchen screen the moment they are placed.",
+          "ar": "تصل الطلبات إلى شاشة المطبخ فور تسجيلها."
+        }
+      },
+      {
+        "id": "stock",
+        "title": {
+          "en": "Stock tracking",
+          "ar": "متابعة المخزون"
+        },
+        "body": {
+          "en": "See what is running low before the shift starts.",
+          "ar": "اعرف ما يوشك على النفاد قبل بداية الوردية."
+        }
+      },
+      {
+        "id": "shifts",
+        "title": {
+          "en": "Shift reports",
+          "ar": "تقارير الورديات"
+        },
+        "body": {
+          "en": "Close the day with shift reports instead of spreadsheets.",
+          "ar": "أغلق اليوم بتقارير الورديات بدل جداول البيانات."
+        }
+      },
+      {
+        "id": "dashboard",
+        "title": {
+          "en": "Owner dashboard",
+          "ar": "لوحة المالك"
+        },
+        "body": {
+          "en": "Live reports and role-based controls for owners and managers.",
+          "ar": "تقارير مباشرة وصلاحيات حسب الدور للملاك والمديرين."
+        }
+      },
+      {
+        "id": "offline",
+        "title": {
+          "en": "Works offline",
+          "ar": "يعمل دون إنترنت"
+        },
+        "body": {
+          "en": "Keeps taking orders when the internet drops.",
+          "ar": "يستمر في استقبال الطلبات عند انقطاع الإنترنت."
+        }
+      },
+      {
+        "id": "ordering",
+        "title": {
+          "en": "Online ordering",
+          "ar": "الطلب أونلاين"
+        },
+        "body": {
+          "en": "Branded ordering pages that push straight into the kitchen — no commission, no middleman.",
+          "ar": "صفحات طلب باسم علامتك تصل مباشرة إلى المطبخ، بلا عمولة ولا وسيط."
+        }
+      },
+      {
+        "id": "loyalty",
+        "title": {
+          "en": "Loyalty & offers",
+          "ar": "الولاء والعروض"
+        },
+        "body": {
+          "en": "Points, tiers, and targeted offers that bring customers back.",
+          "ar": "نقاط ومستويات وعروض موجّهة تعيد العملاء إليك."
+        }
+      },
+      {
+        "id": "integrations",
+        "title": {
+          "en": "Integrations",
+          "ar": "التكاملات"
+        },
+        "body": {
+          "en": "Connects to accounting, delivery apps, payment providers, and printers.",
+          "ar": "يتصل بالمحاسبة وتطبيقات التوصيل ومزوّدي الدفع والطابعات."
+        }
+      }
+    ],
+    "flowHeading": {
+      "en": "How an order moves",
+      "ar": "كيف يتحرك الطلب"
+    },
+    "flow": [
+      {
+        "id": "cashier",
+        "title": {
+          "en": "Cashier",
+          "ar": "الكاشير"
+        },
+        "body": {
+          "en": "The order is taken at the counter, a table, or online.",
+          "ar": "يُسجَّل الطلب على الكاشير أو الطاولة أو أونلاين."
+        }
+      },
+      {
+        "id": "kitchen",
+        "title": {
+          "en": "Kitchen",
+          "ar": "المطبخ"
+        },
+        "body": {
+          "en": "It lands on the kitchen screen and stock updates.",
+          "ar": "يظهر على شاشة المطبخ ويتحدّث المخزون."
+        }
+      },
+      {
+        "id": "customer",
+        "title": {
+          "en": "Customer",
+          "ar": "العميل"
+        },
+        "body": {
+          "en": "Served, paid, and counted in the shift report.",
+          "ar": "يُقدَّم ويُدفع ويُحتسب في تقرير الوردية."
+        }
+      }
+    ],
+    "ctaHeading": {
+      "en": "Get a POS quote for your venue",
+      "ar": "اطلب عرضًا لنظام الكاشير لمكانك"
+    },
+    "whatsappMessage": {
+      "en": "Hi Engaz, I'd like a quote for the POS system.",
+      "ar": "مرحبًا إنجاز، أريد عرضًا لنظام الكاشير."
+    }
+  },
+  "contactPage": {
+    "metaTitle": {
+      "en": "Contact Engaz",
+      "ar": "تواصل مع إنجاز"
+    },
+    "metaDescription": {
+      "en": "Tell us what you need built. WhatsApp, phone, email, or a short project brief — we reply within one business day.",
+      "ar": "أخبرنا بما تريد بناءه عبر واتساب أو الهاتف أو البريد أو نموذج قصير، ونرد خلال يوم عمل واحد."
+    }
   }
 }

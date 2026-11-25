@@ -1,0 +1,127 @@
+---
+import Menu from "@lucide/astro/icons/menu";
+import MessageCircle from "@lucide/astro/icons/message-circle";
+import X from "@lucide/astro/icons/x";
+import BrandMark from "@/components/BrandMark.astro";
+import ThemeToggle from "@/components/ThemeToggle.astro";
+import { content } from "@/lib/content";
+import { type Page, pathFor, whatsappHref } from "@/lib/routes";
+import { HREFLANG } from "@/lib/seo";
+import type { Locale, Localized } from "@/lib/types";
+
+interface Props {
+  locale: Locale;
+  page: Page;
+  whatsappMessage: Localized;
+}
+
+const { locale, page, whatsappMessage } = Astro.props;
+const { brand, nav, ui } = content;
+const home = pathFor(locale, "home");
+
+const links = [
+  { id: "services", href: `${home}#services`, label: ui.nav.services[locale] },
+  { id: "pos", href: pathFor(locale, "pos"), label: ui.nav.pos[locale] },
+  { id: "work", href: `${home}#work`, label: ui.nav.work[locale] },
+  { id: "process", href: `${home}#process`, label: ui.nav.process[locale] },
+  { id: "contact", href: pathFor(locale, "contact"), label: ui.nav.contact[locale] },
+];
+
+const current = (id: string) =>
+  (id === "pos" && page === "pos") || (id === "contact" && page === "contact");
+
+const locales: { locale: Locale; label: string; title: string }[] = [
+  { locale: "en", label: "EN", title: "English" },
+  { locale: "ar", label: "ع", title: "العربية" },
+];
+---
+
+<header class="sticky top-0 z-40 border-b border-ink/15 bg-paper/90 backdrop-blur-md supports-[backdrop-filter]:bg-paper/75 dark:border-ink/20">
+  <div class="frame flex h-16 items-center justify-between gap-3 px-4 sm:px-6">
+    <a href={home} class="flex shrink-0 items-center gap-2.5 font-display font-semibold">
+      <span class="flex size-9 items-center justify-center border-2 border-ink bg-accent text-accent-ink">
+        <BrandMark class="size-5" />
+      </span>
+      <span class="text-lg tracking-tight">{brand.name[locale]}</span>
+    </a>
+
+    <nav aria-label={nav.primaryNav[locale]} class="hidden items-center gap-1 lg:flex">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          aria-current={current(link.id) ? "page" : undefined}
+          class="px-3 py-2 text-sm font-medium text-ink/75 transition-colors hover:text-ink aria-[current=page]:text-ink aria-[current=page]:underline aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8"
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <nav aria-label={nav.languageToggle[locale]} class="flex border-2 border-ink">
+        {locales.map((option) => (
+          <a
+            href={pathFor(option.locale, page)}
+            hreflang={HREFLANG[option.locale]}
+            lang={HREFLANG[option.locale]}
+            title={option.title}
+            aria-current={option.locale === locale ? "page" : undefined}
+            class="flex h-9 w-10 items-center justify-center text-sm font-semibold transition-colors hover:bg-ink/10 aria-[current=page]:bg-ink aria-[current=page]:text-paper"
+          >
+            {option.label}
+          </a>
+        ))}
+      </nav>
+      <ThemeToggle locale={locale} />
+      <a
+        href={whatsappHref(whatsappMessage, locale)}
+        target="_blank"
+        rel="noopener"
+        class="btn-primary hidden min-h-10 px-4 text-sm lg:inline-flex"
+      >
+        <MessageCircle class="size-4" aria-hidden="true" />
+        {ui.whatsappCta[locale]}
+      </a>
+
+      {/* A native disclosure: the menu opens and closes with no script at all;
+          the script below only adds Escape and close-on-navigate. */}
+      <details class="group relative lg:hidden" data-menu>
+        <summary
+          class="flex size-10 cursor-pointer list-none items-center justify-center border-2 border-ink [&::-webkit-details-marker]:hidden"
+          aria-label={ui.menu[locale]}
+        >
+          <Menu class="size-5 group-open:hidden" aria-hidden="true" />
+          <X class="hidden size-5 group-open:block" aria-hidden="true" />
+        </summary>
+        <nav
+          aria-label={nav.mobileNav[locale]}
+          class="absolute end-0 top-full mt-3 flex w-[min(20rem,calc(100vw-2rem))] flex-col border-2 border-ink bg-surface p-2 shadow-hard"
+        >
+          {links.map((link) => (
+            <a
+              href={link.href}
+              aria-current={current(link.id) ? "page" : undefined}
+              class="px-3 py-3 font-medium hover:bg-accent hover:text-accent-ink aria-[current=page]:bg-ink/5"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script>
+  for (const menu of document.querySelectorAll<HTMLDetailsElement>("[data-menu]")) {
+    menu.addEventListener("click", (event) => {
+      if ((event.target as Element).closest("a")) menu.open = false;
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && menu.open) {
+        menu.open = false;
+        menu.querySelector("summary")?.focus();
+      }
+    });
+  }
+</script>

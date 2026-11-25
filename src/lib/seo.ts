@@ -19,6 +19,17 @@ export const OG_LOCALE: Record<Locale, string> = {
   ar: "ar_EG",
 };
 
+/** Homepage title and description; inner pages take theirs from content.json. */
+export const TITLE: Record<Locale, string> = {
+  en: "Engaz — Software, Restaurant Systems & AI Agents",
+  ar: "إنجاز — برمجة وأنظمة مطاعم ووكلاء ذكاء اصطناعي",
+};
+
+export const DESCRIPTION: Record<Locale, string> = {
+  en: "Engaz is a software house building restaurant and café POS systems, AI agents and automation, websites, mobile apps, and custom software — delivered fast and supported after launch.",
+  ar: "إنجاز شركة برمجيات تبني أنظمة كاشير للمطاعم والكافيهات، ووكلاء ذكاء اصطناعي وأتمتة، ومواقع إلكترونية، وتطبيقات جوال، وبرمجيات مخصصة — تسليم سريع ودعم بعد الإطلاق.",
+};
+
 export function canonicalFor(locale: Locale): string {
   return `${SITE_URL}${LOCALE_PATH[locale]}`;
 }

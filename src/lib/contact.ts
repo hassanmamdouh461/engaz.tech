@@ -6,11 +6,12 @@
  * is clicked, nothing is delivered.
  *
  * Without a hash the address sits in the endpoint URL in the client bundle. After
- * activating, FormSubmit issues a hashed endpoint id — set NEXT_PUBLIC_CONTACT_FORM_ID
+ * activating, FormSubmit issues a hashed endpoint id — set PUBLIC_CONTACT_FORM_ID
  * to that hash and the endpoint stops carrying it. The email contact card in
  * content.json still shows the address on the page unless that channel is removed.
  */
-const FORM_ID = process.env.NEXT_PUBLIC_CONTACT_FORM_ID || "hassanmamdouh461@gmail.com";
+const FORM_ID: string =
+  import.meta.env.PUBLIC_CONTACT_FORM_ID || "hassanmamdouh461@gmail.com";
 
 export const CONTACT_ENDPOINT = `https://formsubmit.co/ajax/${FORM_ID}`;
 

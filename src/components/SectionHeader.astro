@@ -1,0 +1,29 @@
+---
+import MarkedText from "@/components/MarkedText.astro";
+
+interface Props {
+  /** Section index shown before the eyebrow, e.g. "02". */
+  index: string;
+  eyebrow: string;
+  heading: string;
+  body?: string;
+}
+
+const { index, eyebrow, heading, body } = Astro.props;
+---
+
+<div class="reveal flex flex-col gap-4">
+  <p class="eyebrow">
+    <span dir="ltr" class="text-ink">
+      {index}
+    </span>
+    <span aria-hidden="true" class="h-px w-6 bg-ink/40"></span>
+    {eyebrow}
+  </p>
+  <h2 class="h2 max-w-3xl">{heading}</h2>
+  {body && (
+    <p class="lead">
+      <MarkedText text={body} />
+    </p>
+  )}
+</div>

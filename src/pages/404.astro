@@ -1,0 +1,49 @@
+---
+import BrandMark from "@/components/BrandMark.astro";
+import { content } from "@/lib/content";
+import { pathFor } from "@/lib/routes";
+import "@/styles/global.css";
+
+// Cloudflare serves this one file for every unknown URL in either language, so
+// it speaks both rather than guessing the visitor's locale.
+const { ui, brand } = content;
+---
+
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{ui.notFoundTitle.en} | {brand.name.en}</title>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  </head>
+  <body class="flex min-h-dvh items-center justify-center p-6">
+    <main class="flex w-full max-w-xl flex-col gap-10 border-2 border-ink bg-surface p-8 shadow-hard">
+      <span class="flex size-12 items-center justify-center border-2 border-ink bg-accent text-accent-ink">
+        <BrandMark class="size-7" />
+      </span>
+      <section class="flex flex-col gap-3">
+        <p class="font-mono text-sm" dir="ltr">
+          404
+        </p>
+        <h1 class="h2">{ui.notFoundTitle.en}</h1>
+        <p class="text-ink/70">{ui.notFoundBody.en}</p>
+        <a href={pathFor("en", "home")} class="btn-primary self-start">
+          {ui.backHome.en}
+        </a>
+      </section>
+      <section
+        lang="ar"
+        dir="rtl"
+        class="flex flex-col gap-3 border-t border-ink/15 pt-8"
+      >
+        <h2 class="h2">{ui.notFoundTitle.ar}</h2>
+        <p class="text-ink/70">{ui.notFoundBody.ar}</p>
+        <a href={pathFor("ar", "home")} class="btn-secondary self-start">
+          {ui.backHome.ar}
+        </a>
+      </section>
+    </main>
+  </body>
+</html>

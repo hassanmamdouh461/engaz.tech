@@ -1,0 +1,67 @@
+---
+import ContactForm from "@/components/ContactForm.astro";
+import Base from "@/layouts/Base.astro";
+import { content } from "@/lib/content";
+import { resolveIcon } from "@/lib/icons";
+import type { Locale } from "@/lib/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { contact, contactPage, brand } = content;
+const t = (value: Record<Locale, string>) => value[locale];
+
+// The website channel links back to this site; the page lists ways to reach a person.
+const channels = contact.channels.filter((channel) => channel.id !== "site");
+---
+
+<Base
+  locale={locale}
+  page="contact"
+  title={`${t(contactPage.metaTitle)} | ${t(brand.name)}`}
+  description={t(contactPage.metaDescription)}
+>
+  <section>
+    <div class="frame grid gap-12 px-4 pt-14 pb-20 sm:px-6 lg:grid-cols-[1fr_1.4fr] lg:gap-16 lg:pt-20 lg:pb-24">
+      <div class="flex flex-col gap-6">
+        <p class="eyebrow">{t(contact.eyebrow)}</p>
+        <h1 class="h1">{t(contact.heading)}</h1>
+        <p class="lead">{t(contact.body)}</p>
+
+        {/* NN/g: keep the direct routes visible next to the form, not behind it. */}
+        <ul class="mt-4 border-t-2 border-ink">
+          {channels.map((channel) => {
+            const Icon = resolveIcon(channel.icon);
+            return (
+              <li class="border-b border-ink/15 dark:border-ink/20">
+                <a
+                  href={channel.href}
+                  target={channel.href?.startsWith("http") ? "_blank" : undefined}
+                  rel={channel.href?.startsWith("http") ? "noopener" : undefined}
+                  class="flex items-center gap-4 py-4 transition-colors hover:bg-ink/[0.03]"
+                >
+                  <span class="flex size-10 shrink-0 items-center justify-center border-2 border-ink">
+                    <Icon class="size-5" aria-hidden="true" />
+                  </span>
+                  <span class="flex min-w-0 flex-col">
+                    <span class="text-sm text-ink/60">{t(channel.label)}</span>
+                    <span
+                      dir="ltr"
+                      class="font-mono font-semibold [overflow-wrap:anywhere] rtl:text-end"
+                    >
+                      {channel.value}
+                    </span>
+                  </span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      <ContactForm locale={locale} />
+    </div>
+  </section>
+</Base>

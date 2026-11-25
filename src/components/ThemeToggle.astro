@@ -1,0 +1,55 @@
+---
+import Moon from "@lucide/astro/icons/moon";
+import Sun from "@lucide/astro/icons/sun";
+import { content } from "@/lib/content";
+import type { Locale } from "@/lib/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { ui } = content;
+---
+
+<button
+  type="button"
+  data-theme-toggle
+  data-label-dark={ui.themeToDark[locale]}
+  data-label-light={ui.themeToLight[locale]}
+  aria-label={ui.themeToDark[locale]}
+  class="flex size-10 items-center justify-center border-2 border-ink transition-colors hover:bg-ink hover:text-paper"
+>
+  {/* Both icons ship; CSS picks one from data-theme, so nothing flips on hydrate. */}
+  <Moon class="size-5 dark:hidden" aria-hidden="true" />
+  <Sun class="hidden size-5 dark:block" aria-hidden="true" />
+</button>
+
+<script>
+  const root = document.documentElement;
+
+  for (const button of document.querySelectorAll<HTMLButtonElement>(
+    "[data-theme-toggle]",
+  )) {
+    const sync = () => {
+      const dark = root.dataset.theme === "dark";
+      button.setAttribute(
+        "aria-label",
+        (dark ? button.dataset.labelLight : button.dataset.labelDark) ?? "",
+      );
+    };
+    sync();
+
+    button.addEventListener("click", () => {
+      const next = root.dataset.theme === "dark" ? "light" : "dark";
+      if (next === "dark") root.dataset.theme = "dark";
+      else delete root.dataset.theme;
+      try {
+        localStorage.setItem("engaz.theme", next);
+      } catch {
+        // Private browsing can reject the write; the theme still applies here.
+      }
+      sync();
+    });
+  }
+</script>

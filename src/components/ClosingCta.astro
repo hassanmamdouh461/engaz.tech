@@ -1,0 +1,43 @@
+---
+import MessageCircle from "@lucide/astro/icons/message-circle";
+import { content } from "@/lib/content";
+import { pathFor, whatsappHref } from "@/lib/routes";
+import type { Locale, Localized } from "@/lib/types";
+
+interface Props {
+  locale: Locale;
+  heading?: string;
+  whatsappMessage: Localized;
+  /** The contact page links to its own form instead of to itself. */
+  briefHref?: string;
+}
+
+const { locale, heading, whatsappMessage, briefHref } = Astro.props;
+const { ui } = content;
+---
+
+<section class="border-t-2 border-ink bg-accent text-accent-ink">
+  <div class="frame flex flex-col gap-8 border-accent-ink/20 px-4 py-16 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:py-20">
+    <div class="flex max-w-2xl flex-col gap-4">
+      <h2 class="h2">{heading ?? ui.closingHeading[locale]}</h2>
+      <p class="text-base sm:text-lg">{ui.closingBody[locale]}</p>
+    </div>
+    <div class="flex flex-col gap-3 sm:flex-row">
+      <a
+        href={whatsappHref(whatsappMessage, locale)}
+        target="_blank"
+        rel="noopener"
+        class="inline-flex min-h-12 items-center justify-center gap-2 border-2 border-accent-ink bg-accent-ink px-5 font-semibold text-accent transition-transform hover:-translate-y-0.5"
+      >
+        <MessageCircle class="size-5" aria-hidden="true" />
+        {ui.whatsappCta[locale]}
+      </a>
+      <a
+        href={briefHref ?? pathFor(locale, "contact")}
+        class="inline-flex min-h-12 items-center justify-center border-2 border-accent-ink px-5 font-semibold transition-colors hover:bg-accent-ink hover:text-accent"
+      >
+        {ui.briefCta[locale]}
+      </a>
+    </div>
+  </div>
+</section>

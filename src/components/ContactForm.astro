@@ -1,0 +1,246 @@
+---
+import Send from "@lucide/astro/icons/send";
+import { content } from "@/lib/content";
+import { FIELD_MAX_LENGTH } from "@/lib/contact";
+import type { Locale } from "@/lib/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { form } = content.contact;
+const t = (value: Record<Locale, string>) => value[locale];
+
+// Status copy for the script, which runs without access to content.json.
+const messages = {
+  submit: t(form.submit),
+  submitting: t(form.submitting),
+  success: t(form.success),
+  error: t(form.error),
+  errorEmail: t(form.errorEmail),
+  errorSend: t(form.errorSend),
+  errorCooldown: t(form.errorCooldown),
+};
+---
+
+<form
+  id="brief"
+  data-contact-form
+  data-messages={JSON.stringify(messages)}
+  novalidate
+  class="flex flex-col gap-5 border-2 border-ink bg-surface p-5 shadow-hard sm:p-8"
+>
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label for="organization" class="label">
+        {t(form.organization)}
+      </label>
+      <input
+        id="organization"
+        name="organization"
+        required
+        maxlength={FIELD_MAX_LENGTH.name}
+        autocomplete="organization"
+        class="field"
+      />
+    </div>
+    <div>
+      <label for="email" class="label">
+        {t(form.email)}
+      </label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        inputmode="email"
+        autocomplete="email"
+        dir="ltr"
+        required
+        maxlength={FIELD_MAX_LENGTH.email}
+        placeholder={t(form.emailPlaceholder)}
+        class="field"
+      />
+    </div>
+    <div>
+      <label for="phone" class="label">
+        {t(form.phone)}
+      </label>
+      <input
+        id="phone"
+        name="phone"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        dir="ltr"
+        maxlength={FIELD_MAX_LENGTH.phone}
+        placeholder={t(form.phonePlaceholder)}
+        class="field"
+      />
+    </div>
+    <div>
+      <label for="sector" class="label">
+        {t(form.sector)}
+      </label>
+      <select id="sector" name="sector" class="field">
+        <option value="">{t(form.sectorPlaceholder)}</option>
+        {form.sectorOptions.map((option) => (
+          <option value={option.en}>{t(option)}</option>
+        ))}
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <label for="scope" class="label">
+      {t(form.scope)}
+    </label>
+    <input
+      id="scope"
+      name="scope"
+      maxlength={FIELD_MAX_LENGTH.budget}
+      placeholder={t(form.scopePlaceholder)}
+      class="field"
+    />
+  </div>
+
+  <div>
+    <label for="message" class="label">
+      {t(form.message)}
+    </label>
+    <textarea
+      id="message"
+      name="message"
+      rows="5"
+      required
+      maxlength={FIELD_MAX_LENGTH.message}
+      placeholder={t(form.messagePlaceholder)}
+      class="field resize-y"
+    ></textarea>
+  </div>
+
+  {/* Honeypot: off-screen for people, filled in by bots that fill every field. */}
+  <div aria-hidden="true" class="absolute -start-[9999px] size-0 overflow-hidden">
+    <label for="company-site">Website</label>
+    <input
+      id="company-site"
+      name="company-site"
+      type="text"
+      tabindex="-1"
+      autocomplete="off"
+    />
+  </div>
+
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+    <button
+      type="submit"
+      data-submit
+      class="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+    >
+      <Send class="size-4 rtl:-scale-x-100" aria-hidden="true" />
+      <span data-submit-label>{messages.submit}</span>
+    </button>
+    <p
+      role="status"
+      aria-live="polite"
+      data-status
+      class="text-sm font-semibold empty:hidden data-[tone=error]:bg-ink data-[tone=error]:px-3 data-[tone=error]:py-1 data-[tone=error]:text-paper data-[tone=success]:bg-accent data-[tone=success]:px-3 data-[tone=success]:py-1 data-[tone=success]:text-accent-ink"
+    ></p>
+  </div>
+</form>
+
+<script>
+  import { isValidEmail, sendContactMessage } from "@/lib/contact";
+
+  /** Minimum gap between submissions, to stop accidental double-sends and rapid spam. */
+  const COOLDOWN_SECONDS = 30;
+
+  for (const form of document.querySelectorAll<HTMLFormElement>("[data-contact-form]")) {
+    const messages = JSON.parse(form.dataset.messages ?? "{}") as Record<string, string>;
+    const button = form.querySelector<HTMLButtonElement>("[data-submit]")!;
+    const label = form.querySelector<HTMLElement>("[data-submit-label]")!;
+    const status = form.querySelector<HTMLElement>("[data-status]")!;
+    const field = (name: string) =>
+      (form.elements.namedItem(name) as HTMLInputElement | null)?.value.trim() ?? "";
+
+    let sentAt = 0;
+    let timer = 0;
+
+    const show = (text: string, tone: "success" | "error" | "") => {
+      status.textContent = text;
+      status.dataset.tone = tone;
+    };
+
+    // Counts the cooldown down on the button so a second send waits visibly.
+    const startCooldown = () => {
+      window.clearInterval(timer);
+      const tick = () => {
+        const left = Math.ceil(COOLDOWN_SECONDS - (Date.now() - sentAt) / 1000);
+        if (left <= 0) {
+          window.clearInterval(timer);
+          button.disabled = false;
+          label.textContent = messages.submit;
+          return;
+        }
+        button.disabled = true;
+        label.textContent = `${messages.submit} (${left}s)`;
+      };
+      tick();
+      timer = window.setInterval(tick, 1000);
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      // A person never sees the honeypot; anything in it is a bot. Report success
+      // anyway — the point is to waste the bot's time, not to warn it.
+      if (field("company-site")) {
+        show(messages.success, "success");
+        return;
+      }
+
+      const elapsed = (Date.now() - sentAt) / 1000;
+      if (sentAt > 0 && elapsed < COOLDOWN_SECONDS) {
+        const seconds = String(Math.ceil(COOLDOWN_SECONDS - elapsed));
+        show(messages.errorCooldown.replace("{seconds}", seconds), "error");
+        return;
+      }
+
+      if (!field("organization") || !field("message")) {
+        show(messages.error, "error");
+        return;
+      }
+
+      // A reply is impossible without a reachable address, so this one is required.
+      if (!isValidEmail(field("email"))) {
+        show(messages.errorEmail, "error");
+        return;
+      }
+
+      button.disabled = true;
+      label.textContent = messages.submitting;
+      show("", "");
+
+      try {
+        await sendContactMessage({
+          name: field("organization"),
+          email: field("email"),
+          phone: field("phone"),
+          projectType: field("sector"),
+          budget: field("scope"),
+          message: field("message"),
+        });
+      } catch {
+        button.disabled = false;
+        label.textContent = messages.submit;
+        show(messages.errorSend, "error");
+        return;
+      }
+
+      sentAt = Date.now();
+      form.reset();
+      show(messages.success, "success");
+      startCooldown();
+    });
+  }
+</script>

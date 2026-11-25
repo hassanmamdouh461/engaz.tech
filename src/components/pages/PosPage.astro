@@ -1,0 +1,126 @@
+---
+import MessageCircle from "@lucide/astro/icons/message-circle";
+import ClosingCta from "@/components/ClosingCta.astro";
+import OrderFlow from "@/components/OrderFlow.astro";
+import ProcessSteps from "@/components/ProcessSteps.astro";
+import SectionHeader from "@/components/SectionHeader.astro";
+import Base from "@/layouts/Base.astro";
+import { content } from "@/lib/content";
+import { pathFor, whatsappHref } from "@/lib/routes";
+import type { Locale } from "@/lib/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { posPage, work, ecosystem, ui, brand } = content;
+const t = (value: Record<Locale, string>) => value[locale];
+const system = work.featured[0];
+---
+
+<Base
+  locale={locale}
+  page="pos"
+  title={`${t(posPage.metaTitle)} | ${t(brand.name)}`}
+  description={t(posPage.metaDescription)}
+  whatsappMessage={posPage.whatsappMessage}
+>
+  <section>
+    <div class="frame flex flex-col gap-7 px-4 pt-14 pb-16 sm:px-6 lg:pt-20 lg:pb-20">
+      <nav aria-label={t(ui.breadcrumb)} class="eyebrow">
+        <a href={pathFor(locale, "home")} class="hover:text-ink">
+          {t(brand.name)}
+        </a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page" class="text-ink">
+          {t(ui.nav.pos)}
+        </span>
+      </nav>
+      <h1 class="h1 max-w-4xl">{t(posPage.heading)}</h1>
+      <p class="lead">{t(system.description)}</p>
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <a
+          href={whatsappHref(posPage.whatsappMessage, locale)}
+          target="_blank"
+          rel="noopener"
+          class="btn-primary"
+        >
+          <MessageCircle class="size-5" aria-hidden="true" />
+          {t(ui.whatsappCta)}
+        </a>
+        <a href={pathFor(locale, "contact")} class="btn-secondary">
+          {t(ui.briefCta)}
+        </a>
+      </div>
+    </div>
+
+    <div class="rule">
+      <dl class="frame grid grid-cols-3">
+        {system.metrics.map((metric, index) => (
+          <div
+            class:list={[
+              "flex flex-col gap-1 px-4 py-8 sm:px-6",
+              index > 0 && "border-s border-ink/15 dark:border-ink/20",
+            ]}
+          >
+            <dt class="order-2 text-sm text-ink/70">{t(metric.label)}</dt>
+            <dd class="order-1 font-display text-2xl font-semibold tracking-tight sm:text-4xl">
+              {t(metric.value)}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="rule">
+    <div class="frame px-4 py-16 sm:px-6 lg:py-24">
+      <SectionHeader
+        index="01"
+        eyebrow={t(posPage.eyebrow)}
+        heading={t(posPage.modulesHeading)}
+      />
+      <ul class="mt-12 grid gap-px border-2 border-ink bg-ink sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        {posPage.modules.map((module, index) => (
+          <li class="reveal flex flex-col gap-2 bg-paper p-5">
+            <span dir="ltr" class="font-mono text-xs text-ink/60 rtl:text-end">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <h3 class="font-display font-semibold">{t(module.title)}</h3>
+            <p class="text-sm text-ink/70">{t(module.body)}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-ink text-paper">
+    <div class="frame border-paper/15 px-4 py-16 sm:px-6 lg:py-24">
+      <h2 class="h2">{t(posPage.flowHeading)}</h2>
+      <div class="mt-14">
+        <OrderFlow locale={locale} />
+      </div>
+    </div>
+  </section>
+
+  <section class="rule">
+    <div class="frame px-4 py-16 sm:px-6 lg:py-24">
+      <SectionHeader
+        index="02"
+        eyebrow={t(ecosystem.eyebrow)}
+        heading={t(ecosystem.heading)}
+        body={t(ecosystem.body)}
+      />
+      <div class="mt-12">
+        <ProcessSteps locale={locale} />
+      </div>
+    </div>
+  </section>
+
+  <ClosingCta
+    locale={locale}
+    heading={t(posPage.ctaHeading)}
+    whatsappMessage={posPage.whatsappMessage}
+  />
+</Base>

@@ -1,0 +1,86 @@
+---
+import { content } from "@/lib/content";
+import type { Locale } from "@/lib/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { flow } = content.posPage;
+---
+
+{/*
+  The signature moment: one black line draws the path an order takes, from the
+  counter to the kitchen to the customer, as the section crosses the viewport.
+  Pure CSS scroll timeline — no pinning, no scroll-jacking. Without timeline
+  support, or with reduced motion, the line and every station are simply drawn.
+*/}
+<ol class="order-flow relative grid gap-10 md:grid-cols-3 md:gap-6">
+  <span aria-hidden="true" class="order-flow-track absolute hidden h-0.5 md:block"></span>
+  {flow.map((step, index) => (
+    <li class="order-flow-step relative flex flex-col gap-3" style={`--step: ${index}`}>
+      <span
+        dir="ltr"
+        class="order-flow-dot relative z-10 flex size-12 items-center justify-center border-2 border-current bg-accent font-mono text-sm font-semibold text-accent-ink"
+      >
+        {String(index + 1).padStart(2, "0")}
+      </span>
+      <h3 class="h3">{step.title[locale]}</h3>
+      <p class="max-w-xs text-sm opacity-75">{step.body[locale]}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .order-flow-track {
+    inset-inline: 1.5rem;
+    top: 1.5rem;
+    background: currentColor;
+    transform-origin: left center;
+  }
+
+  :global([dir="rtl"]) .order-flow-track {
+    transform-origin: right center;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports ((animation-timeline: view()) and (animation-range: 0% 100%)) {
+      .order-flow {
+        view-timeline: --order-flow block;
+      }
+
+      .order-flow-track {
+        animation: draw-track linear both;
+        animation-timeline: --order-flow;
+        animation-range: entry 40% cover 55%;
+      }
+
+      /* Each station lights up as the line reaches it. */
+      .order-flow-step {
+        animation: light-step linear both;
+        animation-timeline: --order-flow;
+        animation-range: entry calc(40% + var(--step) * 20%) entry
+          calc(60% + var(--step) * 20%);
+      }
+    }
+  }
+
+  @keyframes draw-track {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes light-step {
+    from {
+      opacity: 0.25;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>

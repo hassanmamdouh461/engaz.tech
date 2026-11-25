@@ -1,0 +1,295 @@
+---
+import ArrowUpRight from "@lucide/astro/icons/arrow-up-right";
+import Check from "@lucide/astro/icons/check";
+import MessageCircle from "@lucide/astro/icons/message-circle";
+import ClosingCta from "@/components/ClosingCta.astro";
+import MarkedText from "@/components/MarkedText.astro";
+import OrderFlow from "@/components/OrderFlow.astro";
+import ProcessSteps from "@/components/ProcessSteps.astro";
+import SectionHeader from "@/components/SectionHeader.astro";
+import Base from "@/layouts/Base.astro";
+import { content } from "@/lib/content";
+import { resolveIcon } from "@/lib/icons";
+import { pathFor, whatsappHref } from "@/lib/routes";
+import { TITLE, DESCRIPTION } from "@/lib/seo";
+import type { Locale } from "@/lib/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { hero, stats, services, work, pillars, ecosystem, posPage, ui } = content;
+const t = (value: Record<Locale, string>) => value[locale];
+
+// Formatted with Latin digits in both locales: one consistent numbering system,
+// and Intl's ar-EG default would switch these to Eastern Arabic numerals.
+const formatStat = (value: number) =>
+  value >= 1000 ? `${Math.round(value / 1000)}K` : value.toLocaleString("en-US");
+
+// The hero card lists the POS system's core modules: the product at a glance.
+const heroModules = posPage.modules.slice(0, 7);
+---
+
+<Base locale={locale} page="home" title={TITLE[locale]} description={DESCRIPTION[locale]}>
+  {/* Hero */}
+  <section>
+    <div class="frame grid items-center gap-12 px-4 pt-14 pb-16 sm:px-6 lg:grid-cols-[1.25fr_1fr] lg:gap-16 lg:pt-20 lg:pb-24">
+      <div class="flex flex-col gap-7">
+        <p class="eyebrow">
+          <span class="size-2 bg-accent ring-1 ring-ink"></span>
+          {t(content.brand.tagline)}
+        </p>
+        <h1 class="h1">
+          {t(hero.headlineLead)} <span class="mark">{t(hero.headlineAccent)}</span>
+        </h1>
+        <p class="lead">
+          <MarkedText text={t(hero.subtitle)} />
+        </p>
+        <div class="flex flex-col gap-3 sm:flex-row">
+          <a
+            href={whatsappHref(ui.whatsappMessage, locale)}
+            target="_blank"
+            rel="noopener"
+            class="btn-primary"
+          >
+            <MessageCircle class="size-5" aria-hidden="true" />
+            {t(ui.whatsappCta)}
+          </a>
+          <a href="#work" class="btn-secondary">
+            {t(hero.secondaryCta)}
+          </a>
+        </div>
+      </div>
+
+      {/* The product at a glance: what the restaurant system actually contains. */}
+      <div class="border-2 border-ink bg-surface shadow-hard">
+        <div class="flex items-center justify-between border-b-2 border-ink px-5 py-3">
+          <span class="font-mono text-xs font-semibold tracking-[0.14em] uppercase">
+            {t(posPage.eyebrow)}
+          </span>
+          <span aria-hidden="true" class="flex gap-1.5">
+            <span class="size-2.5 border border-ink"></span>
+            <span class="size-2.5 border border-ink"></span>
+            <span class="size-2.5 border border-ink bg-accent"></span>
+          </span>
+        </div>
+        <ul class="divide-y divide-ink/15">
+          {heroModules.map((module) => (
+            <li class="flex items-center justify-between gap-4 px-5 py-3">
+              <span class="font-medium">{t(module.title)}</span>
+              <Check class="size-4 shrink-0" aria-hidden="true" />
+            </li>
+          ))}
+        </ul>
+        <a
+          href={pathFor(locale, "pos")}
+          class="flex items-center justify-between border-t-2 border-ink bg-accent px-5 py-3 font-semibold text-accent-ink"
+        >
+          {t(ui.posLink)}
+          <ArrowUpRight class="size-4 rtl:-scale-x-100" aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+
+    {/* Proof band: the track-record figures, ruled like a spec sheet. */}
+    <div class="rule">
+      <dl class="frame grid grid-cols-2 lg:grid-cols-4">
+        {stats.cards.map((card, index) => (
+          <div
+            class:list={[
+              "flex flex-col gap-1 px-4 py-8 sm:px-6",
+              index % 2 === 1 && "border-s border-ink/15 dark:border-ink/20",
+              index >= 2 && "border-t border-ink/15 lg:border-t-0 dark:border-ink/20",
+              index === 2 && "lg:border-s",
+            ]}
+          >
+            <dt class="order-2 text-sm text-ink/70">{t(card.label)}</dt>
+            <dd
+              dir="ltr"
+              class="order-1 font-display text-4xl font-semibold tracking-tight sm:text-5xl rtl:text-end"
+            >
+              {`${formatStat(card.value)}${card.suffix}`}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  {/* Services: an index, one ruled row per offering. */}
+  <section id="services" class="rule scroll-mt-16">
+    <div class="frame px-4 py-16 sm:px-6 lg:py-24">
+      <SectionHeader
+        index="01"
+        eyebrow={t(services.eyebrow)}
+        heading={t(services.heading)}
+        body={t(services.body)}
+      />
+      <ul class="mt-12 border-t-2 border-ink">
+        {services.items.map((service, index) => {
+          const Icon = resolveIcon(service.icon);
+          const href = index === 0 ? pathFor(locale, "pos") : pathFor(locale, "contact");
+          return (
+            <li class="reveal border-b border-ink/15 dark:border-ink/20">
+              <a
+                href={href}
+                class="group grid grid-cols-[auto_1fr_auto] items-start gap-x-4 gap-y-2 py-6 transition-colors hover:bg-ink/[0.03] sm:grid-cols-[4rem_1fr_1.4fr_auto] sm:items-center sm:gap-x-6"
+              >
+                <span dir="ltr" class="font-mono text-sm text-ink/60">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span class="flex items-center gap-3">
+                  <Icon class="size-5 shrink-0" aria-hidden="true" />
+                  <span class="h3">{t(service.title)}</span>
+                </span>
+                <span class="col-start-2 text-ink/70 sm:col-start-auto">
+                  {t(service.body)}
+                </span>
+                <ArrowUpRight
+                  class="col-start-3 row-start-1 size-5 transition-transform group-hover:-translate-y-0.5 sm:col-start-auto sm:row-start-auto rtl:-scale-x-100"
+                  aria-hidden="true"
+                />
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+
+  {/* POS spotlight: the flagship product, inverted onto ink. */}
+  <section class="bg-ink text-paper">
+    <div class="frame border-paper/15 px-4 py-16 sm:px-6 lg:py-24">
+      <div class="flex flex-col gap-4">
+        <p class="eyebrow text-paper/70">
+          <span dir="ltr" class="text-paper">
+            02
+          </span>
+          <span aria-hidden="true" class="h-px w-6 bg-paper/40"></span>
+          {t(posPage.eyebrow)}
+        </p>
+        <h2 class="h2 max-w-3xl">{t(posPage.heading)}</h2>
+        <p class="max-w-2xl text-paper/75 sm:text-lg">
+          {t(work.featured[0].description)}
+        </p>
+      </div>
+      <div class="mt-14">
+        <OrderFlow locale={locale} />
+      </div>
+      <a href={pathFor(locale, "pos")} class="btn-primary mt-14 dark:border-accent">
+        {t(ui.posLink)}
+        <ArrowUpRight class="size-4 rtl:-scale-x-100" aria-hidden="true" />
+      </a>
+    </div>
+  </section>
+
+  {/* Work */}
+  <section id="work" class="scroll-mt-16">
+    <div class="frame px-4 py-16 sm:px-6 lg:py-24">
+      <SectionHeader
+        index="03"
+        eyebrow={t(work.eyebrow)}
+        heading={t(work.heading)}
+        body={t(work.body)}
+      />
+      <div class="mt-12 grid gap-6 lg:grid-cols-3">
+        {work.featured.map((project) => {
+          const Icon = resolveIcon(project.icon);
+          return (
+            <article class="reveal flex flex-col border-2 border-ink bg-surface">
+              <div class="flex items-center gap-3 border-b-2 border-ink px-5 py-3">
+                <Icon class="size-5" aria-hidden="true" />
+                <span class="font-mono text-xs font-semibold tracking-[0.12em] uppercase">
+                  {t(project.sector)}
+                </span>
+              </div>
+              <div class="flex flex-1 flex-col gap-3 p-5">
+                <h3 class="h3">{t(project.title)}</h3>
+                <p class="text-sm text-ink/70">{t(project.description)}</p>
+              </div>
+              <dl class="grid grid-cols-3 border-t-2 border-ink">
+                {project.metrics.map((metric, index) => (
+                  <div
+                    class:list={[
+                      "flex flex-col gap-0.5 px-3 py-4",
+                      index > 0 && "border-s border-ink/15 dark:border-ink/20",
+                    ]}
+                  >
+                    <dd class="order-1 font-display text-lg font-semibold">
+                      {t(metric.value)}
+                    </dd>
+                    <dt class="order-2 text-xs text-ink/60">{t(metric.label)}</dt>
+                  </div>
+                ))}
+              </dl>
+            </article>
+          );
+        })}
+      </div>
+
+      <h3 class="h3 mt-16">{t(work.secondaryHeading)}</h3>
+      <ul class="mt-6 grid border-t border-s border-ink/15 sm:grid-cols-2 lg:grid-cols-3 dark:border-ink/20">
+        {work.secondary.map((project) => {
+          const Icon = resolveIcon(project.icon);
+          return (
+            <li class="reveal flex gap-4 border-e border-b border-ink/15 p-5 dark:border-ink/20">
+              <Icon class="mt-1 size-5 shrink-0" aria-hidden="true" />
+              <div class="flex flex-col gap-1.5">
+                <h4 class="font-semibold">{t(project.title)}</h4>
+                <p class="text-sm text-ink/70">{t(project.description)}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+
+  {/* Why us */}
+  <section class="rule">
+    <div class="frame px-4 py-16 sm:px-6 lg:py-24">
+      <SectionHeader
+        index="04"
+        eyebrow={t(pillars.eyebrow)}
+        heading={t(pillars.heading)}
+        body={t(pillars.body)}
+      />
+      <div class="mt-12 grid border-t-2 border-ink md:grid-cols-2">
+        {pillars.items.map((item, index) => {
+          const Icon = resolveIcon(item.icon);
+          return (
+            <div
+              class:list={[
+                "reveal flex flex-col gap-3 border-b border-ink/15 py-8 md:px-8 dark:border-ink/20",
+                index % 2 === 1 && "md:border-s",
+                index % 2 === 0 && "md:ps-0",
+              ]}
+            >
+              <Icon class="size-6" aria-hidden="true" />
+              <h3 class="h3">{t(item.title)}</h3>
+              <p class="text-ink/70">{t(item.body)}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  {/* How we work */}
+  <section id="process" class="rule scroll-mt-16">
+    <div class="frame px-4 py-16 sm:px-6 lg:py-24">
+      <SectionHeader
+        index="05"
+        eyebrow={t(ecosystem.eyebrow)}
+        heading={t(ecosystem.heading)}
+        body={t(ecosystem.body)}
+      />
+      <div class="mt-12">
+        <ProcessSteps locale={locale} withNodes />
+      </div>
+    </div>
+  </section>
+
+  <ClosingCta locale={locale} whatsappMessage={ui.whatsappMessage} />
+</Base>
