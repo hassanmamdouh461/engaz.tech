@@ -149,6 +149,15 @@
     @apply inline-flex min-h-12 items-center justify-center gap-2 border-2 border-ink px-5 font-semibold transition-colors duration-150 hover:bg-ink hover:text-paper;
   }
 
+  /* The brand tile: cream with dark-brown ink, the same in both themes so the
+     logo never changes with the page. Matches public/icon.svg. */
+  .logo-tile {
+    border-radius: 28%;
+    background: #f6ead6;
+    color: #241a13;
+    box-shadow: inset 0 0 0 1.5px #241a13;
+  }
+
   .mark {
     @apply bg-accent px-1 text-accent-ink [box-decoration-break:clone];
   }
