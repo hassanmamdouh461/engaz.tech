@@ -36,9 +36,10 @@ npm test               # vitest
 ## Project layout
 
 ```text
-src/pages/                       one file per URL: /, /pos/, /contact/ and the same under /ar/,
+src/pages/                       one file per URL: /, /pos/, /ai-agents/, /websites/, /mobile-apps/,
+                                 /contact/ and the same under /ar/,
                                  plus 404, robots.txt and sitemap.xml
-src/components/pages/            HomePage, PosPage, ContactPage — each takes a locale
+src/components/pages/            HomePage, PosPage, ServicePage, ContactPage — each takes a locale
 src/components/                  Header, Footer, MobileCta, ThemeToggle, SectionHeader,
                                  MarkedText, OrderFlow, ProcessSteps, ClosingCta,
                                  ContactForm, BrandMark
@@ -72,8 +73,9 @@ Every user-visible value is a `{ "en": "...", "ar": "..." }` pair inside
 
 - `brand`, `hero`, `services`, `work`, `pillars`, `ecosystem`, `stats`, `contact`,
   `footer` drive the homepage and shared chrome.
-- `posPage` holds the POS page (modules, order flow, CTA); `contactPage` the contact
-  page metadata; `ui` the nav labels, CTAs, and 404 copy.
+- `posPage` holds the POS page (modules, order flow, CTA); `servicePages` the AI
+  agents, websites and mobile apps pages (they reuse `services`/`work` copy by id);
+  `contactPage` the contact page metadata; `ui` the nav labels, CTAs, and 404 copy.
 - Phrases wrapped in `==…==` render highlighted.
 - `*.icon` fields are Lucide names; unknown names fall back to `Sparkles`. Add the
   import to `src/lib/icons.ts` when introducing a new one.

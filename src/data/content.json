@@ -1286,6 +1286,18 @@
       "contact": {
         "en": "Contact",
         "ar": "تواصل معنا"
+      },
+      "aiAgents": {
+        "en": "AI Agents",
+        "ar": "الذكاء الاصطناعي"
+      },
+      "websites": {
+        "en": "Websites",
+        "ar": "المواقع"
+      },
+      "mobileApps": {
+        "en": "Mobile Apps",
+        "ar": "تطبيقات الجوال"
       }
     },
     "menu": {
@@ -1355,6 +1367,14 @@
     "backHome": {
       "en": "Back to the homepage",
       "ar": "العودة إلى الرئيسية"
+    },
+    "relatedHeading": {
+      "en": "Also part of this",
+      "ar": "يشمل أيضًا"
+    },
+    "featuresHeading": {
+      "en": "What it does",
+      "ar": "ماذا يقدّم"
     }
   },
   "posPage": {
@@ -1546,6 +1566,154 @@
     "metaDescription": {
       "en": "Tell us what you need built. WhatsApp, phone, email, or a short project brief — we reply within one business day.",
       "ar": "أخبرنا بما تريد بناءه عبر واتساب أو الهاتف أو البريد أو نموذج قصير، ونرد خلال يوم عمل واحد."
+    }
+  },
+  "servicePages": {
+    "aiAgents": {
+      "metaTitle": {
+        "en": "AI Agents & Automation",
+        "ar": "وكلاء الذكاء الاصطناعي والأتمتة"
+      },
+      "metaDescription": {
+        "en": "AI agents that answer customers, take orders, qualify leads, and handle repetitive work across chat channels — in Arabic and English, with a handoff to your team.",
+        "ar": "وكلاء ذكاء اصطناعي يردّون على العملاء ويستلمون الطلبات ويؤهّلون العملاء المحتملين وينجزون العمل المتكرر على قنوات المحادثة، بالعربية والإنجليزية، مع تحويل إلى فريقك عند الحاجة."
+      },
+      "heading": {
+        "en": "AI agents that answer, take orders, and hand off when it matters",
+        "ar": "وكلاء ذكاء اصطناعي يردّون ويستلمون الطلبات ويحوّلون إلى فريقك عند الحاجة"
+      },
+      "serviceId": "ai-solutions",
+      "featuredId": "ai-agency",
+      "features": [
+        {
+          "id": "replies",
+          "title": {
+            "en": "Customer replies",
+            "ar": "الرد على العملاء"
+          },
+          "body": {
+            "en": "Answers recurring questions on your chat channels, day and night.",
+            "ar": "يجيب عن الأسئلة المتكررة على قنوات المحادثة ليلًا ونهارًا."
+          }
+        },
+        {
+          "id": "orders",
+          "title": {
+            "en": "Order taking",
+            "ar": "استلام الطلبات"
+          },
+          "body": {
+            "en": "Takes orders in the conversation and passes them to your team.",
+            "ar": "يستلم الطلبات داخل المحادثة ويمرّرها إلى فريقك."
+          }
+        },
+        {
+          "id": "leads",
+          "title": {
+            "en": "Lead qualification",
+            "ar": "تأهيل العملاء المحتملين"
+          },
+          "body": {
+            "en": "Asks the right questions first, so your team talks to serious leads.",
+            "ar": "يطرح الأسئلة المناسبة أولًا، ليتحدث فريقك مع العملاء الجادين."
+          }
+        },
+        {
+          "id": "handoff",
+          "title": {
+            "en": "Human handoff",
+            "ar": "تحويل إلى موظف"
+          },
+          "body": {
+            "en": "Hands the conversation to a person whenever it needs one.",
+            "ar": "يحوّل المحادثة إلى شخص من فريقك متى احتاجت ذلك."
+          }
+        },
+        {
+          "id": "bilingual",
+          "title": {
+            "en": "Arabic & English",
+            "ar": "عربي وإنجليزي"
+          },
+          "body": {
+            "en": "Understands and replies in both languages.",
+            "ar": "يفهم ويرد باللغتين."
+          }
+        },
+        {
+          "id": "automation",
+          "title": {
+            "en": "Repetitive work",
+            "ar": "العمل المتكرر"
+          },
+          "body": {
+            "en": "Automations that take manual, repeated tasks off your day.",
+            "ar": "أتمتة تزيح المهام اليدوية المتكررة عن يومك."
+          }
+        }
+      ],
+      "secondaryIds": ["chatbots", "integrations"],
+      "whatsappMessage": {
+        "en": "Hi Engaz, I'd like to discuss an AI agent for my business.",
+        "ar": "مرحبًا إنجاز، أريد مناقشة وكيل ذكاء اصطناعي لعملي."
+      }
+    },
+    "websites": {
+      "metaTitle": {
+        "en": "Websites & Web Apps",
+        "ar": "المواقع وتطبيقات الويب"
+      },
+      "metaDescription": {
+        "en": "Bilingual showcase websites, booking pages, online stores, and full web applications — built to load fast and look right in Arabic and English.",
+        "ar": "مواقع تعريفية ثنائية اللغة وصفحات حجز ومتاجر إلكترونية وتطبيقات ويب كاملة، مبنية لتُحمَّل سريعًا وتظهر بشكل صحيح بالعربية والإنجليزية."
+      },
+      "heading": {
+        "en": "Websites and web apps that load fast in both languages",
+        "ar": "مواقع وتطبيقات ويب سريعة باللغتين"
+      },
+      "serviceId": "web",
+      "featuredId": "brand-sites",
+      "features": [],
+      "secondaryIds": [
+        "ecommerce",
+        "online-ordering",
+        "dashboards",
+        "branding",
+        "hosting"
+      ],
+      "whatsappMessage": {
+        "en": "Hi Engaz, I'd like to discuss a website.",
+        "ar": "مرحبًا إنجاز، أريد مناقشة موقع إلكتروني."
+      }
+    },
+    "mobileApps": {
+      "metaTitle": {
+        "en": "Mobile App Development",
+        "ar": "تطوير تطبيقات الجوال"
+      },
+      "metaDescription": {
+        "en": "Customer and staff apps for Android and iOS that share one backend with your web dashboard — ordering, loyalty, and the tools your team uses every day.",
+        "ar": "تطبيقات للعملاء وللعاملين على أندرويد وآيفون تتشارك خادمًا واحدًا مع لوحة التحكم، للطلب والولاء والأدوات التي يستخدمها فريقك يوميًا."
+      },
+      "heading": {
+        "en": "Mobile apps for your customers and your team",
+        "ar": "تطبيقات جوال لعملائك ولفريقك"
+      },
+      "serviceId": "mobile",
+      "featuredId": null,
+      "features": [],
+      "secondaryIds": [
+        "mobile-apps",
+        "online-ordering",
+        "loyalty",
+        "dashboards",
+        "integrations",
+        "hosting"
+      ],
+      "whatsappMessage": {
+        "en": "Hi Engaz, I'd like to discuss a mobile app.",
+        "ar": "مرحبًا إنجاز، أريد مناقشة تطبيق جوال."
+      }
     }
   }
 }

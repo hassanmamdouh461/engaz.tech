@@ -2,14 +2,24 @@ import { content } from "./content";
 import { LOCALE_PATH, SITE_URL } from "./seo";
 import type { Locale, Localized } from "./types";
 
-export type Page = "home" | "pos" | "contact";
+export type Page = "home" | "pos" | "ai-agents" | "websites" | "mobile-apps" | "contact";
 
 /** Every page exists in both locales; the sitemap and language switch walk this list. */
-export const PAGES: Page[] = ["home", "pos", "contact"];
+export const PAGES: Page[] = [
+  "home",
+  "pos",
+  "ai-agents",
+  "websites",
+  "mobile-apps",
+  "contact",
+];
 
 const SEGMENT: Record<Page, string> = {
   home: "",
   pos: "pos/",
+  "ai-agents": "ai-agents/",
+  websites: "websites/",
+  "mobile-apps": "mobile-apps/",
   contact: "contact/",
 };
 

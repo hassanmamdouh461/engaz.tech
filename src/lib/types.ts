@@ -90,10 +90,36 @@ export interface TitledItem {
   body: Localized;
 }
 
+export type ServicePageKey = "aiAgents" | "websites" | "mobileApps";
+
+export interface ServicePage {
+  metaTitle: Localized;
+  metaDescription: Localized;
+  heading: Localized;
+  /** id of the entry in services.items whose summary leads the page. */
+  serviceId: string;
+  /** id of the featured project shown as the page's example, if any. */
+  featuredId: string | null;
+  features: TitledItem[];
+  /** ids from work.secondary listed under "also part of this". */
+  secondaryIds: string[];
+  whatsappMessage: Localized;
+}
+
 export interface SiteContent {
   /** Interface strings shared across pages: nav, CTAs, footer labels, 404. */
   ui: {
-    nav: Record<"services" | "pos" | "work" | "process" | "contact", Localized>;
+    nav: Record<
+      | "services"
+      | "pos"
+      | "aiAgents"
+      | "websites"
+      | "mobileApps"
+      | "work"
+      | "process"
+      | "contact",
+      Localized
+    >;
     menu: Localized;
     skipToContent: Localized;
     breadcrumb: Localized;
@@ -109,6 +135,8 @@ export interface SiteContent {
     closingBody: Localized;
     footerPages: Localized;
     footerContact: Localized;
+    featuresHeading: Localized;
+    relatedHeading: Localized;
     notFoundTitle: Localized;
     notFoundBody: Localized;
     backHome: Localized;
@@ -129,6 +157,8 @@ export interface SiteContent {
     metaTitle: Localized;
     metaDescription: Localized;
   };
+  /** One entry per service page; copy is reused from services/work by id where it exists. */
+  servicePages: Record<ServicePageKey, ServicePage>;
   brand: {
     name: Localized;
     tagline: Localized;

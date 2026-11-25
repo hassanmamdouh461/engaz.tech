@@ -10,7 +10,7 @@ import SectionHeader from "@/components/SectionHeader.astro";
 import Base from "@/layouts/Base.astro";
 import { content } from "@/lib/content";
 import { resolveIcon } from "@/lib/icons";
-import { pathFor, whatsappHref } from "@/lib/routes";
+import { type Page, pathFor, whatsappHref } from "@/lib/routes";
 import { TITLE, DESCRIPTION } from "@/lib/seo";
 import type { Locale } from "@/lib/types";
 
@@ -21,6 +21,14 @@ interface Props {
 const { locale } = Astro.props;
 const { hero, stats, services, work, pillars, ecosystem, posPage, ui } = content;
 const t = (value: Record<Locale, string>) => value[locale];
+
+// Services with a dedicated page link to it; the rest go to the contact page.
+const SERVICE_PAGE: Record<string, Page> = {
+  "restaurant-systems": "pos",
+  "ai-solutions": "ai-agents",
+  web: "websites",
+  mobile: "mobile-apps",
+};
 
 // Formatted with Latin digits in both locales: one consistent numbering system,
 // and Intl's ar-EG default would switch these to Eastern Arabic numerals.
@@ -129,7 +137,7 @@ const heroModules = posPage.modules.slice(0, 7);
       <ul class="mt-12 border-t-2 border-ink">
         {services.items.map((service, index) => {
           const Icon = resolveIcon(service.icon);
-          const href = index === 0 ? pathFor(locale, "pos") : pathFor(locale, "contact");
+          const href = pathFor(locale, SERVICE_PAGE[service.id] ?? "contact");
           return (
             <li class="reveal border-b border-ink/15 dark:border-ink/20">
               <a

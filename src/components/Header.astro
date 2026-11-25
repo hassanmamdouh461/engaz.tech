@@ -22,13 +22,19 @@ const home = pathFor(locale, "home");
 const links = [
   { id: "services", href: `${home}#services`, label: ui.nav.services[locale] },
   { id: "pos", href: pathFor(locale, "pos"), label: ui.nav.pos[locale] },
+  { id: "ai-agents", href: pathFor(locale, "ai-agents"), label: ui.nav.aiAgents[locale] },
+  { id: "websites", href: pathFor(locale, "websites"), label: ui.nav.websites[locale] },
+  {
+    id: "mobile-apps",
+    href: pathFor(locale, "mobile-apps"),
+    label: ui.nav.mobileApps[locale],
+  },
   { id: "work", href: `${home}#work`, label: ui.nav.work[locale] },
   { id: "process", href: `${home}#process`, label: ui.nav.process[locale] },
   { id: "contact", href: pathFor(locale, "contact"), label: ui.nav.contact[locale] },
 ];
 
-const current = (id: string) =>
-  (id === "pos" && page === "pos") || (id === "contact" && page === "contact");
+const current = (id: string) => id === page;
 
 const locales: { locale: Locale; label: string; title: string }[] = [
   { locale: "en", label: "EN", title: "English" },
@@ -45,12 +51,12 @@ const locales: { locale: Locale; label: string; title: string }[] = [
       <span class="text-lg tracking-tight">{brand.name[locale]}</span>
     </a>
 
-    <nav aria-label={nav.primaryNav[locale]} class="hidden items-center gap-1 lg:flex">
+    <nav aria-label={nav.primaryNav[locale]} class="hidden items-center gap-1 xl:flex">
       {links.map((link) => (
         <a
           href={link.href}
           aria-current={current(link.id) ? "page" : undefined}
-          class="px-3 py-2 text-sm font-medium text-ink/75 transition-colors hover:text-ink aria-[current=page]:text-ink aria-[current=page]:underline aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8"
+          class="whitespace-nowrap px-3 py-2 text-sm font-medium text-ink/75 transition-colors hover:text-ink aria-[current=page]:text-ink aria-[current=page]:underline aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8"
         >
           {link.label}
         </a>
@@ -77,7 +83,7 @@ const locales: { locale: Locale; label: string; title: string }[] = [
         href={whatsappHref(whatsappMessage, locale)}
         target="_blank"
         rel="noopener"
-        class="btn-primary hidden min-h-10 px-4 text-sm lg:inline-flex"
+        class="btn-primary hidden min-h-10 px-4 text-sm xl:inline-flex"
       >
         <MessageCircle class="size-4" aria-hidden="true" />
         {ui.whatsappCta[locale]}
@@ -85,7 +91,7 @@ const locales: { locale: Locale; label: string; title: string }[] = [
 
       {/* A native disclosure: the menu opens and closes with no script at all;
           the script below only adds Escape and close-on-navigate. */}
-      <details class="group relative lg:hidden" data-menu>
+      <details class="group relative xl:hidden" data-menu>
         <summary
           class="flex size-10 cursor-pointer list-none items-center justify-center border-2 border-ink [&::-webkit-details-marker]:hidden"
           aria-label={ui.menu[locale]}
