@@ -4,8 +4,19 @@ import { MotionConfig } from "framer-motion";
 import { ReactLenis } from "lenis/react";
 import { useEffect, type ReactNode } from "react";
 import { useReducedMotion } from "@/lib/reduced-motion";
-import { ScrollTrigger } from "@/lib/use-gsap-lenis";
+import { ScrollTrigger, useGsapLenisBridge } from "@/lib/use-gsap-lenis";
 import "lenis/dist/lenis.css";
+
+/**
+ * With autoRaf off, this bridge is the only thing that ticks Lenis, so it is
+ * mounted here with Lenis itself rather than inside whichever section first
+ * happens to need ScrollTrigger. It sits ahead of the page so its effect
+ * registers the plugin before any section's effect creates a trigger.
+ */
+function GsapLenisBridge() {
+  useGsapLenisBridge();
+  return null;
+}
 
 /**
  * Global inertia scrolling. Lenis owns the wheel input and ScrollTrigger reads
@@ -29,7 +40,10 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
   return (
     <MotionConfig reducedMotion="user">
       {reduceMotion ? (
-        children
+        <>
+          <GsapLenisBridge />
+          {children}
+        </>
       ) : (
         <ReactLenis
           root
@@ -45,6 +59,7 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
             touchMultiplier: 1.4,
           }}
         >
+          <GsapLenisBridge />
           {children}
         </ReactLenis>
       )}

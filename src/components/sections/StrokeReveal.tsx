@@ -5,7 +5,7 @@ import { content } from "@/lib/content";
 import { useIntroDone } from "@/lib/intro-state";
 import { useLocale } from "@/lib/locale-context";
 import { useReducedMotion } from "@/lib/reduced-motion";
-import { gsap, ScrollTrigger, useGsapLenisBridge } from "@/lib/use-gsap-lenis";
+import { gsap, ScrollTrigger } from "@/lib/use-gsap-lenis";
 
 const { hero } = content;
 
@@ -40,7 +40,6 @@ const CURVES = [
 const CURVE_PATH = "M180 180.538C1512.01 180.54 1718.64 133.099 2067.5 931.594";
 
 export function StrokeReveal() {
-  useGsapLenisBridge();
   const { t, locale } = useLocale();
   const introDone = useIntroDone();
   const reduceMotion = useReducedMotion();
