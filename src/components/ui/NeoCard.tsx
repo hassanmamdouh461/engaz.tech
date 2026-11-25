@@ -3,31 +3,9 @@
 import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
+import { ACCENT_BG, ACCENT_TEXT, accentAt } from "@/lib/accents";
 import { cn } from "@/lib/cn";
 import { dropIn, press } from "@/lib/motion";
-
-export type Accent = "cyan" | "yellow" | "pink" | "mint";
-
-const STRIPE: Record<Accent, string> = {
-  cyan: "bg-brand-cyan",
-  yellow: "bg-brand-yellow",
-  pink: "bg-brand-pink",
-  mint: "bg-brand-mint",
-};
-
-const ICON: Record<Accent, string> = {
-  cyan: "text-brand-cyan",
-  yellow: "text-brand-yellow",
-  pink: "text-brand-pink",
-  mint: "text-brand-mint",
-};
-
-/** The accent cycles by position so a grid never shows two identical stripes side by side. */
-const CYCLE: Accent[] = ["cyan", "yellow", "pink", "mint"];
-
-export function accentFor(index: number): Accent {
-  return CYCLE[index % CYCLE.length];
-}
 
 /**
  * The workhorse card: a hard-edged slab with a coloured stripe along the top edge,
@@ -41,8 +19,6 @@ export function NeoCard({
   body,
   footer,
   filled = false,
-  accent,
-  className,
 }: {
   index: number;
   icon?: LucideIcon;
@@ -50,10 +26,8 @@ export function NeoCard({
   body?: string;
   footer?: ReactNode;
   filled?: boolean;
-  accent?: Accent;
-  className?: string;
 }) {
-  const tone = accent ?? accentFor(index);
+  const tone = accentAt(index);
 
   return (
     <motion.article
@@ -62,16 +36,15 @@ export function NeoCard({
       className={cn(
         "relative flex h-full flex-col overflow-hidden border-3 border-edge p-4 shadow-neo-4 xs:p-5 sm:border-4 sm:p-7 sm:shadow-neo-8",
         filled ? "bg-brand-yellow text-black" : "bg-surface text-ink",
-        className,
       )}
     >
-      <span aria-hidden className={cn("absolute inset-x-0 top-0 h-1.5", STRIPE[tone])} />
+      <span aria-hidden className={cn("absolute inset-x-0 top-0 h-1.5", ACCENT_BG[tone])} />
 
       <div className="flex items-center gap-3 border-b-3 border-edge pb-3 sm:gap-4 sm:border-b-4 sm:pb-4">
         {Icon ? (
           <Icon
             aria-hidden
-            className={cn("h-8 w-8 shrink-0 sm:h-12 sm:w-12", filled ? "text-black" : ICON[tone])}
+            className={cn("h-8 w-8 shrink-0 sm:h-12 sm:w-12", filled ? "text-black" : ACCENT_TEXT[tone])}
           />
         ) : null}
         <h3 className="neo-h3">{title}</h3>

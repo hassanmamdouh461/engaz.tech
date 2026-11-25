@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Tape } from "@/components/ui/Tape";
+import { ACCENT_BG, accentAt } from "@/lib/accents";
 import { content } from "@/lib/content";
 import { isValidEmail, sendContactMessage } from "@/lib/contact";
 import { resolveIcon } from "@/lib/icons";
@@ -14,13 +15,6 @@ import { useLocale } from "@/lib/locale-context";
 
 const { contact } = content;
 const { form } = contact;
-
-const NOTE_TONE = [
-  "bg-brand-cyan",
-  "bg-brand-yellow",
-  "bg-brand-pink",
-  "bg-brand-mint",
-] as const;
 
 /** Resting tilts, so a column of notes never looks machine-aligned. */
 const NOTE_TILT = [-2, 1, -1, 2] as const;
@@ -149,7 +143,7 @@ export function ContactForm() {
         >
           {contact.channels.map((channel, index) => {
             const Icon = resolveIcon(channel.icon);
-            const tone = NOTE_TONE[index % NOTE_TONE.length];
+            const tone = ACCENT_BG[accentAt(index)];
             const tilt = NOTE_TILT[index % NOTE_TILT.length];
 
             return (

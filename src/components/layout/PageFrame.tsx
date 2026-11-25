@@ -10,13 +10,7 @@ import { cn } from "@/lib/cn";
  * shadow eat most of a 360px viewport, and the gesture stops reading as a frame
  * and starts reading as wasted margin.
  */
-export function PageFrame({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+export function PageFrame({ children }: { children: ReactNode }) {
   return (
     <div className="px-1.5 pb-1.5 pt-3 sm:px-3 sm:pb-3 lg:px-5 lg:pb-5">
       <div
@@ -27,7 +21,6 @@ export function PageFrame({
           "neo-paper relative mx-auto min-h-[calc(100vh-1.5rem)] max-w-[1400px] border-3 border-edge pt-3",
           "supports-[height:100svh]:min-h-[calc(100svh-1.5rem)]",
           "shadow-neo-4 sm:border-4 sm:shadow-neo-8 lg:border-6 lg:pt-4 lg:shadow-neo-12",
-          className,
         )}
       >
         {children}

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { ACCENT_BG, accentAt } from "@/lib/accents";
 import { content } from "@/lib/content";
 import { resolveIcon } from "@/lib/icons";
 import { dropIn, press, staggerContainer, viewportOnce } from "@/lib/motion";
@@ -10,8 +11,6 @@ import { useLocale } from "@/lib/locale-context";
 import { cn } from "@/lib/cn";
 
 const { ecosystem } = content;
-
-const TONES = ["bg-brand-cyan", "bg-brand-yellow", "bg-brand-pink", "bg-brand-mint"] as const;
 
 export function EcosystemDiagram() {
   const { t } = useLocale();
@@ -36,7 +35,7 @@ export function EcosystemDiagram() {
       >
         {ecosystem.stages.map((stage, index) => {
           const Icon = resolveIcon(stage.icon);
-          const tone = TONES[index % TONES.length];
+          const tone = ACCENT_BG[accentAt(index)];
 
           return (
             <motion.li

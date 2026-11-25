@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Tape } from "@/components/ui/Tape";
+import { ACCENT_BG, accentAt } from "@/lib/accents";
 import { content } from "@/lib/content";
 import { useLocale } from "@/lib/locale-context";
 import { dropIn, press, staggerContainer, viewportOnce } from "@/lib/motion";
@@ -12,13 +13,6 @@ import { prefersReducedMotion } from "@/lib/reduced-motion";
 import { cn } from "@/lib/cn";
 
 const { stats } = content;
-
-const TONES = [
-  "bg-brand-cyan",
-  "bg-brand-yellow",
-  "bg-brand-pink",
-  "bg-brand-mint",
-] as const;
 
 /** Resting tilts, so the row of panels reads as cards laid down by hand. */
 const TILT = [-2, 1.5, -1, 2] as const;
@@ -87,7 +81,7 @@ export function Stats() {
               whileHover={press(6)}
               className={cn(
                 "relative flex h-full flex-col items-center justify-center gap-1.5 border-3 border-edge px-2 py-6 text-center text-black shadow-neo-4 sm:gap-2 sm:px-4 sm:py-8 sm:shadow-neo-6",
-                TONES[index % TONES.length],
+                ACCENT_BG[accentAt(index)],
               )}
             >
               <Tape className="-top-3 end-3 h-6 w-14 rotate-[14deg] sm:end-4 sm:h-7 sm:w-16" />

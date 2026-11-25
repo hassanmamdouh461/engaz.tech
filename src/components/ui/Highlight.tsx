@@ -2,17 +2,9 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, type ReactNode } from "react";
+import { ACCENT_BG, type Accent } from "@/lib/accents";
 import { cn } from "@/lib/cn";
 import { useReducedMotion } from "@/lib/reduced-motion";
-
-export type HighlightColor = "yellow" | "cyan" | "pink" | "mint";
-
-const FILL: Record<HighlightColor, string> = {
-  yellow: "bg-brand-yellow",
-  cyan: "bg-brand-cyan",
-  pink: "bg-brand-pink",
-  mint: "bg-brand-mint",
-};
 
 /**
  * Highlighter-pen reveal. The marker is a layer behind the text whose width is
@@ -26,12 +18,10 @@ export function Highlight({
   children,
   color = "yellow",
   from = "start",
-  className,
 }: {
   children: ReactNode;
-  color?: HighlightColor;
+  color?: Accent;
   from?: "start" | "end";
-  className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const { scrollYProgress } = useScroll({
@@ -45,10 +35,7 @@ export function Highlight({
   return (
     <span
       ref={ref}
-      className={cn(
-        "relative isolate mx-[0.1rem] inline-block rounded-[3px] px-2 py-[0.1rem] font-semibold",
-        className,
-      )}
+      className="relative isolate mx-[0.1rem] inline-block rounded-[3px] px-2 py-[0.1rem] font-semibold"
     >
       <motion.span
         aria-hidden
@@ -57,7 +44,7 @@ export function Highlight({
           insetInlineStart: from === "start" ? "-2px" : undefined,
           insetInlineEnd: from === "end" ? "-2px" : undefined,
         }}
-        className={cn("absolute -inset-y-[2px] -z-10 rounded-[3px]", FILL[color])}
+        className={cn("absolute -inset-y-[2px] -z-10 rounded-[3px]", ACCENT_BG[color])}
       />
       {children}
     </span>
