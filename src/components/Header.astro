@@ -44,11 +44,14 @@ const locales: { locale: Locale; label: string; title: string }[] = [
 
 <header class="sticky top-0 z-40 border-b border-ink/15 bg-paper/90 backdrop-blur-md supports-[backdrop-filter]:bg-paper/75 dark:border-ink/20">
   <div class="frame flex h-16 items-center justify-between gap-3 px-4 sm:px-6">
-    <a href={home} class="flex shrink-0 items-center gap-2.5 font-display font-semibold">
-      <span
-        data-brand-tile
-        class="flex size-9 items-center justify-center border-2 border-ink bg-accent text-accent-ink"
-      >
+    <a
+      href={home}
+      class="flex shrink-0 items-center gap-2.5 font-display font-semibold"
+      data-build-step
+      style="--step: 0"
+      data-build-label="Logo"
+    >
+      <span class="flex size-9 items-center justify-center border-2 border-ink bg-accent text-accent-ink">
         <BrandMark class="size-5" />
       </span>
       <span class="text-lg tracking-tight">{brand.name[locale]}</span>
@@ -66,7 +69,12 @@ const locales: { locale: Locale; label: string; title: string }[] = [
       ))}
     </nav>
 
-    <div class="flex items-center gap-2">
+    <div
+      class="flex items-center gap-2"
+      data-build-step
+      style="--step: 1"
+      data-build-label="Nav"
+    >
       <nav aria-label={nav.languageToggle[locale]} class="flex border-2 border-ink">
         {locales.map((option) => (
           <a

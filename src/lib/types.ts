@@ -157,8 +157,6 @@ export interface SiteContent {
     metaTitle: Localized;
     metaDescription: Localized;
   };
-  /** The first-visit receipt intro: labels around the printed order lines. */
-  intro: { order: Localized; status: Localized; ready: Localized; thanks: Localized };
   /** One entry per service page; copy is reused from services/work by id where it exists. */
   servicePages: Record<ServicePageKey, ServicePage>;
   brand: {

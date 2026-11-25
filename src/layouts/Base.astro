@@ -4,7 +4,7 @@ import geistLatin from "@fontsource-variable/geist/files/geist-latin-wght-normal
 import plexArabic from "@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-arabic-400-normal.woff2?url";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import Intro from "@/components/Intro.astro";
+import BuildIntro from "@/components/BuildIntro.astro";
 import MobileCta from "@/components/MobileCta.astro";
 import { content } from "@/lib/content";
 import { type Page, absoluteUrl } from "@/lib/routes";
@@ -35,8 +35,10 @@ const ogImage = `${SITE_URL}/og.png`;
 
 // The theme is applied before first paint so dark-mode visitors never see a
 // flash of the light page. Light is the default whatever the OS prefers. The
-// same script marks a returning visit in this session so the intro plays once.
-const themeScript = `(function(){var d=document.documentElement;try{if(localStorage.getItem("engaz.theme")==="dark"){d.setAttribute("data-theme","dark")}}catch(e){}try{if(sessionStorage.getItem("engaz.intro")){d.setAttribute("data-intro","seen")}else{sessionStorage.setItem("engaz.intro","1")}}catch(e){}})();`;
+// On the homepage it also arms the build intro (data-build) for the first visit
+// of the session, unless the visitor asked for reduced motion.
+const buildScript = `try{if(!sessionStorage.getItem("engaz.built")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){d.setAttribute("data-build","")}sessionStorage.setItem("engaz.built","1")}catch(e){}`;
+const themeScript = `(function(){var d=document.documentElement;try{if(localStorage.getItem("engaz.theme")==="dark"){d.setAttribute("data-theme","dark")}}catch(e){}${page === "home" ? buildScript : ""}})();`;
 ---
 
 <!doctype html>
@@ -98,7 +100,7 @@ const themeScript = `(function(){var d=document.documentElement;try{if(localStor
     )}
   </head>
   <body class="min-h-dvh pb-20 xl:pb-0">
-    {page === "home" && <Intro locale={locale} />}
+    {page === "home" && <BuildIntro locale={locale} />}
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50 focus:border-2 focus:border-ink focus:bg-accent focus:px-4 focus:py-2 focus:font-semibold focus:text-accent-ink"

@@ -44,17 +44,22 @@ const heroModules = posPage.modules.slice(0, 7);
   <section>
     <div class="frame grid items-center gap-12 px-4 pt-14 pb-16 sm:px-6 lg:grid-cols-[1.25fr_1fr] lg:gap-16 lg:pt-20 lg:pb-24">
       <div class="flex flex-col gap-7">
-        <p class="eyebrow">
+        <p class="eyebrow" data-build-step style="--step: 2" data-build-label="Eyebrow">
           <span class="size-2 bg-accent ring-1 ring-ink"></span>
           {t(content.brand.tagline)}
         </p>
-        <h1 class="h1">
+        <h1 class="h1" data-build-step style="--step: 3" data-build-label="H1">
           {t(hero.headlineLead)} <span class="mark">{t(hero.headlineAccent)}</span>
         </h1>
-        <p class="lead">
+        <p class="lead" data-build-step style="--step: 4" data-build-label="Paragraph">
           <MarkedText text={t(hero.subtitle)} />
         </p>
-        <div class="flex flex-col gap-3 sm:flex-row">
+        <div
+          class="flex flex-col gap-3 sm:flex-row"
+          data-build-step
+          style="--step: 5"
+          data-build-label="Buttons"
+        >
           <a
             href={whatsappHref(ui.whatsappMessage, locale)}
             target="_blank"
@@ -71,7 +76,12 @@ const heroModules = posPage.modules.slice(0, 7);
       </div>
 
       {/* The product at a glance: what the restaurant system actually contains. */}
-      <div class="border-2 border-ink bg-surface shadow-hard">
+      <div
+        class="border-2 border-ink bg-surface shadow-hard"
+        data-build-step
+        style="--step: 6"
+        data-build-label="Card"
+      >
         <div class="flex items-center justify-between border-b-2 border-ink px-5 py-3">
           <span class="font-mono text-xs font-semibold tracking-[0.14em] uppercase">
             {t(posPage.eyebrow)}
@@ -102,7 +112,12 @@ const heroModules = posPage.modules.slice(0, 7);
 
     {/* Proof band: the track-record figures, ruled like a spec sheet. */}
     <div class="rule">
-      <dl class="frame grid grid-cols-2 lg:grid-cols-4">
+      <dl
+        class="frame grid grid-cols-2 lg:grid-cols-4"
+        data-build-step
+        style="--step: 7"
+        data-build-label="Stats"
+      >
         {stats.cards.map((card, index) => (
           <div
             class:list={[

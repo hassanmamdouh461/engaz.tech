@@ -1,0 +1,285 @@
+---
+import { content } from "@/lib/content";
+import type { Locale } from "@/lib/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const name = content.brand.name[locale];
+---
+
+{/*
+  First-visit intro: the page builds itself in front of the visitor. The real
+  header and hero start as wireframe blocks over a layout grid, and a
+  "multiplayer" cursor labelled with the brand name selects each element in
+  turn, design-tool style, as its wireframe wipes away to reveal the real
+  content. ~2.3s.
+
+  It works on the real elements (marked with data-build-step), so nothing is
+  duplicated and the page is fully rendered underneath. The head script in Base
+  arms it with data-build only on the first homepage view of the session and
+  never for reduced motion; without JavaScript it never arms. Any click, key,
+  scroll or touch ends it at once.
+*/}
+<div class="build-grid" aria-hidden="true">
+  <div class="build-grid-columns">
+    {Array.from({ length: 12 }, () => (
+      <span />
+    ))}
+  </div>
+</div>
+
+<div class="build-frame" aria-hidden="true" data-build-frame>
+  <span class="build-handle" style="inset-inline-start: -4px; top: -4px"></span>
+  <span class="build-handle" style="inset-inline-end: -4px; top: -4px"></span>
+  <span class="build-handle" style="inset-inline-start: -4px; bottom: -4px"></span>
+  <span class="build-handle" style="inset-inline-end: -4px; bottom: -4px"></span>
+  <span class="build-tag" dir="ltr" data-build-tag></span>
+</div>
+
+<div class="build-pointer" aria-hidden="true" data-build-pointer>
+  <svg viewBox="0 0 24 24" width="22" height="22">
+    <path
+      d="M3 2 L20 11 L12 13 L8 21 Z"
+      fill="#ffd93d"
+      stroke="#0a0a0a"
+      stroke-width="2"
+      stroke-linejoin="round"
+    ></path>
+  </svg>
+  <span class="build-name">{name}</span>
+</div>
+
+<script>
+  const root = document.documentElement;
+
+  if (root.hasAttribute("data-build")) {
+    // Must match the CSS: each wireframe wipes at START + step * GAP.
+    const START = 250;
+    const GAP = 230;
+
+    const frame = document.querySelector<HTMLElement>("[data-build-frame]")!;
+    const tag = document.querySelector<HTMLElement>("[data-build-tag]")!;
+    const pointer = document.querySelector<HTMLElement>("[data-build-pointer]")!;
+    const rtl = root.dir === "rtl";
+    const steps = [...document.querySelectorAll<HTMLElement>("[data-build-step]")]
+      .filter((el) => el.offsetParent !== null)
+      .sort(
+        (a, b) =>
+          Number(a.style.getPropertyValue("--step")) -
+          Number(b.style.getPropertyValue("--step")),
+      );
+    const timers: number[] = [];
+
+    const finish = () => {
+      for (const id of timers) clearTimeout(id);
+      frame.classList.remove("is-on");
+      pointer.classList.remove("is-on");
+      root.setAttribute("data-build", "done");
+      window.setTimeout(() => root.removeAttribute("data-build"), 450);
+      for (const type of events) window.removeEventListener(type, finish);
+    };
+
+    // Selects an element the way a design tool does: frame, handles, size tag.
+    const select = (el: HTMLElement) => {
+      const r = el.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      frame.style.transform = `translate(${r.left}px, ${r.top}px)`;
+      frame.style.width = `${r.width}px`;
+      frame.style.height = `${r.height}px`;
+      tag.textContent = `${el.dataset.buildLabel ?? ""} · ${Math.round(r.width)}×${Math.round(r.height)}`;
+      // Kept on screen so the name tag never runs off a narrow viewport.
+      const x = Math.min(
+        Math.max(4, rtl ? r.left - 8 : r.right - 6),
+        innerWidth - pointer.offsetWidth - 4,
+      );
+      pointer.style.transform = `translate(${x}px, ${r.bottom - 6}px)`;
+      // Near the top of the screen the size tag sits under the frame instead.
+      frame.classList.toggle("tag-below", r.top < 32);
+      frame.classList.add("is-on");
+      pointer.classList.add("is-on");
+    };
+
+    const events = ["pointerdown", "keydown", "wheel", "touchstart"];
+    for (const type of events) window.addEventListener(type, finish, { passive: true });
+
+    steps.forEach((el) => {
+      const step = Number(el.style.getPropertyValue("--step"));
+      // The selection lands a beat before that element's wireframe wipes away.
+      timers.push(window.setTimeout(() => select(el), START + step * GAP - 140));
+    });
+    const last = Math.max(
+      0,
+      ...steps.map((el) => Number(el.style.getPropertyValue("--step"))),
+    );
+    timers.push(window.setTimeout(finish, START + last * GAP + 650));
+  }
+</script>
+
+<style is:global>
+  /* ---- Wireframes on the real elements ----------------------------------- */
+
+  [data-build] [data-build-step] {
+    position: relative;
+  }
+
+  /* A hatched placeholder over each element; it wipes away from the reading
+     start towards the end, revealing the real content underneath. */
+  [data-build] [data-build-step]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    background: repeating-linear-gradient(
+      -45deg,
+      color-mix(in oklab, var(--color-ink) 9%, var(--color-paper)) 0 6px,
+      color-mix(in oklab, var(--color-ink) 4%, var(--color-paper)) 6px 12px
+    );
+    outline: 1.5px dashed color-mix(in oklab, var(--color-ink) 35%, transparent);
+    outline-offset: -1.5px;
+    transform-origin: right center;
+    animation: build-wipe 0.42s cubic-bezier(0.7, 0, 0.3, 1)
+      calc(var(--step) * 230ms + 250ms) forwards;
+  }
+
+  [data-build][dir="rtl"] [data-build-step]::after {
+    transform-origin: left center;
+  }
+
+  /* Skipped or finished: every placeholder goes at once. */
+  [data-build="done"] [data-build-step]::after {
+    animation: build-fade 0.3s ease forwards;
+  }
+
+  @keyframes build-wipe {
+    to {
+      transform: scaleX(0);
+    }
+  }
+
+  @keyframes build-fade {
+    to {
+      opacity: 0;
+    }
+  }
+
+  /* ---- Layout grid -------------------------------------------------------- */
+
+  .build-grid {
+    display: none;
+  }
+
+  [data-build] .build-grid {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    display: block;
+    pointer-events: none;
+    animation: build-fade 0.5s ease 2s forwards;
+  }
+
+  [data-build="done"] .build-grid {
+    animation: build-fade 0.3s ease forwards;
+  }
+
+  .build-grid-columns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    max-width: 80rem;
+    height: 100%;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  .build-grid-columns span {
+    background: rgb(239 68 68 / 0.06);
+    border-inline: 1px solid rgb(239 68 68 / 0.12);
+  }
+
+  .build-grid-columns span:nth-child(n + 5) {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .build-grid-columns {
+      grid-template-columns: repeat(12, 1fr);
+      padding-inline: 1.5rem;
+    }
+
+    .build-grid-columns span:nth-child(n + 5) {
+      display: block;
+    }
+  }
+
+  /* ---- Selection frame and multiplayer cursor ----------------------------- */
+
+  .build-frame,
+  .build-pointer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 70;
+    pointer-events: none;
+    opacity: 0;
+    transition:
+      transform 0.2s cubic-bezier(0.3, 0.7, 0.2, 1),
+      width 0.2s cubic-bezier(0.3, 0.7, 0.2, 1),
+      height 0.2s cubic-bezier(0.3, 0.7, 0.2, 1),
+      opacity 0.2s ease;
+  }
+
+  .build-frame.is-on,
+  .build-pointer.is-on {
+    opacity: 1;
+  }
+
+  .build-frame {
+    outline: 1.5px solid #2563eb;
+  }
+
+  .build-handle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border: 1.5px solid #2563eb;
+    background: #fff;
+  }
+
+  .build-tag {
+    position: absolute;
+    inset-inline-start: -1.5px;
+    bottom: calc(100% + 6px);
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: #2563eb;
+    color: #fff;
+    font: 600 11px/1.6 var(--font-mono);
+    white-space: nowrap;
+  }
+
+  .build-frame.tag-below .build-tag {
+    top: calc(100% + 6px);
+    bottom: auto;
+  }
+
+  .build-pointer {
+    display: flex;
+    align-items: flex-start;
+    gap: 2px;
+    transition-duration: 0.26s;
+  }
+
+  .build-name {
+    margin-top: 16px;
+    padding: 2px 8px;
+    border: 1.5px solid #0a0a0a;
+    border-radius: 999px;
+    background: #ffd93d;
+    color: #0a0a0a;
+    font: 700 12px/1.5 var(--font-sans);
+    white-space: nowrap;
+  }
+</style>
