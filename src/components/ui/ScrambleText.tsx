@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { prefersReducedMotion } from "@/lib/reduced-motion";
 
 const LATIN = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
 const ARABIC = "ابتثجحخدذرزسشصضطظعغفقكلمنهوي٠١٢٣٤٥٦٧٨٩";
@@ -37,6 +38,9 @@ export function ScrambleText({
   }
 
   useEffect(() => {
+    // Reduced motion keeps the settled string; the noise is decoration only.
+    if (prefersReducedMotion()) return;
+
     const pool = poolFor(text);
     const chars = [...text];
     frame.current = 0;

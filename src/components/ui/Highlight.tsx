@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { useReducedMotion } from "@/lib/reduced-motion";
 
 export type HighlightColor = "yellow" | "cyan" | "pink" | "mint";
 
@@ -38,6 +39,8 @@ export function Highlight({
     offset: ["start 0.85", "start 0.6"],
   });
   const width = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  // Reduced motion gets the finished stroke instead of one drawn by scroll.
+  const reduceMotion = useReducedMotion();
 
   return (
     <span
@@ -50,7 +53,7 @@ export function Highlight({
       <motion.span
         aria-hidden
         style={{
-          width,
+          width: reduceMotion ? "100%" : width,
           insetInlineStart: from === "start" ? "-2px" : undefined,
           insetInlineEnd: from === "end" ? "-2px" : undefined,
         }}

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { useLenis } from "lenis/react";
 import { useIntroDone } from "@/lib/intro-state";
+import { prefersReducedMotion } from "@/lib/reduced-motion";
 import { gsap } from "@/lib/use-gsap-lenis";
 
 /**
@@ -127,7 +128,9 @@ export function PageTransition({ children }: { children: ReactNode }) {
         focusTarget(target);
       };
 
-      if (!svg) {
+      // A full-screen sweep is exactly what reduced-motion visitors asked not to
+      // get; they land straight on the section.
+      if (!svg || prefersReducedMotion()) {
         land();
         return true;
       }

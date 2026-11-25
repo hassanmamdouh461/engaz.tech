@@ -3,6 +3,7 @@
 import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Tape } from "@/components/ui/Tape";
+import { useReducedMotion } from "@/lib/reduced-motion";
 import { ScrollTrigger } from "@/lib/use-gsap-lenis";
 
 /**
@@ -66,6 +67,8 @@ export function PaperTear() {
   // without a re-measure it pinned ~330px late: the page scrolled past it, then
   // snapped back to start the animation. Re-measure whenever the seam finishes
   // closing or starts reopening; both happen well before that pin is reached.
+  const reduceMotion = useReducedMotion();
+
   const closedRef = useRef<boolean | null>(null);
   useMotionValueEvent(scrollYProgress, "change", (progress) => {
     const closed = progress >= 0.72;
@@ -78,8 +81,10 @@ export function PaperTear() {
 
   return (
     <div ref={ref} className="relative [perspective:1000px]">
-      {/* Hidden below the tablet breakpoint: 300px of empty gap costs more than it gives. */}
-      <div className="hidden md:block">
+      {/* Hidden below the tablet breakpoint: 300px of empty gap costs more than it
+          gives. Reduced motion gets the drawn edge at every width instead of a gap
+          that closes as the page scrolls. */}
+      <div className={reduceMotion ? "hidden" : "hidden md:block"}>
         <div className="-mb-px">
           <TearEdge variant="top" />
         </div>
@@ -107,7 +112,7 @@ export function PaperTear() {
       </div>
 
       {/* On small screens only the drawn edge survives, as a section rule. */}
-      <div className="md:hidden">
+      <div className={reduceMotion ? undefined : "md:hidden"}>
         <svg
           aria-hidden
           viewBox="0 0 1440 30"

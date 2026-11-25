@@ -8,6 +8,7 @@ import { Tape } from "@/components/ui/Tape";
 import { content } from "@/lib/content";
 import { useLocale } from "@/lib/locale-context";
 import { dropIn, press, staggerContainer, viewportOnce } from "@/lib/motion";
+import { prefersReducedMotion } from "@/lib/reduced-motion";
 import { cn } from "@/lib/cn";
 
 const { stats } = content;
@@ -32,6 +33,12 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
 
   useEffect(() => {
     if (!inView) return;
+
+    // Reduced motion shows the figure itself rather than a count up to it.
+    if (prefersReducedMotion()) {
+      count.set(value);
+      return;
+    }
 
     const controls = animate(count, value, { duration: 1.6, ease: "easeOut" });
     return () => controls.stop();

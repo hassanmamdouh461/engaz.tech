@@ -6,10 +6,11 @@ export const INTRO_KEY = "engaz.intro-seen";
  * the intro curtain again, but the Loader can
  * only find that out in an effect, which runs after paint — so the curtain used
  * to flash for a frame on every locale switch. This marks <html> up front and
- * globals.css hides [data-loader] while the mark is present.
+ * globals.css hides [data-loader] while the mark is present. Reduced-motion
+ * visitors are marked the same way: the Loader skips the curtain for them too.
  */
 export function IntroScript() {
-  const script = `(function(){try{if(sessionStorage.getItem("${INTRO_KEY}")==="1"){document.documentElement.setAttribute("data-intro","skip");}}catch(e){}})();`;
+  const script = `(function(){try{if(sessionStorage.getItem("${INTRO_KEY}")==="1"||matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.setAttribute("data-intro","skip");}}catch(e){}})();`;
 
   return <script dangerouslySetInnerHTML={{ __html: script }} />;
 }

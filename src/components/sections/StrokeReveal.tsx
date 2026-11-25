@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { content } from "@/lib/content";
 import { useIntroDone } from "@/lib/intro-state";
 import { useLocale } from "@/lib/locale-context";
+import { useReducedMotion } from "@/lib/reduced-motion";
 import { gsap, ScrollTrigger, useGsapLenisBridge } from "@/lib/use-gsap-lenis";
 
 const { hero } = content;
@@ -42,6 +43,7 @@ export function StrokeReveal() {
   useGsapLenisBridge();
   const { t, locale } = useLocale();
   const introDone = useIntroDone();
+  const reduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -55,6 +57,10 @@ export function StrokeReveal() {
         const length = path.getTotalLength();
         gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
       });
+
+      // Reduced motion: no pin and no scrubbed sweep. The strokes stay undrawn
+      // and the first line sits alone on the light sheet.
+      if (reduceMotion) return;
 
       const timeline = gsap.timeline();
 
@@ -131,7 +137,7 @@ export function StrokeReveal() {
     }, section);
 
     return () => context.revert();
-  }, [locale]);
+  }, [locale, reduceMotion]);
 
   // The curtain holds the scroll and hides body overflow, so the page it is measured
   // against is not the page the reader gets. Re-measure once it clears.

@@ -269,3 +269,20 @@
     );
   }
 }
+
+/* Visitors who asked the OS for less motion get the page settled: CSS loops
+   (marquees, floating tiles) stop, transitions resolve instantly, and in-page
+   jumps stop gliding. The JS-driven motion opts out in its own components. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}

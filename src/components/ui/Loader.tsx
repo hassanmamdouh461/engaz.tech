@@ -8,6 +8,7 @@ import { markIntroDone } from "@/lib/intro-state";
 import { useLocale } from "@/lib/locale-context";
 import { INTRO_KEY } from "@/lib/intro-script";
 import { backOut } from "@/lib/motion";
+import { prefersReducedMotion } from "@/lib/reduced-motion";
 
 const { brand } = content;
 
@@ -37,7 +38,9 @@ export function Loader() {
       seen = false;
     }
 
-    if (seen) {
+    // Reduced-motion visitors never get the curtain: it is pure animation and
+    // holds the page for no other reason.
+    if (seen || prefersReducedMotion()) {
       // Effects run after paint, so this alone would flash the curtain for a
       // frame. IntroScript already hid it before first paint (html[data-intro]);
       // this only unmounts it and releases the scroll lock. Microtask rather than
