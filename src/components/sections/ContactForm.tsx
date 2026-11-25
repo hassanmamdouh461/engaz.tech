@@ -8,7 +8,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Tape } from "@/components/ui/Tape";
 import { ACCENT_BG, accentAt } from "@/lib/accents";
 import { content } from "@/lib/content";
-import { isValidEmail, sendContactMessage } from "@/lib/contact";
+import { FIELD_MAX_LENGTH, isValidEmail, sendContactMessage } from "@/lib/contact";
 import { resolveIcon } from "@/lib/icons";
 import { lift, slideInX, staggerContainer, viewportOnce } from "@/lib/motion";
 import { useLocale } from "@/lib/locale-context";
@@ -166,7 +166,9 @@ export function ContactForm() {
                   </span>
                   <span
                     dir="ltr"
-                    className="max-w-full truncate font-mono text-xs font-semibold sm:text-sm"
+                    // Wraps rather than truncates: two-up on a phone, the email
+                    // address was cut to "hassanmamdouh461…" and unreadable.
+                    className="max-w-full font-mono text-xs font-semibold [overflow-wrap:anywhere] sm:text-sm"
                   >
                     {channel.value}
                   </span>
@@ -192,6 +194,7 @@ export function ContactForm() {
                 name="organization"
                 value={organization}
                 onChange={(event) => setOrganization(event.target.value)}
+                maxLength={FIELD_MAX_LENGTH.name}
                 required
                 className="neo-input"
               />
@@ -209,6 +212,7 @@ export function ContactForm() {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder={t(form.emailPlaceholder)}
+                maxLength={FIELD_MAX_LENGTH.email}
                 required
                 className="neo-input"
               />
@@ -228,6 +232,7 @@ export function ContactForm() {
                 value={phone}
                 onChange={(event) => setPhone(event.target.value)}
                 placeholder={t(form.phonePlaceholder)}
+                maxLength={FIELD_MAX_LENGTH.phone}
                 className="neo-input"
               />
             </div>
@@ -263,6 +268,7 @@ export function ContactForm() {
               value={scope}
               onChange={(event) => setScope(event.target.value)}
               placeholder={t(form.scopePlaceholder)}
+              maxLength={FIELD_MAX_LENGTH.budget}
               className="neo-input"
             />
           </div>
@@ -293,6 +299,7 @@ export function ContactForm() {
               value={message}
               onChange={(event) => setMessage(event.target.value)}
               placeholder={t(form.messagePlaceholder)}
+              maxLength={FIELD_MAX_LENGTH.message}
               required
               className="neo-input resize-y"
             />

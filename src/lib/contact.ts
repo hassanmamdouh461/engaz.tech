@@ -23,6 +23,22 @@ export interface ContactSubmission {
   message: string;
 }
 
+/**
+ * Input caps. Generous for any real enquiry; they stop a pasted novel or a bot
+ * from pushing an oversized payload through the relay. 254 is the longest valid
+ * email address.
+ */
+export const FIELD_MAX_LENGTH: Record<
+  Exclude<keyof ContactSubmission, "projectType">,
+  number
+> = {
+  name: 120,
+  email: 254,
+  phone: 32,
+  budget: 160,
+  message: 5000,
+};
+
 export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export function isValidEmail(value: string): boolean {
