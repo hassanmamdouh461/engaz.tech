@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { HeadScripts } from "@/components/layout/HeadScripts";
 import { localeMetadata } from "@/components/layout/LocaleShell";
 import { fontVariables } from "@/lib/fonts";
-import { IntroScript } from "@/lib/intro-script";
 import { HREFLANG } from "@/lib/seo";
-import { ThemeScript } from "@/lib/theme-context";
 import { pageViewport } from "@/lib/viewport";
 import "../globals.css";
 
@@ -17,27 +16,9 @@ export const viewport = pageViewport;
  */
 export default function ArabicLayout({ children }: { children: ReactNode }) {
   return (
-    <html
-      lang={HREFLANG.ar}
-      dir="rtl"
-      className={fontVariables}
-      // The pre-paint scripts below add data-theme / data-intro and an inline
-      // overflow lock to <html> before React hydrates; those are expected to
-      // differ from the server render.
-      suppressHydrationWarning
-    >
+    <html lang={HREFLANG.ar} dir="rtl" className={fontVariables} suppressHydrationWarning>
       <head>
-        <ThemeScript />
-        <IntroScript />
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "document.documentElement.style.overflow='hidden';setTimeout(function(){document.documentElement.style.overflow=''},5000)",
-          }}
-        />
-        <noscript>
-          <style>{"html{overflow:auto !important}"}</style>
-        </noscript>
+        <HeadScripts />
       </head>
       <body>{children}</body>
     </html>
