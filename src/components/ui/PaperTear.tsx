@@ -92,7 +92,10 @@ export function PaperTear() {
         <motion.div style={{ height: gapHeight }} className="w-full bg-void" />
 
         <motion.div style={{ marginTop: overlap }} className="relative -mb-px">
-          <motion.div style={{ opacity: backingOpacity }} className="absolute inset-0 bg-void" />
+          <motion.div
+            style={{ opacity: backingOpacity }}
+            className="absolute inset-0 bg-void"
+          />
           <TearEdge variant="bottom" />
 
           <motion.div

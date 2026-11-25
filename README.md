@@ -120,7 +120,7 @@ NEXT_PUBLIC_CONTACT_FORM_ID   # optional; falls back to the inbox address
 ```
 
 Create the API token at **My Profile → API Tokens → Create Token** using the
-*Edit Cloudflare Workers* template, scoped to the `engaz.tech` zone.
+_Edit Cloudflare Workers_ template, scoped to the `engaz.tech` zone.
 
 ## Accessibility & motion
 

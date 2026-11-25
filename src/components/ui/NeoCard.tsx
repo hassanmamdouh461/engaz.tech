@@ -38,13 +38,19 @@ export function NeoCard({
         filled ? "bg-brand-yellow text-black" : "bg-surface text-ink",
       )}
     >
-      <span aria-hidden className={cn("absolute inset-x-0 top-0 h-1.5", ACCENT_BG[tone])} />
+      <span
+        aria-hidden
+        className={cn("absolute inset-x-0 top-0 h-1.5", ACCENT_BG[tone])}
+      />
 
       <div className="flex items-center gap-3 border-b-3 border-edge pb-3 sm:gap-4 sm:border-b-4 sm:pb-4">
         {Icon ? (
           <Icon
             aria-hidden
-            className={cn("h-8 w-8 shrink-0 sm:h-12 sm:w-12", filled ? "text-black" : ACCENT_TEXT[tone])}
+            className={cn(
+              "h-8 w-8 shrink-0 sm:h-12 sm:w-12",
+              filled ? "text-black" : ACCENT_TEXT[tone],
+            )}
           />
         ) : null}
         <h3 className="neo-h3">{title}</h3>

@@ -110,7 +110,10 @@ export function Navbar() {
             </span>
           </a>
 
-          <nav aria-label={t(nav.primaryNav)} className="hidden items-center gap-4 lg:flex xl:gap-6">
+          <nav
+            aria-label={t(nav.primaryNav)}
+            className="hidden items-center gap-4 lg:flex xl:gap-6"
+          >
             {nav.links.map((link) => (
               <a
                 key={link.id}

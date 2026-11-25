@@ -89,19 +89,13 @@ export function Hero() {
               variants={fadeInUp}
               className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center"
             >
-              <a
-                href="#contact"
-                className="neo-btn-primary group"
-              >
+              <a href="#contact" className="neo-btn-primary group">
                 {t(hero.primaryCta)}
                 {/* "Forward" points toward the end edge, so the arrow flips in Arabic. */}
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1" />
               </a>
 
-              <a
-                href="#work"
-                className="neo-btn-surface"
-              >
+              <a href="#work" className="neo-btn-surface">
                 <Terminal className="h-4 w-4" />
                 {t(hero.secondaryCta)}
               </a>

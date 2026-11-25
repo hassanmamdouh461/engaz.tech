@@ -31,7 +31,6 @@ export function slideInX(offset: number): Variants {
   };
 }
 
-
 /** Overshoot easing: the signature snap on anything that pops into place. */
 export const backOut = [0.68, -0.55, 0.265, 1.55] as const;
 

@@ -113,7 +113,11 @@ export function StrokeReveal() {
         const length = target.getTotalLength();
         const at = curveStart + index;
 
-        timeline.to(selector, { strokeDashoffset: 0, duration: 1, ease: "power2.out" }, at);
+        timeline.to(
+          selector,
+          { strokeDashoffset: 0, duration: 1, ease: "power2.out" },
+          at,
+        );
         timeline.to(
           selector,
           { strokeDashoffset: -length, duration: 1.5, ease: "power2.inOut" },

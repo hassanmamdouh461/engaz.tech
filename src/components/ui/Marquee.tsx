@@ -25,7 +25,10 @@ export function Marquee({
     // The track is wider than its frame and slides by translateX(-50%). Under an
     // rtl page the frame would anchor it to its right edge, so the slide would run
     // into empty space; the frame stays ltr in both languages.
-    <div dir="ltr" className={cn("marquee-mask group relative overflow-hidden", className)}>
+    <div
+      dir="ltr"
+      className={cn("marquee-mask group relative overflow-hidden", className)}
+    >
       <ul
         className={cn(
           "flex w-max items-center gap-3",

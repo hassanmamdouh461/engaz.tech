@@ -25,7 +25,10 @@ export function useGsapLenisBridge() {
       // update tick; pinning a viewport early means the overshoot never shows as
       // the section sliding by and then yanking back. anticipatePin ships at
       // runtime but is missing from this version's ConfigVars type.
-      ScrollTrigger.config({ ignoreMobileResize: true, anticipatePin: 1 } as ScrollTrigger.ConfigVars);
+      ScrollTrigger.config({
+        ignoreMobileResize: true,
+        anticipatePin: 1,
+      } as ScrollTrigger.ConfigVars);
       registered = true;
     }
 

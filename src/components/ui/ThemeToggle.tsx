@@ -21,7 +21,12 @@ export function ThemeToggle() {
   const label = shown === "light" ? LABEL[locale].toDark : LABEL[locale].toLight;
 
   return (
-    <button type="button" onClick={toggleTheme} aria-label={label} className="neo-icon-btn">
+    <button
+      type="button"
+      onClick={toggleTheme}
+      aria-label={label}
+      className="neo-icon-btn"
+    >
       {shown === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
     </button>
   );
