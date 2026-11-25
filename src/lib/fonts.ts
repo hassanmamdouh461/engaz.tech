@@ -16,12 +16,17 @@ export const mono = Space_Mono({
   variable: "--font-mono",
 });
 
-/** Handwritten annotations. Latin only — it has no Arabic coverage. */
+/**
+ * Handwritten annotations. Latin only — it has no Arabic coverage. Not preloaded:
+ * it only labels the contact notes at the bottom of the page, and its 75KB
+ * preload competed with the faces the first screen actually renders in.
+ */
 export const hand = Caveat({
   subsets: ["latin"],
   weight: ["400", "700"],
   display: "swap",
   variable: "--font-hand",
+  preload: false,
 });
 
 /** Arabic face. Cairo is geometric enough to sit next to Space Grotesk. */
