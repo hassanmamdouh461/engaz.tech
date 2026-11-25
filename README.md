@@ -26,6 +26,7 @@ npm run build       # production build → out/
 npm start           # serve the built site
 npm run typecheck   # tsc --noEmit
 npm run lint        # eslint (next/core-web-vitals + typescript)
+npm run format      # prettier --write (format:check is what CI runs)
 npm test            # vitest
 ```
 
@@ -34,10 +35,11 @@ npm test            # vitest
 ```text
 src/app/(en)/page.tsx            English home at /
 src/app/(ar)/ar/page.tsx         Arabic home at /ar/
-src/app/(en|ar)/layout.tsx       per-locale root layouts (lang, fonts, theme script)
+src/app/(en|ar)/layout.tsx       per-locale root layouts (lang, dir, fonts)
 src/app/globals.css              design tokens, neo-* component classes, Arabic rules
 src/app/{robots.ts,sitemap.ts}   static SEO routes
-src/components/layout/           Navbar, Footer, LocaleShell, PageFrame, ProgressRail, LocaleSwitch
+src/components/layout/           Navbar, Footer, LocaleShell, PageFrame, ProgressRail, LocaleSwitch,
+                                 HeadScripts (pre-paint theme/intro/scroll-lock scripts)
 src/components/providers/        SmoothScroll (Lenis), PageTransition (SVG wipe)
 src/components/sections/         Hero, Pillars, StrokeReveal, Stats, ProjectsGrid,
                                  EcosystemDiagram, Services, Partners, ContactForm
@@ -51,7 +53,9 @@ src/lib/contact.ts               FormSubmit delivery (payload, validation, respo
 src/lib/locale-context.tsx       locale provider + t() helper
 src/lib/theme-context.tsx        theme provider + pre-paint ThemeScript
 src/lib/intro-state.ts           "intro finished" external store (useSyncExternalStore)
-src/lib/use-gsap-lenis.ts        GSAP↔Lenis bridge for pinned ScrollTriggers
+src/lib/use-gsap-lenis.ts        GSAP↔Lenis bridge (mounted by SmoothScroll; it ticks Lenis)
+src/lib/reduced-motion.ts        hydration-safe useReducedMotion + prefersReducedMotion()
+src/lib/accents.ts               the cyan/yellow/pink/mint accent classes and cycle
 ```
 
 ## Localization and direction
@@ -60,11 +64,11 @@ Each locale is a real route (`/` and `/ar/`), so crawlers get translated markup,
 matching `lang` attribute, per-locale canonical/hreflang links, and localized
 JSON-LD. There is no client-side locale state to persist.
 
-The layout is deliberately left-to-right in both languages — the page does not
-mirror. Arabic text direction is applied at the text level in `globals.css`
-(`html[lang^="ar"]` rules), and Latin-only values (phone numbers, counters) are
-pinned with `dir="ltr"`. Nav/UI elements that must read forward for Arabic (the
-hero CTA arrow) flip per-locale, not via `dir`.
+The Arabic layout ships `dir="rtl"`, so the page mirrors: logical utilities
+(`start-*`, `end-*`, `border-e-*`) and `rtl:` variants keep spacing and arrows facing the
+reading direction. Arabic typography lives in `globals.css` (`html[lang^="ar"]`
+rules: Cairo everywhere, no letter-spacing), and Latin-only values (phone numbers,
+counters, the marquees) are pinned with `dir="ltr"`.
 
 ## Re-branding
 
@@ -101,7 +105,8 @@ domain address, if the inbox should stay private. The deploy workflow reads it f
 `npm run build` writes the static site to `out/`. `wrangler.toml` points the
 Worker's `[assets]` directory at `out/` and declares `engaz.tech` and
 `www.engaz.tech` as `custom_domain` routes, so Cloudflare manages the DNS records
-itself. `public/_headers` ships security headers (CSP, nosniff, frame-ancestors).
+itself. `public/_headers` ships security headers (CSP, nosniff, frame-ancestors)
+and a one-year immutable `Cache-Control` for the content-hashed `/_next/static/*`.
 
 ```bash
 npm run deploy    # next build, then wrangler deploy
@@ -111,7 +116,7 @@ npm run preview   # build and serve locally through Wrangler
 ### Automatic deployment
 
 `.github/workflows/deploy.yml` runs on every push to `main`: install, typecheck,
-lint, test, build, then `wrangler deploy`. Required repository secrets:
+lint, format check, test, build, then `wrangler deploy`. Required repository secrets:
 
 ```text
 CLOUDFLARE_API_TOKEN
@@ -126,8 +131,12 @@ _Edit Cloudflare Workers_ template, scoped to the `engaz.tech` zone.
 
 - Skip link precedes the navbar; nav landmarks carry localized `aria-label`s.
 - The contact form reports status through `role="status"` + `aria-live`.
-- All animation honours `prefers-reduced-motion`: Lenis stays off, the wipe
-  teleports without animating, the pinned stroke section renders static, and a
-  global media query collapses CSS animation/transition durations.
+- All animation honours `prefers-reduced-motion`: Lenis stays off, Framer drops
+  movement, the wipe teleports without animating, the pinned stroke section
+  renders static, the intro curtain is skipped before first paint, highlights and
+  counters show their end state, and a global media query collapses CSS
+  animation/transition durations.
+- With JavaScript off, a `noscript` style lifts the scroll lock and shows the
+  entrance-reveal blocks Framer renders at `opacity:0`.
 - Client-only state (theme, intro seen, reduced motion) is gated behind
   `useSyncExternalStore`/`useMounted` so hydration output matches the server.
