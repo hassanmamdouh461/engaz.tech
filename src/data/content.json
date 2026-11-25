@@ -1715,5 +1715,23 @@
         "ar": "مرحبًا إنجاز، أريد مناقشة تطبيق جوال."
       }
     }
+  },
+  "intro": {
+    "order": {
+      "en": "Order",
+      "ar": "طلب"
+    },
+    "status": {
+      "en": "Status",
+      "ar": "الحالة"
+    },
+    "ready": {
+      "en": "Ready to ship",
+      "ar": "جاهز للتسليم"
+    },
+    "thanks": {
+      "en": "Thank you for visiting",
+      "ar": "شكرًا لزيارتك"
+    }
   }
 }

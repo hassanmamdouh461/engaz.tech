@@ -1,0 +1,381 @@
+---
+import { content } from "@/lib/content";
+import type { Locale } from "@/lib/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { brand, ui, intro } = content;
+const t = (value: Record<Locale, string>) => value[locale];
+
+// The "order" on the receipt is what Engaz builds.
+const items = [ui.nav.pos, ui.nav.aiAgents, ui.nav.websites, ui.nav.mobileApps];
+
+// Torn thermal-paper edge: a sawtooth along the bottom of the receipt.
+const teeth = 24;
+const edge = Array.from({ length: teeth * 2 + 1 }, (_, k) => {
+  const x = teeth * 10 - k * 5;
+  return `${x},${k % 2 === 0 ? 0 : 8}`;
+}).join(" ");
+---
+
+{/*
+  First-visit intro: a thermal receipt prints the order (what Engaz builds), the
+  logo stamps it, then the receipt tears away and the yellow sheet lifts off the
+  page. Pure CSS, ~2s, and it never blocks the page: the content is already
+  rendered underneath, any click, key or scroll skips it, it shows once per
+  session (data-intro="seen" is set before paint in Base), and it is skipped
+  entirely for reduced motion. Without JavaScript it still plays once and hides
+  itself through its own animation.
+*/}
+<div class="intro" aria-hidden="true" data-intro-overlay>
+  <div class="intro-sheet"></div>
+
+  <div class="intro-stage">
+    <div class="intro-printer">
+      <span class="intro-led"></span>
+    </div>
+
+    <div class="intro-feed">
+      <div class="intro-receipt">
+        <div class="intro-paper font-mono">
+          <p class="intro-brand">{t(brand.name)}</p>
+          <p class="intro-muted">{t(brand.tagline)}</p>
+          <p class="intro-rule"></p>
+          <p class="intro-row">
+            <span>{t(intro.order)}</span>
+            <span dir="ltr">#0001</span>
+          </p>
+          <p class="intro-rule"></p>
+          {items.map((item) => (
+            <p class="intro-row">
+              <span>
+                <span dir="ltr">1×</span> {t(item)}
+              </span>
+              <span class="intro-dots" />
+              <span>✓</span>
+            </p>
+          ))}
+          <p class="intro-rule"></p>
+          <p class="intro-row intro-total">
+            <span>{t(intro.status)}</span>
+            <span>{t(intro.ready)}</span>
+          </p>
+          <p class="intro-muted intro-thanks">{t(intro.thanks)}</p>
+          <p class="intro-barcode"></p>
+        </div>
+        <svg class="intro-edge" viewBox="0 0 240 8" preserveAspectRatio="none">
+          <polygon points={`0,0 ${edge}`}></polygon>
+        </svg>
+
+        <span class="intro-stamp">
+          <svg
+            viewBox="0 0 32 32"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M9 9 L4 16 L9 23"></path>
+            <path d="M23 9 L28 16 L23 23"></path>
+            <path
+              class="intro-check"
+              d="M12.5 16.5 L15.5 19.5 L20 12"
+              pathLength="1"
+            ></path>
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Any interaction skips the intro: it is a greeting, never a gate.
+  const overlay = document.querySelector<HTMLElement>("[data-intro-overlay]");
+  if (overlay) {
+    const skip = () => {
+      overlay.classList.add("is-skipped");
+      for (const type of ["pointerdown", "keydown", "wheel", "touchstart"]) {
+        window.removeEventListener(type, skip);
+      }
+    };
+    for (const type of ["pointerdown", "keydown", "wheel", "touchstart"]) {
+      window.addEventListener(type, skip, { passive: true });
+    }
+    overlay.addEventListener("animationend", (event) => {
+      if (event.animationName.includes("intro-done")) skip();
+    });
+  }
+</script>
+
+<style>
+  .intro {
+    --ink: #0a0a0a;
+    --paper: #ffffff;
+    --yellow: #ffd93d;
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    overflow: hidden;
+    color: var(--ink);
+    animation: intro-done 0s linear 2.1s forwards;
+  }
+
+  .intro.is-skipped {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.25s ease,
+      visibility 0s linear 0.25s;
+  }
+
+  :global([data-intro="seen"]) .intro {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intro {
+      display: none;
+    }
+  }
+
+  /* The yellow sheet the page sits under; it lifts off last. */
+  .intro-sheet {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 1px 1px, rgb(10 10 10 / 0.18) 1px, transparent 0) 0 0 /
+        22px 22px,
+      var(--yellow);
+    animation: intro-lift 0.55s cubic-bezier(0.7, 0, 0.84, 0) 1.55s forwards;
+  }
+
+  .intro-stage {
+    position: absolute;
+    inset-inline: 0;
+    top: clamp(2.5rem, 11vh, 6.5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* The printer mouth: a black slot the paper feeds out of. */
+  .intro-printer {
+    position: relative;
+    z-index: 2;
+    width: min(27rem, 90vw);
+    height: 1.1rem;
+    border-radius: 999px;
+    background: var(--ink);
+    box-shadow: 0 6px 0 rgb(0 0 0 / 0.25);
+    transform: scaleX(0);
+    animation:
+      intro-slot 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s forwards,
+      intro-away 0.4s ease-in 1.45s forwards;
+  }
+
+  .intro-led {
+    position: absolute;
+    inset-inline-end: 1rem;
+    top: 50%;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: #3ddc84;
+    translate: 0 -50%;
+    animation: intro-blink 0.18s steps(2) 0.3s 4;
+  }
+
+  /* Clips the receipt to below the slot, so it appears to print downward. */
+  .intro-feed {
+    width: min(23.5rem, 82vw);
+    margin-top: -0.55rem;
+    padding: 0 1rem 2rem;
+    clip-path: inset(0 -2rem -4rem -2rem);
+    /* Unclipped the moment the receipt tears, so it flies off over the slot. */
+    animation: intro-unclip 0s linear 1.45s forwards;
+  }
+
+  .intro-receipt {
+    position: relative;
+    filter: drop-shadow(6px 6px 0 var(--ink));
+    transform: translateY(-105%);
+    animation:
+      intro-print 0.85s steps(16, end) 0.3s forwards,
+      intro-tear 0.5s cubic-bezier(0.55, 0, 0.9, 0.3) 1.45s forwards;
+  }
+
+  .intro-paper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.6rem 1.25rem 1rem;
+    background: var(--paper);
+    font-size: clamp(0.78rem, 0.7rem + 0.3vw, 0.9rem);
+    line-height: 1.4;
+  }
+
+  .intro-edge {
+    display: block;
+    width: 100%;
+    height: 0.6rem;
+    fill: var(--paper);
+  }
+
+  .intro-brand {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 1.3rem + 1vw, 2.1rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
+
+  .intro-muted {
+    text-align: center;
+    opacity: 0.6;
+  }
+
+  .intro-rule {
+    margin: 0.35rem 0;
+    border-top: 1.5px dashed rgb(10 10 10 / 0.45);
+  }
+
+  .intro-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    justify-content: space-between;
+  }
+
+  .intro-dots {
+    flex: 1;
+    border-bottom: 1.5px dotted rgb(10 10 10 / 0.35);
+    translate: 0 -0.2rem;
+  }
+
+  .intro-total {
+    font-weight: 700;
+  }
+
+  .intro-total span:last-child {
+    background: var(--yellow);
+    padding: 0 0.3rem;
+  }
+
+  .intro-thanks {
+    margin-top: 0.5rem;
+  }
+
+  .intro-barcode {
+    height: 2.1rem;
+    margin: 0.4rem 1.5rem 0;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--ink) 0 2px,
+      transparent 2px 4px,
+      var(--ink) 4px 5px,
+      transparent 5px 8px,
+      var(--ink) 8px 11px,
+      transparent 11px 12px
+    );
+  }
+
+  /* The logo comes down on the receipt like a rubber stamp. */
+  .intro-stamp {
+    position: absolute;
+    inset-inline-end: -1.2rem;
+    bottom: 1.4rem;
+    display: flex;
+    width: 4.5rem;
+    height: 4.5rem;
+    padding: 0.85rem;
+    border: 3px solid var(--ink);
+    background: var(--yellow);
+    box-shadow: 4px 4px 0 var(--ink);
+    opacity: 0;
+    transform: scale(2.4) rotate(-22deg);
+    animation: intro-stamp 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.25) 1.08s forwards;
+  }
+
+  .intro-stamp svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .intro-check {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: intro-draw 0.22s ease-out 1.28s forwards;
+  }
+
+  @keyframes intro-slot {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes intro-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes intro-print {
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes intro-stamp {
+    to {
+      opacity: 1;
+      transform: scale(1) rotate(-9deg);
+    }
+  }
+
+  @keyframes intro-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* Torn off and flung up and away. */
+  @keyframes intro-tear {
+    from {
+      transform: translateY(0) rotate(0);
+    }
+    to {
+      transform: translateY(-140vh) rotate(-8deg);
+    }
+  }
+
+  @keyframes intro-away {
+    to {
+      transform: scaleX(1) translateY(-40vh);
+      opacity: 0;
+    }
+  }
+
+  @keyframes intro-unclip {
+    to {
+      clip-path: inset(-300vh -50vw -4rem -50vw);
+    }
+  }
+
+  @keyframes intro-lift {
+    to {
+      clip-path: inset(0 0 100% 0);
+    }
+  }
+
+  @keyframes intro-done {
+    to {
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+</style>
