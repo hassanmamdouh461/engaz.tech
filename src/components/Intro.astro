@@ -24,9 +24,10 @@ const edge = Array.from({ length: teeth * 2 + 1 }, (_, k) => {
 {/*
   First-visit intro, staged in CSS 3D (no WebGL, no library): a camera drifts
   around a solid receipt printer standing on a receding floor, the printer feeds
-  out the "order" (what Engaz builds), the logo drops onto it like a stamp, then
-  the receipt tears off and flies past the camera while the printer sinks away
-  and the yellow sheet flips up like a page to reveal the site. ~2.4s.
+  out the "order" (what Engaz builds) and the logo drops onto it like a stamp.
+  Then the stamp lifts off and flies to the header, landing exactly on the real
+  logo, while the camera pushes through the scene and the yellow fades: the
+  intro hands over to the site instead of just disappearing. ~2.4s.
 
   It never blocks the page: the content is already rendered underneath, any
   click, key, scroll or touch skips it, it plays once per session (data-intro
@@ -109,6 +110,22 @@ const edge = Array.from({ length: teeth * 2 + 1 }, (_, k) => {
       </div>
     </div>
   </div>
+
+  {/* A flat copy of the stamp that flies to the header logo (positioned by the script). */}
+  <span class="intro-flyer" data-intro-flyer>
+    <svg
+      viewBox="0 0 32 32"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M9 9 L4 16 L9 23"></path>
+      <path d="M23 9 L28 16 L23 23"></path>
+      <path d="M12.5 16.5 L15.5 19.5 L20 12"></path>
+    </svg>
+  </span>
 </div>
 
 <script>
@@ -116,14 +133,59 @@ const edge = Array.from({ length: teeth * 2 + 1 }, (_, k) => {
   const overlay = document.querySelector<HTMLElement>("[data-intro-overlay]");
   if (overlay) {
     const events = ["pointerdown", "keydown", "wheel", "touchstart"];
+    const target = document.querySelector<HTMLElement>("[data-brand-tile]");
     const skip = () => {
       overlay.classList.add("is-skipped");
+      if (target) target.style.visibility = "";
       for (const type of events) window.removeEventListener(type, skip);
     };
     for (const type of events) window.addEventListener(type, skip, { passive: true });
     overlay.addEventListener("animationend", (event) => {
       if (event.animationName.includes("intro-done")) skip();
+      if (event.animationName.includes("intro-draw")) flyToHeader();
     });
+
+    // Once the check is drawn, a flat copy of the stamp takes off from where the
+    // 3D stamp sits on screen and lands on the header logo, shrinking to its size.
+    const flyToHeader = () => {
+      const stamp = overlay.querySelector<HTMLElement>(".intro-stamp");
+      const flyer = overlay.querySelector<HTMLElement>("[data-intro-flyer]");
+      if (!stamp || !flyer || !target) return;
+
+      const from = stamp.getBoundingClientRect();
+      const to = target.getBoundingClientRect();
+      const size = flyer.offsetWidth;
+      const at = (rect: DOMRect) =>
+        `translate(${rect.left + rect.width / 2 - size / 2}px, ${rect.top + rect.height / 2 - size / 2}px)`;
+      const scaleTo = to.width / size;
+
+      // The real logo stays hidden until the copy lands on it, so only one shows.
+      stamp.style.visibility = "hidden";
+      overlay
+        .querySelector<HTMLElement>(".intro-stamp-shadow")
+        ?.style.setProperty("visibility", "hidden");
+      target.style.visibility = "hidden";
+      flyer.style.visibility = "visible";
+      const flight = flyer.animate(
+        [
+          {
+            transform: `${at(from)} rotate(-9deg) scale(${from.width / size})`,
+            boxShadow: "4px 4px 0 #0a0a0a",
+            borderWidth: "3px",
+          },
+          {
+            transform: `${at(to)} rotate(0deg) scale(${scaleTo})`,
+            boxShadow: "0 0 0 #0a0a0a",
+            borderWidth: `${2 / scaleTo}px`,
+          },
+        ],
+        { duration: 650, easing: "cubic-bezier(0.65, 0, 0.35, 1)", fill: "forwards" },
+      );
+      flight.onfinish = () => {
+        target.style.visibility = "";
+        flyer.style.visibility = "hidden";
+      };
+    };
   }
 </script>
 
@@ -164,24 +226,13 @@ const edge = Array.from({ length: teeth * 2 + 1 }, (_, k) => {
 
   /* ---- The yellow sheet and its floor ------------------------------------ */
 
-  /* Flips up from its top edge like a page being turned, revealing the site. */
+  /* Fades away while the logo flies home, revealing the site underneath. */
   .intro-sheet {
     position: absolute;
     inset: 0;
     overflow: hidden;
     background: var(--yellow);
-    transform-origin: 50% 0;
-    animation: intro-flip 0.5s cubic-bezier(0.45, 0, 0.75, 0.2) 1.85s forwards;
-  }
-
-  /* Shading that darkens the page as it turns away from the light. */
-  .intro-sheet::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, transparent, rgb(10 10 10 / 0.55));
-    opacity: 0;
-    animation: intro-shade 0.5s ease-in 1.85s forwards;
+    animation: intro-fade 0.55s ease-in 1.8s forwards;
   }
 
   /* A dotted plane laid flat and receding into the distance. */
@@ -213,6 +264,8 @@ const edge = Array.from({ length: teeth * 2 + 1 }, (_, k) => {
     padding-top: clamp(3.5rem, 13vh, 7rem);
     perspective: 1100px;
     perspective-origin: 50% 20%;
+    transform-origin: 50% 30%;
+    animation: intro-dive 0.6s cubic-bezier(0.55, 0, 0.9, 0.35) 1.68s forwards;
   }
 
   /* The camera drifts from a high three-quarter view towards the front. */
@@ -232,9 +285,7 @@ const edge = Array.from({ length: teeth * 2 + 1 }, (_, k) => {
     height: var(--ph);
     transform-style: preserve-3d;
     transform: scale3d(0.4, 0.4, 0.4);
-    animation:
-      intro-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
-      intro-sink 0.45s cubic-bezier(0.55, 0, 1, 0.45) 1.6s forwards;
+    animation: intro-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   }
 
   .face {
@@ -317,15 +368,12 @@ const edge = Array.from({ length: teeth * 2 + 1 }, (_, k) => {
     margin-left: calc(min(23.5rem, 80vw) / -2);
     transform-style: preserve-3d;
     transform: translateZ(calc(var(--pd) / 2 + 1px));
-    animation: intro-tear 0.55s cubic-bezier(0.5, 0, 0.9, 0.35) 1.6s forwards;
   }
 
-  /* Clipped at the slot so the receipt appears to print downward out of it,
-     then unclipped the moment it tears so it can fly over the printer. */
+  /* Clipped at the slot so the receipt appears to print downward out of it. */
   .intro-feed {
     padding: 0 0.6rem 1.5rem;
     clip-path: inset(0 -2rem -4rem -2rem);
-    animation: intro-unclip 0s linear 1.6s forwards;
   }
 
   .intro-receipt {
@@ -451,6 +499,27 @@ const edge = Array.from({ length: teeth * 2 + 1 }, (_, k) => {
     animation: intro-draw 0.22s ease-out 1.42s forwards;
   }
 
+  /* Flat copy of the stamp; starts hidden and is placed by the script. */
+  .intro-flyer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 3;
+    display: flex;
+    width: 4.5rem;
+    height: 4.5rem;
+    padding: 0.85rem;
+    border: 3px solid var(--ink);
+    background: var(--yellow);
+    transform-origin: 50% 50%;
+    visibility: hidden;
+  }
+
+  .intro-flyer svg {
+    width: 100%;
+    height: 100%;
+  }
+
   /* ---- Keyframes ---------------------------------------------------------- */
 
   @keyframes intro-orbit {
@@ -503,42 +572,17 @@ const edge = Array.from({ length: teeth * 2 + 1 }, (_, k) => {
     }
   }
 
-  @keyframes intro-unclip {
+  /* The camera pushes forward through the printer and receipt. */
+  @keyframes intro-dive {
     to {
-      clip-path: inset(-300vh -60vw -60vh -60vw);
-    }
-  }
-
-  /* Torn off: lifted towards the camera, flipped, and flung up out of frame. */
-  @keyframes intro-tear {
-    0% {
-      transform: translateZ(calc(var(--pd) / 2 + 1px));
-    }
-    35% {
-      transform: translate3d(0, -4vh, 160px) rotateX(-18deg) rotateZ(-4deg);
-    }
-    100% {
-      transform: translate3d(8vw, -130vh, 520px) rotateX(-55deg) rotateZ(-16deg);
-    }
-  }
-
-  /* The printer drops back into the distance and fades. */
-  @keyframes intro-sink {
-    to {
-      transform: translate3d(0, 6rem, -700px) rotateX(20deg);
+      transform: scale(3.4);
       opacity: 0;
     }
   }
 
-  @keyframes intro-flip {
+  @keyframes intro-fade {
     to {
-      transform: perspective(1300px) rotateX(-100deg);
-    }
-  }
-
-  @keyframes intro-shade {
-    to {
-      opacity: 1;
+      opacity: 0;
     }
   }
 
