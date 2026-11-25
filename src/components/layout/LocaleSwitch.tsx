@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { HREFLANG, LOCALE_PATH } from "@/lib/seo";
 import type { Locale } from "@/lib/types";
 import { cn } from "@/lib/cn";
@@ -13,6 +12,10 @@ const OPTIONS: { locale: Locale; label: string; title: string }[] = [
 /**
  * Real links rather than buttons: each locale is its own indexable URL, so the
  * switch has to be crawlable for the Arabic page to be found and associated.
+ *
+ * Plain anchors rather than next/link: each locale has its own root layout, so
+ * switching is a full page load either way, and next/link's prefetch requested
+ * RSC segment files the static export never writes — two 404s per page view.
  */
 export function LocaleSwitch({
   locale,
@@ -31,7 +34,7 @@ export function LocaleSwitch({
       {OPTIONS.map((option) => {
         const active = option.locale === locale;
         return (
-          <Link
+          <a
             key={option.locale}
             href={LOCALE_PATH[option.locale]}
             hrefLang={HREFLANG[option.locale]}
@@ -46,7 +49,7 @@ export function LocaleSwitch({
             )}
           >
             {option.label}
-          </Link>
+          </a>
         );
       })}
     </nav>
