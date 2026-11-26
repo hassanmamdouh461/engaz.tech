@@ -1,0 +1,56 @@
+---
+import Plus from "@lucide/astro/icons/plus";
+import SectionHeader from "@/components/SectionHeader.astro";
+import { content } from "@/lib/content";
+import type { Locale, TitledItem } from "@/lib/types";
+
+interface Props {
+  locale: Locale;
+  index: string;
+  items: TitledItem[];
+}
+
+const { locale, index, items } = Astro.props;
+const { faq } = content;
+
+// Lets search engines show these answers directly in results.
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: items.map((item) => ({
+    "@type": "Question",
+    name: item.title[locale],
+    acceptedAnswer: { "@type": "Answer", text: item.body[locale] },
+  })),
+};
+---
+
+<section class="rule">
+  <div class="frame grid gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_1.4fr] lg:gap-16 lg:py-24">
+    <SectionHeader
+      index={index}
+      eyebrow={faq.eyebrow[locale]}
+      heading={faq.heading[locale]}
+    />
+
+    {/* Native disclosures: they open with no script and work with the keyboard. */}
+    <div class="border-t-2 border-ink">
+      {items.map((item) => (
+        <details class="group border-b border-ink/15 dark:border-ink/20">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-display text-lg font-semibold [&::-webkit-details-marker]:hidden">
+            {item.title[locale]}
+            <span class="flex size-8 shrink-0 items-center justify-center border-2 border-ink transition-transform duration-200 group-open:rotate-45 group-open:bg-accent group-open:text-accent-ink">
+              <Plus class="size-4" aria-hidden="true" />
+            </span>
+          </summary>
+          <p class="pb-6 text-ink/75">{item.body[locale]}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(schema).replace(/</g, "\u003c")}
+  />
+</section>

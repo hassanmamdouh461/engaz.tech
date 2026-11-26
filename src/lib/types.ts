@@ -157,6 +157,13 @@ export interface SiteContent {
     metaTitle: Localized;
     metaDescription: Localized;
   };
+  /** Question/answer pairs; each list renders as an accordion with FAQPage JSON-LD. */
+  faq: {
+    eyebrow: Localized;
+    heading: Localized;
+    home: TitledItem[];
+    pos: TitledItem[];
+  };
   /** One entry per service page; copy is reused from services/work by id where it exists. */
   servicePages: Record<ServicePageKey, ServicePage>;
   brand: {

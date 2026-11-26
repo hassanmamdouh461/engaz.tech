@@ -191,7 +191,7 @@ export function structuredData(locale: Locale) {
         alternateName: [brand.name.en, brand.name.ar, "Engaz Tech"],
         url: SITE_URL,
         logo: `${SITE_URL}/icon.svg`,
-        image: `${SITE_URL}/og.png`,
+        image: `${SITE_URL}/og/${locale}-home.png`,
         slogan: brand.tagline[locale],
         description: footer.summary[locale],
         knowsAbout: KEYWORDS[locale].slice(0, 25),

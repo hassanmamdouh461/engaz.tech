@@ -44,6 +44,10 @@ const { ui } = content;
       const next = root.dataset.theme === "dark" ? "light" : "dark";
       if (next === "dark") root.dataset.theme = "dark";
       else delete root.dataset.theme;
+      // The mobile browser bar follows the page colour.
+      document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute("content", next === "dark" ? "#0e0e0c" : "#f4f4f0");
       try {
         localStorage.setItem("engaz.theme", next);
       } catch {

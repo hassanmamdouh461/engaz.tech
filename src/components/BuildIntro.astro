@@ -123,6 +123,9 @@ const name = content.brand.name[locale];
 
   [data-build] [data-build-step] {
     position: relative;
+    /* Shadows and the headline's mark would otherwise peek out around the
+       wireframe before it wipes. */
+    overflow: clip;
   }
 
   /* A hatched placeholder over each element; it wipes away from the reading

@@ -3,6 +3,7 @@ import ArrowUpRight from "@lucide/astro/icons/arrow-up-right";
 import Check from "@lucide/astro/icons/check";
 import MessageCircle from "@lucide/astro/icons/message-circle";
 import ClosingCta from "@/components/ClosingCta.astro";
+import Faq from "@/components/Faq.astro";
 import MarkedText from "@/components/MarkedText.astro";
 import OrderFlow from "@/components/OrderFlow.astro";
 import ProcessSteps from "@/components/ProcessSteps.astro";
@@ -313,6 +314,8 @@ const heroModules = posPage.modules.slice(0, 7);
       </div>
     </div>
   </section>
+
+  <Faq locale={locale} index="06" items={content.faq.home} />
 
   <ClosingCta locale={locale} whatsappMessage={ui.whatsappMessage} />
 </Base>

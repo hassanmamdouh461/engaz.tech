@@ -11,6 +11,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
+    "og": "node scripts/make-og.mjs",
     "deploy": "npm run build && wrangler deploy",
     "preview:worker": "npm run build && wrangler dev"
   },
@@ -21,6 +22,7 @@
     "@types/node": "22.20.4",
     "eslint": "10.15.0",
     "eslint-plugin-astro": "3.2.1",
+    "globals": "17.14.0",
     "prettier": "3.10.1",
     "prettier-plugin-astro": "1.1.2",
     "tailwindcss": "4.3.5",

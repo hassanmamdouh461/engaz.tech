@@ -1715,5 +1715,118 @@
         "ar": "مرحبًا إنجاز، أريد مناقشة تطبيق جوال."
       }
     }
+  },
+  "faq": {
+    "eyebrow": {
+      "en": "FAQ",
+      "ar": "أسئلة شائعة"
+    },
+    "heading": {
+      "en": "Questions we hear before every project",
+      "ar": "أسئلة نسمعها قبل كل مشروع"
+    },
+    "home": [
+      {
+        "id": "ownership",
+        "title": {
+          "en": "Do I own the code?",
+          "ar": "هل الكود ملكي؟"
+        },
+        "body": {
+          "en": "Yes. The code you pay for is yours, handed over at the end of the project.",
+          "ar": "نعم. الكود الذي تدفع مقابله ملكك، ونسلّمه لك في نهاية المشروع."
+        }
+      },
+      {
+        "id": "support",
+        "title": {
+          "en": "What happens after launch?",
+          "ar": "ماذا يحدث بعد الإطلاق؟"
+        },
+        "body": {
+          "en": "We stay on. Fixes, changes and new features keep coming after go-live, and we can host, monitor and back up the system for you.",
+          "ar": "نبقى معك. الإصلاحات والتعديلات والإضافات مستمرة بعد التشغيل، ويمكننا استضافة النظام ومراقبته ونسخه احتياطيًا."
+        }
+      },
+      {
+        "id": "pricing",
+        "title": {
+          "en": "How do you price a project?",
+          "ar": "كيف تسعّرون المشروع؟"
+        },
+        "body": {
+          "en": "Fixed scope, agreed up front. Send a short description and we come back with an approach, a timeline and an honest estimate.",
+          "ar": "بنطاق محدد نتفق عليه مسبقًا. أرسل وصفًا قصيرًا ونعود إليك بمقاربة وجدول زمني وتقدير صادق."
+        }
+      },
+      {
+        "id": "languages",
+        "title": {
+          "en": "Do you build in Arabic and English?",
+          "ar": "هل تبنون بالعربية والإنجليزية؟"
+        },
+        "body": {
+          "en": "Yes. Every system and site can work in both languages, with proper right-to-left Arabic.",
+          "ar": "نعم. كل نظام وموقع يمكن أن يعمل باللغتين، مع اتجاه عربي صحيح من اليمين لليسار."
+        }
+      },
+      {
+        "id": "reply",
+        "title": {
+          "en": "How quickly do you reply?",
+          "ar": "متى تردّون؟"
+        },
+        "body": {
+          "en": "Within one business day. WhatsApp is the fastest way to reach us.",
+          "ar": "خلال يوم عمل واحد، وواتساب هو أسرع طريقة للتواصل معنا."
+        }
+      }
+    ],
+    "pos": [
+      {
+        "id": "offline",
+        "title": {
+          "en": "Does the system work without internet?",
+          "ar": "هل يعمل النظام دون إنترنت؟"
+        },
+        "body": {
+          "en": "Yes. It keeps taking orders when the connection drops.",
+          "ar": "نعم. يستمر في استقبال الطلبات عند انقطاع الاتصال."
+        }
+      },
+      {
+        "id": "integrations",
+        "title": {
+          "en": "Can it connect to delivery apps and printers?",
+          "ar": "هل يتصل بتطبيقات التوصيل والطابعات؟"
+        },
+        "body": {
+          "en": "Yes. It connects to accounting, delivery apps, payment providers and printers.",
+          "ar": "نعم. يتصل بالمحاسبة وتطبيقات التوصيل ومزوّدي الدفع والطابعات."
+        }
+      },
+      {
+        "id": "ordering",
+        "title": {
+          "en": "Can customers order online without commission?",
+          "ar": "هل يطلب العملاء أونلاين بلا عمولة؟"
+        },
+        "body": {
+          "en": "Yes. Branded ordering pages push orders straight into the kitchen, with no commission and no middleman.",
+          "ar": "نعم. صفحات طلب باسم علامتك ترسل الطلبات مباشرة إلى المطبخ، بلا عمولة ولا وسيط."
+        }
+      },
+      {
+        "id": "support",
+        "title": {
+          "en": "Who supports the system after it goes live?",
+          "ar": "من يدعم النظام بعد التشغيل؟"
+        },
+        "body": {
+          "en": "We do. We train your team at launch and stay on for fixes, changes and new features.",
+          "ar": "نحن. ندرّب فريقك عند الإطلاق ونبقى معك للإصلاحات والتعديلات والإضافات."
+        }
+      }
+    ]
   }
 }

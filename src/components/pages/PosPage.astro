@@ -1,6 +1,7 @@
 ---
 import MessageCircle from "@lucide/astro/icons/message-circle";
 import ClosingCta from "@/components/ClosingCta.astro";
+import Faq from "@/components/Faq.astro";
 import OrderFlow from "@/components/OrderFlow.astro";
 import ProcessSteps from "@/components/ProcessSteps.astro";
 import SectionHeader from "@/components/SectionHeader.astro";
@@ -117,6 +118,8 @@ const system = work.featured[0];
       </div>
     </div>
   </section>
+
+  <Faq locale={locale} index="03" items={content.faq.pos} />
 
   <ClosingCta
     locale={locale}
